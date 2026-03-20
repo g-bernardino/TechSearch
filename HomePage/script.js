@@ -20,3 +20,12 @@ function mostrarCupons() {
         x.style.display = "none";
     }
 }
+
+// Função para copiar o código do cupom
+function copiarCupom(codigo) {
+    // Comando que copia o texto para a memória do computador (Ctrl+C automático)
+    navigator.clipboard.writeText(codigo).then(() => {
+        // Mostra um aviso na tela para o usuário
+        alert("Cupom " + codigo + " copiado! Use no carrinho.");
+    });
+}
