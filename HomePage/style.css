@@ -272,3 +272,41 @@ main {
         min-width: 300px;
     }
 }
+
+/* --- ESTILO DOS CUPONS FLUTUANTES (POP-UP) --- */
+#sessao-cupons {
+    /* Faz a caixa flutuar sobre o conteúdo e não empurrar nada */
+    position: absolute; 
+    top: 130px; /* Isso faz ele brotar logo abaixo do menu */
+    left: 10%; 
+    
+    background-color: #1a1a1a;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+    border: 1px solid #00e5ff; /* Borda neon azul */
+    
+    display: none; /* Começa escondido, o JS vai mudar para 'flex' */
+    gap: 15px;
+    z-index: 9999; /* Garante que fique na frente de tudo */
+}
+
+.cupom-card {
+    background: #222;
+    border: 2px dashed #00e5ff;
+    padding: 10px 15px;
+    border-radius: 8px;
+    text-align: center;
+    min-width: 160px;
+}
+
+.cupom-card h3 {
+    color: #00e5ff;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.cupom-card p {
+    font-size: 11px;
+    color: #ccc;
+}
