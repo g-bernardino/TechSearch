@@ -310,3 +310,66 @@ main {
     font-size: 11px;
     color: #ccc;
 }
+
+/* --- ESTILO DO BALÃO DE SUPORTE --- */
+.suporte-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.suporte-balao {
+    position: absolute;
+    top: 40px; /* Faz ele aparecer abaixo do ícone */
+    right: -20px;
+    width: 280px;
+    background-color: #111; /* Fundo escuro igual ao site */
+    border: 2px solid #00e5ff; /* Borda azul neon */
+    border-radius: 12px;
+    padding: 15px;
+    z-index: 1000; /* Garante que ele fique por cima de tudo */
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+    text-align: left;
+}
+
+/* A setinha que aponta para o ícone */
+.setinha {
+    position: absolute;
+    top: -10px;
+    right: 25px;
+    width: 0; 
+    height: 0; 
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #00e5ff;
+}
+
+.suporte-balao h3 {
+    color: #00e5ff;
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Estilo das perguntas clicáveis (FAQ) */
+.faq-secao details {
+    background: #222;
+    padding: 8px;
+    border-radius: 5px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    color: white;
+}
+
+.faq-secao summary {
+    font-weight: bold;
+    outline: none;
+}
+
+.faq-secao p {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #ccc;
+    line-height: 1.4;
+}
