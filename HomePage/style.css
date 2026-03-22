@@ -554,3 +554,29 @@ body.luz-acessivel * {
 .item-lista:last-child {
     border-bottom: none;
 }
+
+/* --- CONFIGURAÇÃO DA LOGO E TEXTO --- */
+
+/* Faz a imagem e o texto ficarem um ao lado do outro */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Espaço entre o escudo e o nome */
+    text-decoration: none;
+}
+
+/* Controla o tamanho do escudo (imagem) */
+.logo-site {
+    width: 50px; 
+    height: auto;
+    display: block;
+}
+
+/* Estilo do nome TechSearch ao lado da imagem */
+.logo-texto {
+    font-size: 26px;
+    font-weight: bold;
+    color: #00e5ff; /* Azul neon */
+    font-family: sans-serif;
+    letter-spacing: 1px; /* Espaçamento entre as letras */
+}
