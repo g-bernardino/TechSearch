@@ -83,8 +83,19 @@
         </div>
     </div>
 </div>
-            <a href="#" title="Favoritos">❤️</a>
-            <a href="#" title="Carrinho">🛒</a>
+            <div class="menu-item-topo">
+    <a href="#" title="Favoritos">❤️ <span id="cont-favoritos">0</span></a>
+    <div class="lista-suspensa" id="lista-favoritos-display">
+        <p>Nenhum favorito</p>
+    </div>
+</div>
+
+<div class="menu-item-topo">
+    <a href="#" title="Carrinho">🛒 <span id="cont-carrinho">0</span></a>
+    <div class="lista-suspensa" id="lista-carrinho-display">
+        <p>Carrinho vazio</p>
+    </div>
+</div>
         </nav>
     </section>
 
@@ -167,6 +178,30 @@
         <button class="seta proximo" onclick="scrollBanner(1)">❯</button>
     </section>
 </main>
+
+<section class="vitrine">
+    <div class="produto-card">
+        
+        <img src="Images/monitor.webp" alt="Monitor Gamer Goldentec 24 polegadas Curvo" class="produto-imagem">
+        
+        <h3 class="produto-nome">Monitor Gamer Goldentec 24"</h3>
+        
+        <p class="produto-desc">Monitor Gamer Goldentec 24" LED, Full HD, com tela em design curvo, com 144Hz.</p>
+        
+        <div class="produto-preco">R$ 677,67</div>
+        
+        <div class="produto-acoes">
+            <button class="btn-carrinho" onclick="adicionarAoCarrinho('Monitor Gamer Goldentec 24')">
+                🛒 Adicionar
+            </button>
+
+            <button class="btn-like" onclick="toggleLike(this, 'Monitor Gamer Goldentec 24')">
+                💖
+            </button>
+        </div>
+        </div>
+    </div>
+</section>
 
 <script src="script.js"></script>
 </body>

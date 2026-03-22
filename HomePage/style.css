@@ -424,3 +424,133 @@ body.luz-acessivel * {
     background: #00e5ff;
     color: #000;
 }
+
+/* ================================== 
+   ESTILO DA VITRINE DE PRODUTOS 
+   ================================== */
+
+/* 1. O container que segura os produtos */
+.vitrine {
+    display: flex;
+    justify-content: center; /* Centraliza o produto na tela */
+    padding: 50px 20px;
+    background-color: #000; /* Fundo preto para destacar */
+}
+
+/* 2. A "caixinha" do card */
+.produto-card {
+    background-color: #111; /* Cinza bem escuro */
+    border: 1px solid #333;
+    border-radius: 12px;
+    width: 300px; /* Largura fixa para não ficar gigante */
+    padding: 20px;
+    text-align: center;
+    transition: 0.3s; /* Suaviza o efeito de passar o mouse */
+}
+
+/* Efeito ao passar o mouse no card */
+.produto-card:hover {
+    border-color: #00e5ff; /* Borda brilha em azul neon */
+    transform: translateY(-5px); /* Ele sobe um pouquinho */
+}
+
+/* 3. DOMANDO A IMAGEM (Aqui resolve o seu problema!) */
+.produto-imagem {
+    width: 100%;      /* Ajusta a largura ao tamanho do card */
+    height: 200px;    /* Altura fixa para todos os produtos ficarem iguais */
+    object-fit: contain; /* Garante que a imagem não estique nem corte */
+    margin-bottom: 15px;
+}
+
+/* 4. Textos e Preço */
+.produto-nome {
+    color: #fff;
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.produto-desc {
+    color: #aaa;
+    font-size: 13px;
+    margin-bottom: 15px;
+    height: 35px; /* Limita o texto para não bagunçar o card */
+    overflow: hidden;
+}
+
+.produto-preco {
+    color: #00e5ff; /* Preço em neon */
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* 5. Botões Lado a Lado */
+.produto-acoes {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.btn-carrinho {
+    background-color: #00e5ff;
+    color: #000;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    flex: 1; /* Faz o botão ocupar o espaço disponível */
+}
+
+.btn-like {
+    background: transparent;
+    border: 1px solid #444;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+/* --- ESTILO DAS LISTAS DO TOPO --- */
+
+/* 1. Organiza os ícones um do lado do outro no topo */
+.menu-item-topo {
+    position: relative;
+    display: inline-block;
+    margin-left: 15px;
+    vertical-align: middle;
+}
+
+/* 2. Estilo da "Gaveta" (Lista Suspensa) que vai mostrar os nomes */
+.lista-suspensa {
+    display: none; /* Deixa escondido por padrão */
+    position: absolute;
+    top: 30px;
+    right: 0;
+    background-color: #1a1a1a; /* Fundo escuro */
+    border: 1px solid #00e5ff; /* Borda neon azul */
+    padding: 10px;
+    width: 220px;
+    z-index: 1000;
+    border-radius: 8px;
+    color: white;
+    text-align: left;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.8);
+}
+
+/* 3. Faz a gaveta APARECER quando passamos o mouse no ícone */
+.menu-item-topo:hover .lista-suspensa {
+    display: block;
+}
+
+/* 4. Estilo de cada nome de produto que aparecer na lista */
+.item-lista {
+    padding: 8px 0;
+    border-bottom: 1px solid #333;
+    font-size: 13px;
+    color: #00e5ff;
+}
+
+/* Remove a linha do último item para ficar limpo */
+.item-lista:last-child {
+    border-bottom: none;
+}

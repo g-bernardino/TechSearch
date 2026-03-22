@@ -67,3 +67,72 @@ function toggleLuzAcessivel() {
     // Adiciona ou remove a classe 'luz-acessivel' do <body>
     document.body.classList.toggle("luz-acessivel");
 }
+
+/**
+ * DECLARAÇÃO DE ESTADO
+ * Armazena os nomes dos produtos em arrays para permitir a listagem 
+ * e evitar duplicatas na interface.
+ */
+let listaCarrinho = [];
+let listaFavoritos = [];
+
+/**
+ * FUNÇÃO DE ATUALIZAÇÃO DE INTERFACE (UI)
+ * Esta função é responsável por limpar as mensagens de "Vazio" e injetar
+ * os nomes dos produtos dentro das divs de visualização no topo do site.
+ */
+function atualizarBalao(tipo) {
+    const lista = (tipo === 'carrinho') ? listaCarrinho : listaFavoritos;
+    const divBalao = document.getElementById(`lista-${tipo}-display`);
+    const contador = document.getElementById(`cont-${tipo}`);
+
+    // Atualiza o contador numérico visual no ícone
+    contador.innerText = lista.length;
+
+    // Condicional: Se a lista estiver vazia, restaura a mensagem padrão
+    if (lista.length === 0) {
+        divBalao.innerHTML = `<p>${tipo === 'carrinho' ? 'Carrinho vazio' : 'Nenhum favorito'}</p>`;
+        return;
+    }
+
+    // Renderização Dinâmica: Limpa o conteúdo e mapeia a lista para elementos HTML
+    divBalao.innerHTML = ""; 
+    lista.forEach(item => {
+        divBalao.innerHTML += `<div class="item-lista">${item}</div>`;
+    });
+}
+
+/**
+ * FUNÇÃO: ADICIONAR AO CARRINHO
+ * Recebe o nome do produto como parâmetro, verifica se ele já existe na lista
+ * para evitar repetição e dispara a atualização do balão visual.
+ */
+function adicionarAoCarrinho(nomeDoProduto) {
+    if (!listaCarrinho.includes(nomeDoProduto)) {
+        listaCarrinho.push(nomeDoProduto);
+        atualizarBalao('carrinho');
+        alert(nomeDoProduto + " adicionado com sucesso!");
+    } else {
+        alert("Atenção: Este produto já consta no seu carrinho.");
+    }
+}
+
+/**
+ * FUNÇÃO: TOGGLE LIKE (FAVORITOS)
+ * Gerencia a entrada e saída de produtos na lista de favoritos.
+ * Utiliza o estado da classe 'ativo' no botão para decidir entre adicionar ou remover.
+ */
+function toggleLike(botao, nomeDoProduto) {
+    if (botao.classList.contains("ativo")) {
+        // Fluxo de Remoção: Filtra a lista removendo o item específico
+        botao.classList.remove("ativo");
+        listaFavoritos = listaFavoritos.filter(item => item !== nomeDoProduto);
+    } else {
+        // Fluxo de Adição: Inclui o item caso não esteja presente
+        botao.classList.add("ativo");
+        if (!listaFavoritos.includes(nomeDoProduto)) {
+            listaFavoritos.push(nomeDoProduto);
+        }
+    }
+    atualizarBalao('favoritos');
+}
