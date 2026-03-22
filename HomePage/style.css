@@ -373,3 +373,54 @@ main {
     color: #ccc;
     line-height: 1.4;
 }
+/* ================================== 
+   ESTILOS DE ACESSIBILIDADE 
+   ================================== */
+
+/* 1. Regra para aumentar a fonte em todo o site */
+body.fonte-acessivel * {
+    font-size: 1.05em !important; /* Aumenta levemente o tamanho */
+    font-weight: 600 !important; /* Deixa as letras mais grossas (negrito) */
+}
+
+/* 2. Regra para o Modo de Iluminação (Alto Contraste) */
+body.luz-acessivel {
+    background-color: #000 !important; /* Fundo totalmente preto */
+}
+
+body.luz-acessivel * {
+    color: #00e5ff !important; /* Tudo vira azul neon para brilhar no preto */
+    border-color: #00e5ff !important;
+}
+
+/* Estilo para o balãozinho de opções que vamos criar */
+.acessibilidade-balao {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    width: 220px;
+    background-color: #111;
+    border: 2px solid #00e5ff;
+    border-radius: 10px;
+    padding: 15px;
+    z-index: 1000;
+    box-shadow: 0 5px 20px rgba(0, 229, 255, 0.3);
+}
+
+.btn-acessibilidade {
+    width: 100%;
+    background: #222;
+    color: white;
+    border: 1px solid #444;
+    padding: 10px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.btn-acessibilidade:hover {
+    background: #00e5ff;
+    color: #000;
+}

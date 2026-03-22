@@ -43,3 +43,27 @@ window.addEventListener('click', function(event) {
         balao.style.display = "none";
     }
 });
+/* --- ACESSIBILIDADE --- */
+
+// 1. Função para abrir e fechar o menu de acessibilidade
+function toggleAcessibilidade() {
+    const balao = document.getElementById("acessibilidade-balao");
+    
+    if (balao.style.display === "none" || balao.style.display === "") {
+        balao.style.display = "block";
+    } else {
+        balao.style.display = "none";
+    }
+}
+
+// 2. Função para aumentar a fonte (Liga/Desliga)
+function toggleFonteAcessivel() {
+    // Adiciona ou remove a classe 'fonte-acessivel' do <body>
+    document.body.classList.toggle("fonte-acessivel");
+}
+
+// 3. Função para o Alto Contraste (Liga/Desliga)
+function toggleLuzAcessivel() {
+    // Adiciona ou remove a classe 'luz-acessivel' do <body>
+    document.body.classList.toggle("luz-acessivel");
+}
