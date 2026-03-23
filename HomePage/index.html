@@ -20,8 +20,14 @@
 </div>
 
         <div class="localizacao">
-            <span>Enviar para:</span>
-            <a href="#">Digite o CEP</a>
+    <span>Enviar para:</span>
+    <a href="javascript:void(0)" id="cep-link" onclick="abrirInputCep()">Digite o CEP</a>
+    
+    <div id="cep-input-container" style="display: none;">
+        <input type="text" id="cep-novo" placeholder="00000-000" maxlength="9">
+        <button type="button" onclick="confirmarCep()">OK</button>
+    </div>
+</div>
         </div>
 
         <div class="busca">

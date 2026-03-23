@@ -580,3 +580,30 @@ body.luz-acessivel * {
     font-family: sans-serif;
     letter-spacing: 1px; /* Espaçamento entre as letras */
 }
+
+/* Ajuste do campo de CEP */
+#cep-input-container {
+    display: inline-flex;
+    gap: 5px;
+    align-items: center;
+}
+
+#cep-novo {
+    width: 80px;
+    background: #222;
+    border: 1px solid #00e5ff;
+    color: white;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+#cep-input-container button {
+    background: #00e5ff;
+    border: none;
+    color: black;
+    padding: 2px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}

@@ -136,3 +136,43 @@ function toggleLike(botao, nomeDoProduto) {
     }
     atualizarBalao('favoritos');
 }
+
+// Abre a caixinha de digitar
+function abrirInputCep() {
+    document.getElementById('cep-link').style.display = 'none';
+    document.getElementById('cep-input-container').style.display = 'inline-flex';
+}
+
+// 1. Função que roda assim que o site abre para ver se já tem um CEP salvo
+window.onload = function() {
+    const cepSalvo = localStorage.getItem('user-cep');
+    if (cepSalvo) {
+        document.getElementById('cep-link').innerText = cepSalvo;
+    }
+}
+
+// 2. Abre a caixinha de digitar
+function abrirInputCep() {
+    document.getElementById('cep-link').style.display = 'none';
+    document.getElementById('cep-input-container').style.display = 'inline-flex';
+}
+
+// 3. Salva o CEP no navegador e atualiza a tela
+function confirmarCep() {
+    const input = document.getElementById('cep-novo');
+    const link = document.getElementById('cep-link');
+    const container = document.getElementById('cep-input-container');
+
+    if (input.value.trim() !== "") {
+        const novoCep = input.value;
+        
+        // O SEGREDO: Salva na "gavetinha" do navegador
+        localStorage.setItem('user-cep', novoCep);
+        
+        link.innerText = novoCep;
+        container.style.display = 'none';
+        link.style.display = 'inline';
+    } else {
+        alert("Digite um CEP válido!");
+    }
+}
