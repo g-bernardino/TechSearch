@@ -273,6 +273,54 @@ main {
     }
 }
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+.header-auth a {
+  color: #00e5ff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: bold;
+  text-decoration: none;
+  margin-left: 15px;
+}
+
+.header-auth a:hover {
+  text-decoration: underline;
+}
+
+.header-auth {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 15px; 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}    
+
+
+.header-auth span {
+  color: #00e5ff; 
+  font-weight: bold;
+}
+
+.header-auth a {
+  color: #00e5ff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.header-auth a:hover {
+  text-decoration: underline;
+}
+
+#logout {
+    color:red;
+    font-weight: bold;
+    cursor: pointer;
+}
+#logout:hover {
+    text-decoration: underline;
+=======
+>>>>>>> c7b2c08c56b9a29c324b2ca9eb0697b06e241ce8
 /* --- ESTILO DOS CUPONS FLUTUANTES (POP-UP) --- */
 #sessao-cupons {
     /* Faz a caixa flutuar sobre o conteúdo e não empurrar nada */
@@ -638,4 +686,8 @@ body.luz-acessivel * {
     0% { transform: scale(1); }
     50% { transform: scale(1.05); }
     100% { transform: scale(1); }
+<<<<<<< HEAD
+=======
+>>>>>>> 2b00bfb0a532ddbaba267623636d2990f14ce6b7
+>>>>>>> c7b2c08c56b9a29c324b2ca9eb0697b06e241ce8
 }

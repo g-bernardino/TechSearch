@@ -9,6 +9,26 @@ function scrollBanner(direction) {
     }
 }
 
+<<<<<<< HEAD
+=======
+window.addEventListener("DOMContentLoaded", () => {
+  const logado = localStorage.getItem("techsearchLogged");
+  const usuario = JSON.parse(localStorage.getItem("techsearchUser"));
+
+  if (logado === "true" && usuario) {
+    document.getElementById("header-auth").innerHTML = `
+      <span>Bem-vindo, ${usuario.usuario}</span>
+      <a href="#" id="logout">Sair</a>
+    `;
+
+    document.getElementById("logout").addEventListener("click", () => {
+      localStorage.removeItem("techsearchLogged");
+      window.location.href = "index.html";
+    });
+  }
+});
+
+>>>>>>> c7b2c08c56b9a29c324b2ca9eb0697b06e241ce8
 function mostrarCupons() {
     var x = document.getElementById("sessao-cupons");
     
@@ -175,4 +195,8 @@ function confirmarCep() {
     } else {
         alert("Digite um CEP válido!");
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> c7b2c08c56b9a29c324b2ca9eb0697b06e241ce8
