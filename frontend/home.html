@@ -1,0 +1,221 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechSearch</title>
+
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+
+<header>
+
+    <section>
+
+        <div class="logo">
+    <img src="{% static 'Images/logots.jpeg' %}" alt="Logo TechSearch" class="logo-site">
+    <span class="logo-texto">TechSearch</span>
+</div>
+
+        <div class="localizacao">
+    <span>Enviar para:</span>
+    <a href="javascript:void(0)" id="cep-link" onclick="abrirInputCep()">Digite o CEP</a>
+    
+    <div id="cep-input-container" style="display: none;">
+        <input type="text" id="cep-novo" placeholder="00000-000" maxlength="9">
+        <button type="button" onclick="confirmarCep()">OK</button>
+    </div>
+</div>
+        </div>
+
+        <div class="busca">
+            <input type="text" placeholder="Investigue na TechSearch!">
+            <button type="submit">🔍</button>
+        </div>
+        <nav>
+            <div class="header-auth" id="header-auth">
+            <a href="{% url 'login' %}">Entrar</a>
+            <a href="{% url 'cadastro' %}">Cadastre-se</a>
+            </div>
+        </nav>
+
+
+        <nav class="atalhos">
+    <div class="suporte-wrapper" style="position: relative; display: inline-block;">
+    <a href="javascript:void(0)" id="icone-suporte" title="Atendimento" onclick="toggleSuporte()" style="text-decoration: none;">🎧</a>
+
+    <div id="suporte-balao" class="suporte-balao" style="display: none;">
+        <div class="setinha"></div>
+        <h3>Suporte TechSearch</h3>
+        
+        <div class="faq-secao">
+            <details>
+                <summary>❓ Como criar uma conta?</summary>
+                <p>Você pode criar sua conta clicando no botão “Cadastrar” no topo do site e preenchendo seus dados básicos.</p>
+            </details>
+            
+            <details>
+                <summary>❓ Esqueci minha senha?</summary>
+                <p>Clique em “Esqueci minha senha” na tela de login e siga as instruções para redefinir seu acesso.</p>
+            </details>
+            
+            <details>
+                <summary>❓ Como faço o reembolso?</summary>
+                <p>Acesse “Meus pedidos”, selecione a compra desejada e clique em “Solicitar reembolso”.</p>
+            </details>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid #444; margin: 10px 0;">
+
+        <div class="contato-direto">
+            <p style="margin: 0; font-size: 12px; color: #ccc;">Falar com suporte:</p>
+            <strong style="color: #00e5ff;">55 82 967676767</strong>
+        </div>
+    </div>
+</div>
+             <div class="acessibilidade-wrapper" style="position: relative; display: inline-block; margin-left: 15px;">
+    
+    <a href="javascript:void(0)" id="icone-acessibilidade" title="Acessibilidade" onclick="toggleAcessibilidade()" style="text-decoration: none;">♿</a>
+
+    <div id="acessibilidade-balao" class="acessibilidade-balao" style="display: none;">
+        <h4 style="color: #6de2ff; margin: 0 0 10px 0; font-size: 14px;">Acessibilidade</h4>
+        
+        <div class="opcoes-acessibilidade">
+            <button onclick="toggleFonteAcessivel()" class="btn-acessibilidade">
+                 🔍 Aumentar Fonte/Negrito
+            </button>
+            <button onclick="toggleLuzAcessivel()" class="btn-acessibilidade">
+                 💡 Modo Alto Contraste
+            </button>
+        </div>
+    </div>
+</div>
+            <div class="menu-item-topo">
+    <a href="#" title="Favoritos">❤️ <span id="cont-favoritos">0</span></a>
+    <div class="lista-suspensa" id="lista-favoritos-display">
+        <p>Nenhum favorito</p>
+    </div>
+</div>
+
+<div class="menu-item-topo">
+    <a href="#" title="Carrinho">🛒 <span id="cont-carrinho">0</span></a>
+    <div class="lista-suspensa" id="lista-carrinho-display">
+        <p>Carrinho vazio</p>
+    </div>
+</div>
+        </nav>
+    </section>
+
+    <hr> <nav>
+        <button type="button">SEÇÕES ▾</button>
+
+        <a href="javascript:void(0)" onclick="mostrarCupons()">CUPONS</a>
+        <a href="#">MAIS VENDIDOS</a>
+
+        <ul>
+            <li><a href='#'>Hardware</a></li>
+            <li><a href="#">PC Gamer</a></li>
+            <li><a href="#">Computadores</a></li>
+            <li><a href="#">Mais ▾</a></li>
+        </ul>
+
+        <div class="simule-pc">
+            <img src="" alt="Simule seu PC">
+            <span> Simule seu PC <strong>completo e acessível aqui!</strong></span>
+            <button>🔍</button>
+        </div>
+    </nav>
+    <section id="sessao-cupons" class="cupons-container" style="display: none;">
+        <div class="cupom-card" onclick="copiarCupom('NINHO21')" style="cursor: pointer;">
+            <div class="info">
+                <h3>NINHO21</h3>
+                <p>10% OFF EM TODO O SITE</p>
+            </div>
+        </div>
+        <div class="cupom-card" onclick="copiarCupom('MEGA21')" style="cursor: pointer;">
+            <div class="info">
+                <h3>MEGA21</h3>
+                <p>20% OFF EM PC GAMER</p>
+            </div>
+        </div>
+        <div class="cupom-card" onclick="copiarCupom('COD2026')" style="cursor: pointer;">
+            <div class="info">
+                <h3>COD2026</h3>
+                <p>R$ 50,00 DE DESCONTO</p>
+            </div>
+        </div>
+    </section>
+
+</header>
+
+<main>
+    <section class="container-banners">
+        <div class="carousel-banners" id="bannerSlider">
+            
+            <div class="banner-card">
+                <img src= "{% static 'Images/imagem1.png' %}" alt="Super Desconto TechSearch">
+                <div class="banner-overlay">
+                    <a href="#" class="btn-aproveitar">CONFERIR</a>
+                </div>
+            </div>
+
+            <div class="banner-card">
+                <img src= "{% static 'Images/imagem2.png' %}" alt="Promoção de Teclados">
+                <div class="banner-overlay">
+                    <a href="#" class="btn-aproveitar">VER OFERTAS</a>
+                </div>
+            </div>
+
+            <div class="banner-card">
+                <img src= "{% static 'Images/imagem3.png' %}" alt="Ofertas Especiais">
+                <div class="banner-overlay">
+                    <a href="#" class="btn-aproveitar">APROVEITAR</a>
+                </div>
+            </div>
+            <div class="banner-card">
+                <img src= "{% static 'Images/imagem4.png' %}" alt="Nova Promoção">
+                <div class="banner-overlay">
+                    <a href="#" class="btn-aproveitar">CONFERIR AGORA</a>
+                </div>
+            </div>
+
+        </div>
+        
+        <button class="seta anterior" onclick="scrollBanner(-1)">❮</button>
+        <button class="seta proximo" onclick="scrollBanner(1)">❯</button>
+    </section>
+</main>
+
+<section class="vitrine">
+    <div class="produto-card">
+        
+        <img src= "{% static 'Imagens/monitor.webp' %}" alt="Monitor Gamer Goldentec 24 polegadas Curvo" class="produto-imagem">
+        
+        <h3 class="produto-nome">Monitor Gamer Goldentec 24"</h3>
+        
+        <p class="produto-desc">Monitor Gamer Goldentec 24" LED, Full HD, com tela em design curvo, com 144Hz.</p>
+        
+        <div class="produto-preco">R$ 677,67</div>
+        
+        <div class="produto-acoes">
+            <button class="btn-carrinho" onclick="adicionarAoCarrinho('Monitor Gamer Goldentec 24')">
+                🛒 Adicionar
+            </button>
+
+            <button class="btn-like" onclick="toggleLike(this, 'Monitor Gamer Goldentec 24')">
+                💖
+            </button>
+        </div>
+        </div>
+    </div>
+</section>
+
+<div class="selo-seguro">
+    <i class="fas fa-shield-alt"></i> <span>Site 100% Seguro</span>
+</div>
+
+<script src= "{% static 'script.js' %}"></script>
+</body>
+</html>
