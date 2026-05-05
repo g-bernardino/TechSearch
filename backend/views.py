@@ -9,3 +9,8 @@ def login(request):
 def cadastro(request):
     return render(request, 'cadastro.html')
 
+def ver_carrinho(request):
+    return render(request, 'carrinho.html', {
+        'itens': [],
+        'total': 0
+    })

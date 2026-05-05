@@ -9,8 +9,6 @@ function scrollBanner(direction) {
     }
 }
 
-<<<<<<< HEAD
-=======
 window.addEventListener("DOMContentLoaded", () => {
   const logado = localStorage.getItem("techsearchLogged");
   const usuario = JSON.parse(localStorage.getItem("techsearchUser"));
@@ -28,7 +26,6 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 });
 
->>>>>>> c7b2c08c56b9a29c324b2ca9eb0697b06e241ce8
 function mostrarCupons() {
     var x = document.getElementById("sessao-cupons");
     
@@ -195,8 +192,22 @@ function confirmarCep() {
     } else {
         alert("Digite um CEP válido!");
     }
-<<<<<<< HEAD
 }
-=======
+    function scrollCategorias(direction) {
+    const slider = document.getElementById('categoriasSlider');
+    const scrollAmount = 200;
+
+    slider.scrollBy({
+        left: direction * scrollAmount,
+        behavior: 'smooth'
+    });
 }
->>>>>>> c7b2c08c56b9a29c324b2ca9eb0697b06e241ce8
+
+function scrollProdutos(direction) {
+    const slider = document.getElementById('produtosSlider');
+    const scrollAmount = 250; 
+    slider.scrollBy({
+        left: direction * scrollAmount,
+        behavior: 'smooth'
+    });
+}
