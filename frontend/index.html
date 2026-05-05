@@ -1,284 +1,286 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechSearch</title>
+    {% load static %}
 
-    <link rel="stylesheet" href="style.css">
+    <!DOCTYPE html>
+    <html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>TechSearch</title>
 
-</head>
-<body>
+        <link rel="stylesheet" href="{% static 'style.css' %}">
 
-<header>
+    </head>
+    <body>
 
-    <section>
+    <header>
 
-        <div class="logo">
-            <img src="" alt="TechSearch">
-        </div>
+        <section>
 
-        <div class="localizacao">
-            <span>Enviar para:</span>
-            <a href="#">Digite o CEP</a>
-        </div>
+            <div class="logo">
+                <img src="" alt="TechSearch">
+            </div>
 
-        <div class="busca">
-            <input type="text" placeholder="Investigue na TechSearch!">
-            <button type="submit">🔍</button>
-        </div>
+            <div class="localizacao">
+                <span>Enviar para:</span>
+                <a href="#">Digite o CEP</a>
+            </div>
 
-        <div class="login">
-            <img src="" alt="Usuário">
-            <span>Entre ou <strong><a href="#">Cadastre-se</a></strong></span>
-        </div>
+            <div class="busca">
+                <input type="text" placeholder="Investigue na TechSearch!">
+                <button type="submit">🔍</button>
+            </div>
 
-        <nav class="atalhos">
-            <a href="#" title="Atendimento">🎧</a>
-            <a href="#" title="Acessibilidade">♿</a>
-            <a href="#" title="Favoritos">❤️</a>
-            <a href="#" title="Carrinho">🛒</a>
+            <div class="login">
+                <img src="{% static 'Imagens/logots.jpeg' %}" alt="Usuário">
+                <span>Entre ou <strong><a href="#">Cadastre-se</a></strong></span>
+            </div>
+
+            <nav class="atalhos">
+                <a href="#" title="Atendimento">🎧</a>
+                <a href="#" title="Acessibilidade">♿</a>
+                <a href="#" title="Favoritos">❤️</a>
+                <a href="#" title="Carrinho">🛒</a>
+            </nav>
+        </section>
+
+        <hr> <nav>
+            <button type="button">SEÇÕES ▾</button>
+
+            <a href="#">CUPONS</a>
+            <a href="#">MAIS VENDIDOS</a>
+
+            <ul>
+                <li><a href='#'>Hardware</a></li>
+                <li><a href="#">PC Gamer</a></li>
+                <li><a href="#">Computadores</a></li>
+                <li><a href="#">Mais ▾</a></li>
+            </ul>
+
+            <div class="simule-pc">
+                <img src="" alt="Simule seu PC">
+                <span> Simule seu PC <strong>completo e acessível aqui!</strong></span>
+                <button>🔍</button>
+            </div>
         </nav>
-    </section>
 
-    <hr> <nav>
-        <button type="button">SEÇÕES ▾</button>
+    </header>
 
-        <a href="#">CUPONS</a>
-        <a href="#">MAIS VENDIDOS</a>
-
-        <ul>
-            <li><a href='#'>Hardware</a></li>
-            <li><a href="#">PC Gamer</a></li>
-            <li><a href="#">Computadores</a></li>
-            <li><a href="#">Mais ▾</a></li>
-        </ul>
-
-        <div class="simule-pc">
-            <img src="" alt="Simule seu PC">
-            <span> Simule seu PC <strong>completo e acessível aqui!</strong></span>
-            <button>🔍</button>
-        </div>
-    </nav>
-
-</header>
-
-<main>
-    <section class="container-banners">
-        <div class="carousel-banners" id="bannerSlider">
-            
-            <div class="banner-card">
-                <img src="img/imagem1.png" alt="Super Desconto TechSearch">
-                <div class="banner-overlay">
-                    <a href="#" class="btn-aproveitar">CONFERIR</a>
+    <main>
+        <section class="container-banners">
+            <div class="carousel-banners" id="bannerSlider">
+                
+                <div class="banner-card">
+                    <img src="{% static 'imagens/imagem1.png' %}" alt="Super Desconto TechSearch">
+                    <div class="banner-overlay">
+                        <a href="#" class="btn-aproveitar">CONFERIR</a>
+                    </div>
                 </div>
-            </div>
 
-            <div class="banner-card">
-                <img src="img/imagem2.png" alt="Promoção de Teclados">
-                <div class="banner-overlay">
-                    <a href="#" class="btn-aproveitar">VER OFERTAS</a>
+                <div class="banner-card">
+                    <img src="{% static 'imagens/imagem2.png' %}" alt="Promoção de Teclados">
+                    <div class="banner-overlay">
+                        <a href="#" class="btn-aproveitar">VER OFERTAS</a>
+                    </div>
                 </div>
-            </div>
 
-            <div class="banner-card">
-                <img src="img/imagem3.png" alt="Ofertas Especiais">
-                <div class="banner-overlay">
-                    <a href="#" class="btn-aproveitar">APROVEITAR</a>
+                <div class="banner-card">
+                    <img src="{% static 'imagens/imagem3.png' %}" alt="Ofertas Especiais">
+                    <div class="banner-overlay">
+                        <a href="#" class="btn-aproveitar">APROVEITAR</a>
+                    </div>
                 </div>
-            </div>
 
-        </div>
-        
-        <button class="seta anterior" onclick="scrollBanner(-1)">❮</button>
-        <button class="seta proximo" onclick="scrollBanner(1)">❯</button>
-    </section>
-</main>
-
-<section class="categorias-container">
-    <button class="cat-seta esquerda" onclick="scrollCategorias(-1)">❮</button>
-
-    <div class="categorias" id="categoriasSlider">
-
-        <div class="categoria">
-            <div class="icon">💻</div>
-            <span>Computadores</span>
-        </div>
-
-        <div class="categoria">
-            <div class="icon">🖱️</div>
-            <span>Periféricos</span>
-        </div>
-
-        <div class="categoria">
-            <div class="icon">🎮</div>
-            <span>Games</span>
-        </div>
-
-        <div class="categoria">
-            <div class="icon">📱</div>
-            <span>Celulares</span>
-        </div>
-
-        <div class="categoria">
-            <div class="icon">🧠</div>
-            <span>Monte seu PC</span>
-        </div>
-
-        <div class="categoria">
-            <div class="icon">📺</div>
-            <span>TV</span>
-        </div>
-
-        <div class="categoria">
-            <div class="icon">📽️</div>
-            <span>Projetores</span>
-        </div>
-
-        <div class="categoria">
-            <div class="icon">🪑</div>
-            <span>Espaço Gamer</span>
-        </div>
-
-        <div class="categoria">
-            <div class="icon">📋</div>
-            <span>Escritório</span>
-        </div>
-
-        <div class="categoria">
-            <div class="icon">🏠</div>
-            <span>Casa Inteligente</span>
-        </div>
-
-        <div class="categoria">
-            <div class="icon">🎁</div>
-            <span>Gift Card</span>
-        </div>
-
-        <div class="categoria">
-            <div class="icon">🎧​</div>
-            <span>Headset</span>
-        </div>
-
-    </div>
-
-    <button class="cat-seta direita" onclick="scrollCategorias(1)">❯</button>
-</section>
-
-<section class="ofertas-container">
-    <div class="ofertas-header">
-        <h2>🔥 Ofertas TechSearch!</h2>
-    </div>
-
-    <div class="carousel-produtos-container">
-        <button class="seta-prod anterior" onclick="scrollProdutos(-1)">&#10094;</button>
-        
-        <div class="produtos-grid" id="produtosSlider">
-            <div class="produto-card">
-                <div class="badge-top">
-                    <span>⭐ 5.0</span>
-                    <i class="heart-icon">🤍</i>
-                </div>
-                <img src="" alt="PlayStation 5">
-                <div class="produto-info">
-                    <span class="frete-gratis" style="color: #00ff88;">Frete grátis*</span>
-                    <h3 class="produto-titulo">Console Sony PlayStation 5, SSD 825GB, Controle Sem Fio...</h3>
-                    <p class="preco-antigo">R$ 4.192,47</p>
-                    <p class="preco-atual">R$ 3.588,87
-                    <p class="preco-parcelado">No PIX ou 10x de R$ 385,90</p>
-                    <div class="estoque">Restam 92 Unid.</div>
-                </div>
             </div>
             
-            <div class="produto-card">
-                <div class="badge-top"><span>⭐ 4.9</span><i class="heart-icon">🤍</i></div>
-                <img src="" alt="RTX">
-                <div class="produto-info">
-                    <span class="frete-gratis" style="color: #00ff88;">Frete grátis*</span>
-                    <h3 class="produto-titulo">Placa de Vídeo RTX 4060 Ti MSI NVIDIA</h3>
-                    <p class="preco-antigo">R$ 3.100,00</p>
-                    <p class="preco-atual">R$ 2.540,00</p>
-                    <p class="preco-parcelado">10x de R$ 254,00</p>
-                    <div class="estoque">Restam 4 Unid.</div>
-                </div>
+            <button class="seta anterior" onclick="scrollBanner(-1)">❮</button>
+            <button class="seta proximo" onclick="scrollBanner(1)">❯</button>
+        </section>
+    </main>
+
+    <section class="categorias-container">
+        <button class="cat-seta esquerda" onclick="scrollCategorias(-1)">❮</button>
+
+        <div class="categorias" id="categoriasSlider">
+
+            <div class="categoria">
+                <div class="icon">💻</div>
+                <span>Computadores</span>
             </div>
 
-            <div class="produto-card">
-                <div class="badge-top"><span>⭐ 4.8</span><i class="heart-icon">🤍</i></div>
-                <img src="" alt="Teclado">
-                <div class="produto-info">
-                    <span class="frete-gratis" style="color: #00ff88;">Frete grátis*</span>
-                    <h3 class="produto-titulo">Teclado Mecânico Gamer Logitech G413 SE</h3>
-                    <p class="preco-antigo">R$ 550,00</p>
-                    <p class="preco-atual">R$ 399,90</p>
-                    <p class="preco-parcelado">10x de R$ 39,99</p>
-                    <div class="estoque">Restam 22 Unid.</div>
-                </div>
+            <div class="categoria">
+                <div class="icon">🖱️</div>
+                <span>Periféricos</span>
             </div>
 
-            <div class="produto-card">
-                <div class="badge-top"><span>⭐ 4.7</span><i class="heart-icon">🤍</i></div>
-                <img src="" alt="Monitor">
-                <div class="produto-info">
-                    <span class="frete-gratis" style="color: #00ff88;">Frete grátis*</span>
-                    <h3 class="produto-titulo">Monitor Gamer AOC Hero 27" 144Hz IPS</h3>
-                    <p class="preco-antigo">R$ 1.500,00</p>
-                    <p class="preco-atual">R$ 1.199,00</p>
-                    <p class="preco-parcelado">10x de R$ 119,90</p>
-                    <div class="estoque">Restam 8 Unid.</div>
-                </div>
+            <div class="categoria">
+                <div class="icon">🎮</div>
+                <span>Games</span>
             </div>
 
-            <div class="produto-card">
-                <div class="badge-top"><span>⭐ 5.0</span><i class="heart-icon">🤍</i></div>
-                <img src="" alt="Mouse">
-                <div class="produto-info">
-                    <span class="frete-gratis" style="color: #00ff88;">Frete grátis*</span>
-                    <h3 class="produto-titulo">Mouse Gamer Razer DeathAdder V2</h3>
-                    <p class="preco-antigo">R$ 450,00</p>
-                    <p class="preco-atual">R$ 289,00</p>
-                    <p class="preco-parcelado">10x de R$ 28,90</p>
-                    <div class="estoque">Restam 15 Unid.</div>
-                </div>
+            <div class="categoria">
+                <div class="icon">📱</div>
+                <span>Celulares</span>
             </div>
 
-            <div class="produto-card">
-                <div class="badge-top"><span>⭐ 4.9</span><i class="heart-icon">🤍</i></div>
-                <img src="" alt="Headset">
-                <div class="produto-info">
-                    <span class="frete-gratis" style="color: #00ff88;">Frete grátis*</span>
-                    <h3 class="produto-titulo">Headset Gamer HyperX Cloud II 7.1</h3>
-                    <p class="preco-antigo">R$ 699,00</p>
-                    <p class="preco-atual">R$ 549,00</p>
-                    <p class="preco-parcelado">10x de R$ 54,90</p>
-                    <div class="estoque">Restam 30 Unid.</div>
-                </div>
+            <div class="categoria">
+                <div class="icon">🧠</div>
+                <span>Monte seu PC</span>
+            </div>
+
+            <div class="categoria">
+                <div class="icon">📺</div>
+                <span>TV</span>
+            </div>
+
+            <div class="categoria">
+                <div class="icon">📽️</div>
+                <span>Projetores</span>
+            </div>
+
+            <div class="categoria">
+                <div class="icon">🪑</div>
+                <span>Espaço Gamer</span>
+            </div>
+
+            <div class="categoria">
+                <div class="icon">📋</div>
+                <span>Escritório</span>
+            </div>
+
+            <div class="categoria">
+                <div class="icon">🏠</div>
+                <span>Casa Inteligente</span>
+            </div>
+
+            <div class="categoria">
+                <div class="icon">🎁</div>
+                <span>Gift Card</span>
+            </div>
+
+            <div class="categoria">
+                <div class="icon">🎧​</div>
+                <span>Headset</span>
             </div>
 
         </div>
 
-        <button class="seta-prod proximo" onclick="scrollProdutos(1)">&#10095;</button>
-    </div>
-</section>
+        <button class="cat-seta direita" onclick="scrollCategorias(1)">❯</button>
+    </section>
 
-<section class="banner-full">
-    <div class="banner-content">
-
-        <div class="banner-text">
-            <h2>Monte seu PC</h2>
-            <p>
-                Uma ferramenta completa pra <strong>criar a sua máquina</strong> 
-                e recebê-la pronta!
-            </p>
-            <a href="#" class="btn-banner">COMEÇAR AGORA ↗</a>
+    <section class="ofertas-container">
+        <div class="ofertas-header">
+            <h2>🔥 Ofertas TechSearch!</h2>
         </div>
 
-        <div class="banner-image">
-            <img src="" alt="Monte seu PC">
-        </div>
-    </div>
-</section>
+        <div class="carousel-produtos-container">
+            <button class="seta-prod anterior" onclick="scrollProdutos(-1)">&#10094;</button>
+            
+            <div class="produtos-grid" id="produtosSlider">
+                <div class="produto-card">
+                    <div class="badge-top">
+                        <span>⭐ 5.0</span>
+                        <i class="heart-icon">🤍</i>
+                    </div>
+                    <img src="" alt="PlayStation 5">
+                    <div class="produto-info">
+                        <span class="frete-gratis" style="color: #00ff88;">Frete grátis*</span>
+                        <h3 class="produto-titulo">Console Sony PlayStation 5, SSD 825GB, Controle Sem Fio...</h3>
+                        <p class="preco-antigo">R$ 4.192,47</p>
+                        <p class="preco-atual">R$ 3.588,87
+                        <p class="preco-parcelado">No PIX ou 10x de R$ 385,90</p>
+                        <div class="estoque">Restam 92 Unid.</div>
+                    </div>
+                </div>
+                
+                <div class="produto-card">
+                    <div class="badge-top"><span>⭐ 4.9</span><i class="heart-icon">🤍</i></div>
+                    <img src="" alt="RTX">
+                    <div class="produto-info">
+                        <span class="frete-gratis" style="color: #00ff88;">Frete grátis*</span>
+                        <h3 class="produto-titulo">Placa de Vídeo RTX 4060 Ti MSI NVIDIA</h3>
+                        <p class="preco-antigo">R$ 3.100,00</p>
+                        <p class="preco-atual">R$ 2.540,00</p>
+                        <p class="preco-parcelado">10x de R$ 254,00</p>
+                        <div class="estoque">Restam 4 Unid.</div>
+                    </div>
+                </div>
 
-<script src="script.js"></script>
-</body>
-</html>
+                <div class="produto-card">
+                    <div class="badge-top"><span>⭐ 4.8</span><i class="heart-icon">🤍</i></div>
+                    <img src="" alt="Teclado">
+                    <div class="produto-info">
+                        <span class="frete-gratis" style="color: #00ff88;">Frete grátis*</span>
+                        <h3 class="produto-titulo">Teclado Mecânico Gamer Logitech G413 SE</h3>
+                        <p class="preco-antigo">R$ 550,00</p>
+                        <p class="preco-atual">R$ 399,90</p>
+                        <p class="preco-parcelado">10x de R$ 39,99</p>
+                        <div class="estoque">Restam 22 Unid.</div>
+                    </div>
+                </div>
+
+                <div class="produto-card">
+                    <div class="badge-top"><span>⭐ 4.7</span><i class="heart-icon">🤍</i></div>
+                    <img src="" alt="Monitor">
+                    <div class="produto-info">
+                        <span class="frete-gratis" style="color: #00ff88;">Frete grátis*</span>
+                        <h3 class="produto-titulo">Monitor Gamer AOC Hero 27" 144Hz IPS</h3>
+                        <p class="preco-antigo">R$ 1.500,00</p>
+                        <p class="preco-atual">R$ 1.199,00</p>
+                        <p class="preco-parcelado">10x de R$ 119,90</p>
+                        <div class="estoque">Restam 8 Unid.</div>
+                    </div>
+                </div>
+
+                <div class="produto-card">
+                    <div class="badge-top"><span>⭐ 5.0</span><i class="heart-icon">🤍</i></div>
+                    <img src="" alt="Mouse">
+                    <div class="produto-info">
+                        <span class="frete-gratis" style="color: #00ff88;">Frete grátis*</span>
+                        <h3 class="produto-titulo">Mouse Gamer Razer DeathAdder V2</h3>
+                        <p class="preco-antigo">R$ 450,00</p>
+                        <p class="preco-atual">R$ 289,00</p>
+                        <p class="preco-parcelado">10x de R$ 28,90</p>
+                        <div class="estoque">Restam 15 Unid.</div>
+                    </div>
+                </div>
+
+                <div class="produto-card">
+                    <div class="badge-top"><span>⭐ 4.9</span><i class="heart-icon">🤍</i></div>
+                    <img src="" alt="Headset">
+                    <div class="produto-info">
+                        <span class="frete-gratis" style="color: #00ff88;">Frete grátis*</span>
+                        <h3 class="produto-titulo">Headset Gamer HyperX Cloud II 7.1</h3>
+                        <p class="preco-antigo">R$ 699,00</p>
+                        <p class="preco-atual">R$ 549,00</p>
+                        <p class="preco-parcelado">10x de R$ 54,90</p>
+                        <div class="estoque">Restam 30 Unid.</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <button class="seta-prod proximo" onclick="scrollProdutos(1)">&#10095;</button>
+        </div>
+    </section>
+
+    <section class="banner-full">
+        <div class="banner-content">
+
+            <div class="banner-text">
+                <h2>Monte seu PC</h2>
+                <p>
+                    Uma ferramenta completa pra <strong>criar a sua máquina</strong> 
+                    e recebê-la pronta!
+                </p>
+                <a href="#" class="btn-banner">COMEÇAR AGORA ↗</a>
+            </div>
+
+            <div class="banner-image">
+                <img src="" alt="Monte seu PC">
+            </div>
+        </div>
+    </section>
+
+    <script src="{% static 'script.js' %}"></script>
+    </body>
+    </html>
