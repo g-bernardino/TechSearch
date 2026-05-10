@@ -54,7 +54,7 @@
                 <a href="#" title="Atendimento">🎧</a>
                 <a href="#" title="Acessibilidade">♿</a>
                 <a href="#" title="Favoritos">❤️</a>
-                <a href="#" title="Carrinho">🛒</a>
+                <a href="{% url 'catalogo:ver_carrinho' %}" title="Carrinho">🛒</a>
             </nav>
         </section>
 
@@ -134,6 +134,9 @@
                             <h3 class="produto-titulo">{{ produto.nome }}</h3>
                             <p class="preco-atual">R$ {{ produto.preco }}</p>
                             <div class="estoque">Em Stock</div>
+                            <a href="/add/{{ produto.id }}/" class="btn-carrinho">
+                                Adicionar ao carrinho
+                            </a>
                         </div>
                     </div>
                     {% endfor %}

@@ -26,3 +26,31 @@ class Produto(models.Model):
 
     def __str__(self):
         return self.nome
+    
+# Modelo do Carrinho
+class Carrinho(models.Model):
+    criado_em = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Carrinho {self.id}"
+
+
+# Produtos dentro do carrinho
+class ItemCarrinho(models.Model):
+    carrinho = models.ForeignKey(
+        Carrinho,
+        related_name='itens',
+        on_delete=models.CASCADE
+    )
+
+    produto = models.ForeignKey(
+        Produto,
+        on_delete=models.CASCADE
+    )
+
+    quantidade = models.PositiveIntegerField(default=1)
+
+    adicionado_em = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.quantidade}x {self.produto.nome}"
