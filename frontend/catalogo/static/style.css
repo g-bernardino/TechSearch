@@ -538,6 +538,10 @@ main { padding: 20px 5%; }
 
 .container {
     text-align: center;
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    margin: 0;
 }
 
 .form {
