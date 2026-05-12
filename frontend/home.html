@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TechSearch - Loja{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'static:css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'static:css/home.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo">TechSearch</div>
+        <div class="nav-search">
+            <form method="GET" action="{}>
+                <input type="text" name="q" placeholder="Buscar produtos, marcas..." value="{{ request.GET.q|default:'' }}">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+        <div class="nav-actions">
+            {% if user.is_authenticated %}
+                <div class="user-welcome">
+                    Olá, {{ user.first_name|default:user.username }}!
+                    <a href="{}">Sair</a>
+                </div>
+                <a href="{}" class="cart-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge">{{ cart_count|default:0 }}</span>
+                </a>
+            {% else %}
+                <a href="{% url 'login' %}" class="nav-btn outline">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
+                <a href="{% url 'cadastro' %}" class="nav-btn primary">
+                    <i class="fas fa-user-plus"></i> Cadastrar
+                </a>
+                <div class="cart-btn" onclick="showToast('Carrinho vazio!')">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge">{{ cart_count|default:0 }}</span>
+                </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-text">
+            <div class="hero-badge">
+                <i class="fas fa-bolt"></i> Novidades toda semana
+            </div>
+            <h1>O melhor da <span>tecnologia</span> ao seu alcance</h1>
+            <p>Encontre os mais modernos gadgets, notebooks, periféricos e muito mais com os melhores preços do mercado.</p>
+            <div class="hero-btns">
+                <a href="#products" class="btn-hero primary">
+                    <i class="fas fa-shopping-bag"></i> Ver Produtos
+                </a>
+                <a href="{}" class="btn-hero ghost">
+                    <i class="fas fa-tag"></i> Ofertas do Dia
+                </a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="hero-graphic">
+                <div class="hero-circle">
+                    <i class="fas fa-laptop hero-icon-main"></i>
+                    <div class="floating-icon">💻 <span>Notebooks</span></div>
+                    <div class="floating-icon">🎧 <span>Áudio</span></div>
+                    <div class="floating-icon">📱 <span>Celulares</span></div>
+                    <div class="floating-icon">🖥️ <span>Monitores</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <div class="stats">
+        <div class="stats-inner">
+            <div class="stat-item">
+                <div class="stat-number">{{ total_products|default:"12k+" }}</div>
+                <div class="stat-label">Produtos Disponíveis</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ satisfaction_rate|default:"98%" }}</div>
+                <div class="stat-label">Clientes Satisfeitos</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ partner_brands|default:"150+" }}</div>
+                <div class="stat-label">Marcas Parceiras</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ support_time|default:"24h" }}</div>
+                <div class="stat-label">Suporte ao Cliente</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRODUTOS EM DESTAQUE -->
+    <div class="section" id="products">
+        <div class="section-header">
+            <h2 class="section-title">Produtos em <span>Destaque</span></h2>
+            <a href="{}" class="see-all">Ver todos <i class="fas fa-arrow-right"></i></a>
+        </div>
+        
+        <!-- Categorias -->
+        <div class="categories">
+            <a href="?category=all" class="cat-chip {% if request.GET.category == 'all' or not request.GET.category %}active{% endif %}">
+                <i class="fas fa-th"></i> Todos
+            </a>
+            <a href="?category=notebook" class="cat-chip {% if request.GET.category == 'notebook' %}active{% endif %}">
+                <i class="fas fa-laptop"></i> Notebooks
+            </a>
+            <a href="?category=smartphone" class="cat-chip {% if request.GET.category == 'smartphone' %}active{% endif %}">
+                <i class="fas fa-mobile-alt"></i> Smartphones
+            </a>
+            <a href="?category=audio" class="cat-chip {% if request.GET.category == 'audio' %}active{% endif %}">
+                <i class="fas fa-headphones"></i> Áudio
+            </a>
+            <a href="?category=monitor" class="cat-chip {% if request.GET.category == 'monitor' %}active{% endif %}">
+                <i class="fas fa-desktop"></i> Monitores
+            </a>
+            <a href="?category=periferico" class="cat-chip {% if request.GET.category == 'periferico' %}active{% endif %}">
+                <i class="fas fa-keyboard"></i> Periféricos
+            </a>
+            <a href="?category=camera" class="cat-chip {% if request.GET.category == 'camera' %}active{% endif %}">
+                <i class="fas fa-camera"></i> Câmeras
+            </a>
+        </div>
+
+        <!-- Grid de produtos -->
+        <div class="products-grid" id="productsGrid">
+            {% for product in featured_products %}
+            <div class="product-card" data-cat="{{ product.category.slug }}">
+                {% if product.is_new %}
+                <span class="product-badge new">NOVO</span>
+                {% endif %}
+                {% if product.on_sale %}
+                <span class="product-badge sale">{% if product.discount %}-{{ product.discount }}%{% endif %}</span>
+                {% endif %}
+                <div class="product-wishlist" onclick="toggleWish(this)">
+                    <i class="far fa-heart"></i>
+                </div>
+                <div class="product-img">{{ product.emoji|default:"🖥️" }}</div>
+                <div class="product-info">
+                    <div class="product-category">{}/div>
+                    <div class="product-name">{}</div>
+                    <div class="product-rating">
+                        <span class="stars">{}</span>
+                        <span class="rating-count">({})</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-price">
+                            R$ {{ product.price|floatformat:0 }}
+                            {% if product.old_price %}
+                            <span class="old">R$ {{ product.old_price|floatformat:0 }}</span>
+                            {% endif %}
+                        </div>
+                        <form method="POST" action="{}" class="add-to-cart-form">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-add-cart">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p>Nenhum produto encontrado.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- BANNER PROMO -->
+    <div class="section" style="padding-top:0">
+        <div class="promo-banner">
+            <div class="promo-text">
+                <h2>🔥 Oferta <span>Exclusiva</span> para novos clientes</h2>
+                <p>Use o cupom abaixo e ganhe <strong>10% de desconto</strong> na sua primeira compra!</p>
+            </div>
+            <div class="promo-code">
+                <div class="code-box">{{ promo_code|default:"TECH10" }}</div>
+                <button class="btn-copy" onclick="copyCode()">Copiar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FEATURES -->
+    <div class="section" style="padding-top:0">
+        <div class="section-header">
+            <h2 class="section-title">Por que comprar com a <span>TechSearch?</span></h2>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-shipping-fast"></i></div>
+                <div class="feature-text">
+                    <h4>Frete Grátis</h4>
+                    <p>Em compras acima de R$ 299 para todo o Brasil.</p>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                <div class="feature-text">
+                    <h4>Compra Segura</h4>
+                    <p>Seus dados protegidos com criptografia SSL.</p>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-undo-alt"></i></div>
+                <div class="feature-text">
+                    <h4>30 Dias de Troca</h4>
+                    <p>Política de devolução sem burocracia.</p>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-headset"></i></div>
+                <div class="feature-text">
+                    <h4>Suporte 24/7</h4>
+                    <p>Atendimento por chat, e-mail e WhatsApp.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NEWSLETTER -->
+    <div class="newsletter">
+        <h2>Receba as melhores <span>ofertas</span></h2>
+        <p>Assine nossa newsletter e fique por dentro das promoções exclusivas.</p>
+        <form method="POST" action="{}" class="newsletter-form">
+            {% csrf_token %}
+            <input type="email" name="email" placeholder="Seu melhor e-mail..." required>
+            <button type="submit"><i class="fas fa-paper-plane"></i> Assinar</button>
+        </form>
+    </div>
+
+    <!-- FOOTER (mantido igual ao original) -->
+    <footer>
+        <!-- ... footer content igual ao original ... -->
+    </footer>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMsg">Produto adicionado!</span>
+    </div>
+
+    <script src="{% static 'js/home.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

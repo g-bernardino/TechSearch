@@ -1,0 +1,13 @@
+<h2>Seu Carrinho</h2>
+
+{% for item in itens %}
+    <p>
+        {{ item.produto.nome }}
+        - {{ item.quantidade }}x
+        - R$ {{ item.produto.preco }}
+    </p>
+{% empty %}
+    <p>Carrinho vazio</p>
+{% endfor %}
+
+<h3>Total: R$ {{ total }}</h3>

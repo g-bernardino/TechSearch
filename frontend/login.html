@@ -1,0 +1,179 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Faça login na TechSearch - A melhor loja de tecnologia">
+    <title>TechSearch - Login Seguro</title>
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="{% static 'imagens/favicon.png' %}">
+    
+    <!-- CSS Base -->
+    <link rel="stylesheet" href="{% static 'static:css/style.css' %}">
+    <!-- CSS Login -->
+    <link rel="stylesheet" href="{% static 'static:css/login.css' %}">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="auth-wrapper">
+    <!-- Partículas de fundo -->
+    <div class="particles-bg">
+        <div class="particle" style="--delay: 0s; --duration: 20s;"></div>
+        <div class="particle" style="--delay: 5s; --duration: 25s;"></div>
+        <div class="particle" style="--delay: 10s; --duration: 18s;"></div>
+        <div class="particle" style="--delay: 15s; --duration: 22s;"></div>
+    </div>
+
+    <main class="main-auth" role="main">
+        <!-- Logo e slogan -->
+        <header class="auth-header">
+            <div class="logo-container">
+                <div class="logo">
+                    <i class="fas fa-microchip"></i>
+                    Tech<span>Search</span>
+                </div>
+                <p class="slogan">A revolução da tecnologia começa aqui</p>
+            </div>
+        </header>
+
+        <!-- Formulário principal -->
+        <section class="form-container" aria-labelledby="login-title">
+            <div class="form-card">
+                <header class="form-header">
+                    <h1 id="login-title" class="form-title">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Acesse sua conta
+                    </h1>
+                    <div class="form-subtitle">
+                        Entre e descubra as melhores ofertas!
+                    </div>
+                </header>
+
+                <form id="loginForm" class="auth-form" method="POST" novalidate>
+                    {% csrf_token %}
+                    
+                    <!-- Mensagens -->
+                    {% if messages %}
+                        <div class="message-container" role="alert" aria-live="polite">
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags|default:'error' }}">
+                                    <i class="fas fa-{{ message.tags|default:'exclamation-triangle' }}"></i>
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <!-- Email/Username -->
+                    <div class="input-group">
+                        <label for="username" class="input-label">
+                            <i class="fas fa-user"></i>
+                            Usuário ou Email
+                        </label>
+                        <input 
+                            type="text" 
+                            id="username"
+                            name="username" 
+                            placeholder="Digite seu usuário ou email"
+                            required 
+                            autocomplete="username"
+                            aria-describedby="username-help"
+                        >
+                        <div id="username-help" class="input-help">Usaremos seu email para contato</div>
+                    </div>
+
+                    <!-- Senha -->
+                    <div class="input-group">
+                        <label for="password" class="input-label">
+                            <i class="fas fa-lock"></i>
+                            Senha
+                        </label>
+                        <input 
+                            type="password" 
+                            id="password"
+                            name="password" 
+                            placeholder="••••••••"
+                            required 
+                            autocomplete="current-password"
+                            aria-describedby="password-help"
+                        >
+                        <button type="button" class="toggle-password" aria-label="Mostrar senha">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <div id="password-help" class="input-help">
+                            <a href="{}" class="forgot-link">Esqueceu a senha?</a>
+                        </div>
+                    </div>
+
+                    <!-- Opções -->
+                    <div class="form-options">
+                        <label class="checkbox-container">
+                            <input type="checkbox" name="remember" id="remember">
+                            <span class="checkmark"></span>
+                            Lembrar-me
+                        </label>
+                        <a href="#" class="help-link">Precisa de ajuda?</a>
+                    </div>
+
+                    <!-- Botão principal -->
+                    <button type="submit" class="btn-primary btn-auth" disabled>
+                        <span class="btn-text">
+                            <i class="fas fa-arrow-right"></i>
+                            ENTRAR NA CONTA
+                        </span>
+                        <span class="btn-loading">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            Entrando...
+                        </span>
+                    </button>
+                </form>
+
+                <!-- Divider -->
+                <div class="divider">
+                    <span>ou</span>
+                </div>
+
+                <!-- Login rápido -->
+                <div class="quick-auth">
+                    <a href="#" class="quick-btn google">
+                        <i class="fab fa-google"></i>
+                        Google
+                    </a>
+                    <a href="#" class="quick-btn github">
+                        <i class="fab fa-github"></i>
+                        GitHub
+                    </a>
+                </div>
+
+                <!-- Footer -->
+                <footer class="auth-footer">
+                    <p class="no-account">
+                        Não tem conta? 
+                        <a href="{% url 'cadastro' %}" class="cta-link">
+                            <i class="fas fa-user-plus"></i>
+                            Crie sua conta grátis
+                        </a>
+                    </p>
+                    <p class="back-home">
+                        <a href="{% url 'home' %}">
+                            <i class="fas fa-home"></i>
+                            Voltar para a Loja
+                        </a>
+                    </p>
+                </footer>
+            </div>
+        </section>
+    </main>
+
+    <!-- Copyright -->
+    <footer class="auth-footer-bottom">
+        <p>&copy; 2024 TechSearch. Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="{% static 'static:js/login.js' %}"></script>
+</body>
+</html>
