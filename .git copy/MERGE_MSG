@@ -1,0 +1,14 @@
+Merge branch 'main' of https://github.com/g-bernardino/TechSearch
+
+# Conflicts:
+#	backend/catalogo/__pycache__/models.cpython-313.pyc
+#	backend/catalogo/__pycache__/urls.cpython-313.pyc
+#	backend/catalogo/__pycache__/views.cpython-313.pyc
+#	backend/catalogo/urls.py
+#	backend/catalogo/views.py
+#	backend/setup/__pycache__/settings.cpython-313.pyc
+#	backend/setup/settings.py
+#	frontend/cadastro.html
+#	frontend/carrinho.html
+#	frontend/dashboard_admin.html
+#	requirements.txt
