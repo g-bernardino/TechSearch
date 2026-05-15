@@ -1,0 +1,15 @@
+{% extends 'home.html' %} {% block title %}Meus Favoritos - TechSearch{% endblock %}
+
+{% block content %}
+<div class="section">
+    <h2 class="section-title">Meus <span>Favoritos</span></h2>
+    <div class="products-grid" id="favoritesGrid">
+        </div>
+    <div id="emptyMessage" style="display:none; text-align:center; padding: 50px;">
+        <p>Você ainda não tem produtos favoritos. ❤️</p>
+        <a href="{% url 'home' %}" class="nav-btn primary">Voltar às compras</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}    
