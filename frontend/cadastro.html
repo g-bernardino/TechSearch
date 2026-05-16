@@ -1,55 +1,55 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechSearch | Criar Conta</title>
-    
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/cadastro.css' %}">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro - TechSearch</title>
+  <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/cadastro.css' %}">
 </head>
-<body class="auth-wrapper">
+<body>
+  <canvas id="particles"></canvas>
 
-    <div class="container">
-        <h1 class="logo">TechSearch</h1>
-        
-        <form class="form" method="POST">
-            {% csrf_token %}
-            <h2>Criar Nova Conta</h2>
+  <div class="container">
+    <div class="logo">TechSearch</div>
+    <form class="form" id="registerForm" method="POST" action="{% url 'cadastro' %}">
+      {% csrf_token %}
+      <h2>Cadastro</h2>
 
-            {% if form.errors %}
-            <div class="error-container">
-                <p>Verifique os dados informados. As senhas devem coincidir e ter no mínimo 8 caracteres.</p>
-            </div>
-            {% endif %}
+      <div class="input-group">
+        <input type="text" id="name" name="username" placeholder="Nome" required>
+        <i class="fas fa-user"></i>
+      </div>
 
-            <div class="input-group">
-                <input type="text" name="username" required placeholder="Nome de Usuário" value="{{ form.username.value|default:'' }}">
-                <i class="fas fa-user"></i>
-            </div>
+      <div class="input-group">
+        <input type="email" id="email" name="email" placeholder="Email" required>
+        <i class="fas fa-envelope"></i>
+      </div>
 
-            <div class="input-group">
-                <input type="password" name="password1" required placeholder="Senha (mín. 8 caracteres)">
-                <i class="fas fa-lock"></i>
-            </div>
+      <div class="input-group">
+        <input type="password" id="password" name="password1" placeholder="Senha" required>
+        <i class="fas fa-lock"></i>
+      </div>
 
-            <div class="input-group">
-                <input type="password" name="password2" required placeholder="Confirmar Senha">
-                <i class="fas fa-shield-halved"></i>
-            </div>
+      <div class="input-group">
+        <input type="password" id="confirmPassword" name="password2" placeholder="Confirmar Senha" required>
+        <i class="fas fa-lock"></i>
+      </div>
 
-            <button type="submit" class="btn-auth">FINALIZAR CADASTRO</button>
+      <button type="submit">Cadastrar</button>
 
-            <div class="auth-footer">
-                <p class="redirect">Já possui uma conta? <a href="{% url 'login' %}">Faça Login</a></p>
-                <p class="redirect back-link"><a href="{% url 'home' %}">← Voltar para a Loja</a></p>
-            </div>
-        </form>
-    </div>
+      <div class="redirect">
+        <p>Já tem conta? <a href="{% url 'login' %}">Entrar</a></p>
+      </div>
+    </form>
+  </div>
 
+  <footer class="auth-footer-bottom">
+    <p>&copy; 2026 TechSearch. Todos os direitos reservados.</p>
+  </footer>
+
+  <script src="https://kit.fontawesome.com/a2e0e6f6c5.js" crossorigin="anonymous"></script>
+  <script src="{% static 'js/cadastro.js' %}"></script>
 </body>
 </html>

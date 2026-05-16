@@ -58,3 +58,7 @@ def logout_view(request):
 def dashboard_admin(request):
     # Aqui podes adicionar lógica para listar produtos para editar/apagar
     return render(request, '/dashboard_admin.html')
+
+# 7. FAVORITOS
+def favoritos(request):
+    return render(request, 'favoritos.html')
