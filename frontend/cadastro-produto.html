@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Produto</title>
+    <link rel="stylesheet" href="{% static 'css/cadastro-produto.css' %}">
+</head>
+<body>
+
+    <div class="cadastro-box">
+        <h1>Cadastrar Produto</h1>
+        <p>Adicione um novo produto à TechSearch</p>
+
+        <form method="POST" enctype="multipart/form-data" action="{% url 'cadastro_produto' %}">
+            {% csrf_token %}
+
+            <div class="input-group">
+                <label>Nome do Produto</label>
+                <input type="text" name="nome" placeholder="Digite o nome do produto">
+            </div>
+
+            <div class="input-group">
+                <label>Categoria</label>
+                <select name="categoria">
+                    <option value="">Selecione uma categoria</option>
+                    <option value="notebook">Notebook</option>
+                    <option value="celular">Celular</option>
+                    <option value="monitor">Monitor</option>
+                    <option value="teclado">Teclado</option>
+                    <option value="mouse">Mouse</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Preço</label>
+                <input type="number" name="preco" placeholder="R$ 0,00">
+            </div>
+
+            <div class="input-group">
+                <label>Quantidade em Estoque</label>
+                <input type="number" name="quantidade" placeholder="Quantidade">
+            </div>
+
+            <div class="input-group">
+                <label>Descrição</label>
+                <textarea name="descricao" placeholder="Descrição do produto"></textarea>
+            </div>
+
+            <div class="input-group">
+                <label>Imagem do Produto</label>
+                <input type="file" name="imagem">
+            </div>
+
+            <button type="submit">Cadastrar Produto</button>
+        </form>
+    </div>
+
+</body>
+</html>
