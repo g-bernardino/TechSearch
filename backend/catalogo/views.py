@@ -1,33 +1,25 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.decorators import login_required  
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
 from .models import Produto
 
 # 1. PÁGINA INICIAL (HOME)
-# Lista todos os produtos do SQLite para o carrossel/grid
 def home(request):
     produtos = Produto.objects.all()
     return render(request, 'home.html', {'produtos': produtos})
 
-# 2. DETALHE DO PRODUTO
-# Exibe informações de um produto específico baseado no ID
-def detalhe_produto(request, id):
-    produto = get_object_or_404(Produto, id=id)
-    return render(request, 'detalhe.html', {'produto': produto})
-
 # 3. REGISTO DE UTILIZADOR (SIGN UP)
-# Cria o utilizador no banco de dados SQLite
 def cadastro_view(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()  # Guarda o utilizador no SQLite
+            user = form.save()  
             messages.success(request, "Conta criada com sucesso! Faça o login.")
             return redirect('login')
         else:
-            # Se houver erro (senha fraca, user já existe), mantém os dados e mostra erro
             messages.error(request, "Erro no formulário. Verifique os dados.")
     else:
         form = UserCreationForm()
@@ -41,7 +33,13 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('home')
+            
+            # Aqui está a mágica: pega o '?next=/favoritos/' da URL.
+            # Se não existir (login direto), ele vai para a página de favoritos por padrão.
+            proxima_pagina = request.GET.get('next', 'favoritos')
+            return redirect(proxima_pagina)
+        else:
+            messages.error(request, "Usuário ou senha inválidos.")
     else:
         form = AuthenticationForm()
     
@@ -53,12 +51,12 @@ def logout_view(request):
     return redirect('home')
 
 # 6. PAINEL DO ADMINISTRADOR (SÓ STAFF)
-# A função de cadastro de produtos que só o Admin acessa
 @staff_member_required
 def dashboard_admin(request):
-    # Aqui podes adicionar lógica para listar produtos para editar/apagar
-    return render(request, '/dashboard_admin.html')
+    return render(request, 'dashboard_admin')
 
-# 7. FAVORITOS
+# 7. FAVORITOS (Duplicação removida e corrigida)
+@login_required(login_url='login')
 def favoritos(request):
+    # Certifique-se de que está 'favoritos.html' e não apenas 'favoritos'
     return render(request, 'favoritos.html')
