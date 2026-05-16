@@ -10,18 +10,17 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <!-- Canvas para partículas -->
-<canvas id="particles"></canvas>
+  <canvas id="particles"></canvas>
 
   <div class="container">
     <div class="logo">TechSearch</div>
     
     <form class="form" id="loginForm" method="POST">
       {% csrf_token %}
+      {{ form.as_p }}
       
-      <!-- Mensagens de erro/sucesso -->
       {% if messages %}
-        <div class="messages">
+        <div class="messages" style="margin-bottom: 15px; text-align: center; color: #ff4757; font-size: 0.9rem;">
           {% for message in messages %}
             <div class="alert alert-{{ message.tags }}">
               {{ message }}
@@ -32,32 +31,21 @@
 
       <h2>Entrar</h2>
 
-      <!-- Email/Username -->
       <div class="input-group">
-        <label for="{{ form.username.id_for_label }}" class="sr-only">Email ou Usuário</label>
-        {{ form.username }}
+        <input type="text" id="username" name="username" placeholder="Email ou Usuário" required>
         <i class="fas fa-envelope"></i>
-        {% if form.username.errors %}
-          <div class="error">{{ form.username.errors.0 }}</div>
-        {% endif %}
       </div>
 
-      <!-- Senha -->
       <div class="input-group">
-        <label for="{{ form.password.id_for_label }}" class="sr-only">Senha</label>
-        {{ form.password }}
+        <input type="password" id="password" name="password" placeholder="Senha" required>
         <i class="fas fa-lock"></i>
-        {% if form.password.errors %}
-          <div class="error">{{ form.password.errors.0 }}</div>
-        {% endif %}
       </div>
 
-      <!-- Opções -->
       <div class="form-options">
         <label class="remember-me">
           <input type="checkbox" name="remember"> Lembrar-me
         </label>
-        <a href="{}" class="forgot-password">Esqueceu a senha?</a>
+        <a href="#" class="forgot-password">Esqueceu a senha?</a>
       </div>
 
       <button type="submit" id="loginBtn">
@@ -75,12 +63,9 @@
     </form>
   </div>
 
-  <!-- Rodapé -->
- <footer class="auth-footer-bottom">
+  <footer class="auth-footer-bottom">
     <p>&copy; 2026 TechSearch. Todos os direitos reservados.</p>
   </footer>
 
-  <!-- JS -->
-  <script src="{% static 'js/login.js' %}"></script>
-</body>
+  </body>
 </html>

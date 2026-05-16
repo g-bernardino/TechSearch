@@ -13,9 +13,20 @@
 
   <div class="container">
     <div class="logo">TechSearch</div>
+    
     <form class="form" id="registerForm" method="POST" action="{% url 'cadastro' %}">
-      {% csrf_token %}
+      {% csrf_token %} <!-- Chave de segurança CSRF inserida aqui -->
+      
       <h2>Cadastro</h2>
+
+      <!-- Bloco que exibe erros de validação vindos do banco de dados (ex: Senha fraca, user já existe) -->
+      {% if messages %}
+        <div class="alert-container" style="margin-bottom: 15px; text-align: center; color: #ff4757; font-size: 0.9rem;">
+          {% for message in messages %}
+            <div class="alert-msg">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
 
       <div class="input-group">
         <input type="text" id="name" name="username" placeholder="Nome" required>
