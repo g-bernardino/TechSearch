@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}TechSearch - Loja{% endblock %}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'style.css' %}">
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
 
     {% block extra_css %}{% endblock %}
@@ -27,7 +26,8 @@
                     Olá, {{ user.first_name|default:user.username }}!
                     <a href="{% url 'logout' %}">Sair</a>
                 </div>
-                <a href="#" class="cart-btn">
+                <!-- CARRINHO PARA USUÁRIO LOGADO -->
+                <a href="{% url 'carrinho' %}" class="cart-btn" title="Ver meu carrinho">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-badge">{{ cart_count|default:0 }}</span>
                 </a>
@@ -43,10 +43,11 @@
                 <a href="{% url 'cadastro' %}" class="nav-btn primary">
                     <i class="fas fa-user-plus"></i> Cadastrar
                 </a>
-                <div class="cart-btn" onclick="showToast('Carrinho vazio!')">
+                <!-- CARRINHO PARA USUÁRIO DESLOGADO (MANDA PRO LOGIN) -->
+                <a href="{% url 'carrinho' %}" class="cart-btn" title="Faça login para ver seu carrinho">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-badge">{{ cart_count|default:0 }}</span>
-                </div>
+                </a>
                 <!-- FAVORITOS PARA USUÁRIO DESLOGADO (MANDA PRO LOGIN) -->
                 <a href="{% url 'login' %}" class="cart-btn" title="Faça login para ver seus favoritos">
                     <i class="far fa-heart" id="nav-fav-icon"></i>
@@ -142,7 +143,7 @@
 
         <!-- Grid de produtos -->
         <div class="products-grid" id="productsGrid">
-            {% for product in featured_products %}
+
             <div class="product-card" data-cat="{{ product.category.slug }}">
                 {% if product.is_new %}
                 <span class="product-badge new">NOVO</span>
@@ -177,9 +178,9 @@
                     </div>
                 </div>
             </div>
-            {% empty %}
+
             <p>Nenhum produto encontrado.</p>
-            {% endfor %}
+
         </div>
     </div>
 
@@ -247,7 +248,7 @@
 
     <!-- FOOTER -->
     <footer>
-        <!-- ... conteúdo do seu footer ... -->
+        <p style="text-align: center; color: #64748b; padding: 20px;">&copy; 2026 TechSearch. Todos os direitos reservados.</p>
     </footer>
 
     <!-- TOAST -->

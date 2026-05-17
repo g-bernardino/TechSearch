@@ -1,83 +1,310 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt">
 <head>
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-    <link rel="stylesheet" href="{% static 'static:admin.css' %}">
-    <style>
-        .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 40px; }
-        .form-container { background: #15191d; padding: 30px; border-radius: 15px; border: 1px solid #00e5ff; }
-        .input-group { margin-bottom: 20px; }
-        input, textarea { width: 100%; padding: 12px; background: #0b0e11; border: 1px solid #2d333b; color: white; border-radius: 8px; }
-        
-        /* Dropzone Interativa */
-        .drop-zone { height: 150px; border: 2px dashed #00e5ff; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; }
-        .drop-zone:hover { background: rgba(0, 229, 255, 0.1); }
-        
-        /* Preview em Tempo Real */
-        .preview-label { color: #00e5ff; font-weight: bold; margin-bottom: 10px; display: block; }
-        .live-preview { transform: scale(1.1); transform-origin: top left; }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin - Loja</title>
+    
+    <!-- FontAwesome para os ícones aparecerem (já que as tags <i> do seu código estavam vazias) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CORREÇÃO DA TAG STATIC AQUI -->
+    <link rel="stylesheet" href="{% static 'css/dashboard_admin.css' %}">
 </head>
-<body style="background: #0b0e11; color: white;">
+<body>
 
-    <div class="admin-grid">
-        <div class="form-container">
-            <h2>Novo Produto TechSearch</h2>
-            <form id="productForm">
-                <div class="input-group">
-                    <input type="text" id="inNome" placeholder="Nome do Produto" oninput="updatePreview()">
-                </div>
-                <div class="input-group">
-                    <input type="number" id="inPreco" placeholder="Preço (R$)" oninput="updatePreview()">
-                </div>
-                <div class="input-group">
-                    <div class="drop-zone" id="dropZone">
-                        <span>Arrasta a imagem aqui ou clica</span>
-                        <input type="file" id="fileInput" hidden accept="image/*">
-                    </div>
-                </div>
-                <button type="button" class="btn-aproveitar" style="width: 100%;" onclick="saveProduct()">CADASTRAR PRODUTO</button>
-            </form>
-        </div>
-
+    <!-- 1. BARRA LATERAL (SIDEBAR) -->
+    <aside>
         <div>
-            <span class="preview-label">PREVIEW EM TEMPO REAL:</span>
-            <div class="live-preview" id="previewContainer">
-                <div class="produto-card">
-                    <div class="produto-img-container">
-                        <img id="prevImg" src="https://via.placeholder.com/200" alt="Preview">
+            <!-- Cabeçalho do Sidebar -->
+            <div class="sidebar-header">
+                <div class="sidebar-logo-icon">
+                    <i class="fa-solid fa-store"></i>
+                </div>
+                <span class="sidebar-title">Painel Loja</span>
+            </div>
+            <!-- Links de Navegação -->
+            <nav>
+                <a href="#" class="active">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#">
+                    <i class="fa-solid fa-box"></i>
+                    <span>Produtos</span>
+                </a>
+                <a href="#">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>Encomendas</span>
+                </a>
+                <a href="#">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Clientes</span>
+                </a>
+                <a href="#">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Configurações</span>
+                </a>
+            </nav>
+        </div>
+        <!-- Rodapé do Sidebar -->
+        <div class="sidebar-footer">
+            <div class="flex-footer">
+                <div class="user-profile">
+                    <div class="user-avatar">A</div>
+                    <div class="user-info">
+                        <p>Administrador</p>
+                        <p>admin@loja.com</p>
                     </div>
-                    <div class="produto-info">
-                        <h3 id="prevNome">Nome do Produto</h3>
-                        <p class="preco-atual" id="prevPreco">R$ 0,00</p>
+                </div>
+                <a href="#" class="logout-btn">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- 2. CONTEÚDO PRINCIPAL (MAIN CONTENT) -->
+    <main>
+        <!-- Topbar / Cabeçalho Superior -->
+        <header>
+            <div class="topbar-left">
+                <button class="menu-toggle">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <h1>Visão Geral</h1>
+            </div>
+            <!-- Painel de Notificações e Perfil -->
+            <div class="topbar-right">
+                <button class="notification-btn">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="notification-dot"></span>
+                </button>
+                <div class="separator"></div>
+                <div class="profile-menu">
+                    <span class="hidden-sm">Admin</span>
+                    <i class="fa-solid fa-angle-down"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Área Interna de Dados -->
+        <div class="content-wrapper">
+            
+            <!-- Linha de Ações Principais -->
+            <div class="section-header">
+                <div>
+                    <h2>Gestão de Produtos</h2>
+                    <p>Adicione, edite ou gira os produtos ativos na sua loja.</p>
+                </div>
+                <!-- Botão para Abrir o Modal de Registo -->
+                <button id="open-modal-btn">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Registar Novo Produto</span>
+                </button>
+            </div>
+
+            <!-- CARDS DE MÉTRICAS -->
+            <div class="metrics-grid">
+                <!-- Card 1 -->
+                <div class="card">
+                    <div class="card-info">
+                        <span class="card-title">Vendas Totais</span>
+                        <h3 class="card-value">14.280,00 €</h3>
+                        <p class="card-trend trend-up"><i class="fa-solid fa-arrow-up"></i> +12% esta semana</p>
+                    </div>
+                    <div class="card-icon icon-sales">
+                        <i class="fa-solid fa-dollar-sign"></i>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="card">
+                    <div class="card-info">
+                        <span class="card-title">Total de Produtos</span>
+                        <h3 class="card-value">124</h3>
+                        <p class="card-trend trend-neutral">Atualizado recentemente</p>
+                    </div>
+                    <div class="card-icon icon-products">
+                        <i class="fa-solid fa-box-open"></i>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="card">
+                    <div class="card-info">
+                        <span class="card-title">Encomendas Pendentes</span>
+                        <h3 class="card-value">18</h3>
+                        <p class="card-trend trend-warn"><i class="fa-solid fa-clock"></i> Requer atenção</p>
+                    </div>
+                    <div class="card-icon icon-orders">
+                        <i class="fa-solid fa-receipt"></i>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div class="card">
+                    <div class="card-info">
+                        <span class="card-title">Visualizações</span>
+                        <h3 class="card-value">3.842</h3>
+                        <p class="card-trend trend-up"><i class="fa-solid fa-arrow-up"></i> +8% hoje</p>
+                    </div>
+                    <div class="card-icon icon-views">
+                        <i class="fa-solid fa-eye"></i>
                     </div>
                 </div>
             </div>
+
+            <!-- TABELA DE PRODUTOS -->
+            <div class="table-container">
+                <div class="table-header">
+                    <h3>Lista de Produtos</h3>
+                    <div class="search-wrapper">
+                        <span>
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </span>
+                        <input type="text" placeholder="Procurar produto...">
+                    </div>
+                </div>
+                <div class="responsive-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Produto</th>
+                                <th>Categoria</th>
+                                <th>Preço</th>
+                                <th>Stock</th>
+                                <th>Estado</th>
+                                <th class="actions-cell">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Produto Exemplo 1 -->
+                            <tr>
+                                <td>
+                                    <div class="product-cell">
+                                        <div class="product-img-placeholder">
+                                            <i class="fa-solid fa-laptop"></i>
+                                        </div>
+                                        <div class="product-info">
+                                            <p>Notebook Gamer Acer Nitro</p>
+                                            <p>SKU: LOJ-48923</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Informática</td>
+                                <td>4.599,00 €</td>
+                                <td>12 unidades</td>
+                                <td>
+                                    <span class="badge-active">Ativo</span>
+                                </td>
+                                <td class="actions-cell">
+                                    <button><i class="fa-solid fa-pen-to-square"></i></button>
+                                    <button><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <!-- Produto Exemplo 2 -->
+                            <tr>
+                                <td>
+                                    <div class="product-cell">
+                                        <div class="product-img-placeholder">
+                                            <i class="fa-solid fa-mobile-screen"></i>
+                                        </div>
+                                        <div class="product-info">
+                                            <p>Smartphone Galaxy S23 Ultra</p>
+                                            <p>SKU: LOJ-19032</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>Telemóveis</td>
+                                <td>1.299,00 €</td>
+                                <td>5 Unidades</td>
+                                <td>
+                                    <span class="badge-active">Ativo</span>
+                                </td>
+                                <td class="actions-cell">
+                                    <button><i class="fa-solid fa-pen-to-square"></i></button>
+                                    <button><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rodapé do Ecrã -->
+        <footer>
+            &copy; 2026 Loja Admin. Todos os direitos reservados.
+        </footer>
+    </main>
+
+    <!-- 3. MODAL DE REGISTO DE PRODUTO -->
+    <div id="product-modal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>
+                    <i class="fa-solid fa-circle-plus"></i>
+                    <span>Registar Novo Produto</span>
+                </h3>
+                <button id="close-modal-btn">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <form id="product-form" method="POST" action="">
+                {% csrf_token %}
+                
+                <div>
+                    <label for="name">Nome do Produto</label>
+                    <input type="text" id="name" name="name" required placeholder="Ex: Teclado Mecânico RGB">
+                </div>
+
+                <div class="form-group-grid">
+                    <div>
+                        <label for="category">Categoria</label>
+                        <select id="category" name="category" required>
+                            <option value="" disabled selected>Selecione...</option>
+                            <option value="Informatica">Informática</option>
+                            <option value="Celulares">Telemóveis & Tablets</option>
+                            <option value="Acessorios">Acessórios</option>
+                            <option value="Outros">Outros</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="sku">Código SKU (Opcional)</label>
+                        <input type="text" id="sku" name="sku" placeholder="Ex: LOJ-93821">
+                    </div>
+                </div>
+
+                <div class="form-group-grid">
+                    <div>
+                        <label for="price">Preço (€)</label>
+                        <input type="number" step="0.01" id="price" name="price" required placeholder="0,00">
+                    </div>
+                    <div>
+                        <label for="stock">Stock Inicial</label>
+                        <input type="number" id="stock" name="stock" required placeholder="Ex: 10">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="description">Descrição do Produto</label>
+                    <textarea id="description" name="description" rows="3" placeholder="Escreva as principais características do produto..."></textarea>
+                </div>
+
+                <div>
+                    <label for="image_url">URL da Imagem do Produto</label>
+                    <input type="url" id="image_url" name="image_url" placeholder="https://exemplo.com/imagem.jpg">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="cancel-modal-btn">Cancelar</button>
+                    <button type="submit">Guardar Produto</button>
+                </div>
+            </form>
         </div>
     </div>
 
-    <script>
-        // Lógica de Preview Instantâneo
-        function updatePreview() {
-            document.getElementById('prevNome').innerText = document.getElementById('inNome').value || "Nome do Produto";
-            document.getElementById('prevPreco').innerText = "R$ " + (document.getElementById('inPreco').value || "0,00");
-        }
-
-        // Lógica de Drag & Drop
-        const dropZone = document.getElementById('dropZone');
-        const fileInput = document.getElementById('fileInput');
-
-        dropZone.onclick = () => fileInput.click();
-
-        fileInput.onchange = function() {
-            const file = fileInput.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => document.getElementById('prevImg').src = e.target.result;
-                reader.readAsDataURL(file);
-            }
-        };
-    </script>
+    <!-- Script Corrigido (Verifique se o nome é home.js mesmo ou dashboard.js) -->
+    <script src="{% static 'js/home.js' %}"></script>
 </body>
 </html>
