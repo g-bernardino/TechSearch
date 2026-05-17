@@ -16,7 +16,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',  # ✅ Para formatar preços (R$ 1.234,56)
-    'catalogo',  # Sua aplicação
+    'loja',  # Sua aplicação
 ]
 
 MIDDLEWARE = [

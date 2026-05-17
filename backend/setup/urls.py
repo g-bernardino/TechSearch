@@ -9,7 +9,7 @@ urlpatterns = [
 
     # 2. Rota principal que liga à tua aplicação 'catalogo'
     # Quando o utilizador aceder ao site vazio '', ele vai para o catalogo
-    path('', include('catalogo.urls')),
+    path('', include('loja.urls')),
 ]
 
 # 3. CONFIGURAÇÃO PARA IMAGENS E CSS EM DESENVOLVIMENTO
