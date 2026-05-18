@@ -10,4 +10,7 @@ urlpatterns = [
     path('favoritos/', views.favoritos, name='favoritos'),
     path('painel-admin/', views.dashboard_admin, name='dashboard_admin'),
     path('cadastro_produto/', views.cadastrar_produto, name='cadastro_produto'),
+    path('carrinho/adicionar/<int:product_id>/', views.adicionar_ao_carrinho, name='adicionar_ao_carrinho'),
+    path('carrinho/aumentar/<int:item_id>/', views.aumentar_quantidade, name='aumentar_quantidade'),
+    path('carrinho/diminuir/<int:item_id>/', views.diminuir_quantidade, name='diminuir_quantidade'),
 ]

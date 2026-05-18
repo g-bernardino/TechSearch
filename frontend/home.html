@@ -11,7 +11,6 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <!-- NAVBAR -->
     <nav class="navbar">
         <div class="logo">TechSearch</div>
         <div class="nav-search">
@@ -26,12 +25,10 @@
                     Olá, {{ user.first_name|default:user.username }}!
                     <a href="{% url 'logout' %}">Sair</a>
                 </div>
-                <!-- CARRINHO PARA USUÁRIO LOGADO -->
                 <a href="{% url 'carrinho' %}" class="cart-btn" title="Ver meu carrinho">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-badge">{{ cart_count|default:0 }}</span>
                 </a>
-                <!-- FAVORITOS PARA USUÁRIO LOGADO -->
                 <a href="{% url 'favoritos' %}" class="cart-btn" title="Meus Favoritos">
                     <i class="far fa-heart" id="nav-fav-icon"></i>
                     <span class="cart-badge" id="fav-count" style="background: #ff4757;">0</span>
@@ -43,12 +40,10 @@
                 <a href="{% url 'cadastro' %}" class="nav-btn primary">
                     <i class="fas fa-user-plus"></i> Cadastrar
                 </a>
-                <!-- CARRINHO PARA USUÁRIO DESLOGADO (MANDA PRO LOGIN) -->
                 <a href="{% url 'carrinho' %}" class="cart-btn" title="Faça login para ver seu carrinho">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-badge">{{ cart_count|default:0 }}</span>
                 </a>
-                <!-- FAVORITOS PARA USUÁRIO DESLOGADO (MANDA PRO LOGIN) -->
                 <a href="{% url 'login' %}" class="cart-btn" title="Faça login para ver seus favoritos">
                     <i class="far fa-heart" id="nav-fav-icon"></i>
                     <span class="cart-badge" id="fav-count" style="background: #ff4757;">0</span>
@@ -57,7 +52,6 @@
         </div>
     </nav>
 
-    <!-- HERO -->
     <section class="hero">
         <div class="hero-text">
             <div class="hero-badge">
@@ -87,7 +81,6 @@
         </div>
     </section>
 
-    <!-- STATS -->
     <div class="stats">
         <div class="stats-inner">
             <div class="stat-item">
@@ -109,14 +102,12 @@
         </div>
     </div>
 
-    <!-- PRODUTOS EM DESTAQUE -->
     <div class="section" id="products">
         <div class="section-header">
             <h2 class="section-title">Produtos em <span>Destaque</span></h2>
             <a href="#" class="see-all">Ver todos <i class="fas fa-arrow-right"></i></a>
         </div>
         
-        <!-- Categorias -->
         <div class="categories">
             <a href="?category=all" class="cat-chip {% if request.GET.category == 'all' or not request.GET.category %}active{% endif %}">
                 <i class="fas fa-th"></i> Todos
@@ -141,7 +132,6 @@
             </a>
         </div>
 
-        <!-- Grid de produtos -->
         <div class="products-grid" id="productsGrid">
 
             {% for produto in featured_products %}
@@ -158,16 +148,21 @@
                     <div class="product-category">{{ produto.categoria.nome }}</div>
                     <div class="product-name">{{ produto.nome }}</div>
                     <div class="product-rating">
-                        <span class="stars">⭐⭐⭐⭐⭐</span>
+                        <span class="stars">⭐⭐⭐⭐•</span>
                         <span class="rating-count">(0)</span>
                     </div>
                     <div class="product-footer">
                         <div class="product-price">
                             R$ {{ produto.preco|floatformat:2 }}
                         </div>
-                        <button class="btn-add-cart" onclick="showToast()">
-                            <i class="fas fa-cart-plus"></i>
-                        </button>
+                        
+                        <form method="POST" action="{% url 'adicionar_ao_carrinho' produto.id %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-add-cart">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                        </form>
+                        
                     </div>
                 </div>
             </div>
@@ -178,7 +173,6 @@
         </div>
     </div>
 
-    <!-- BANNER PROMO -->
     <div class="section" style="padding-top:0">
         <div class="promo-banner">
             <div class="promo-text">
@@ -192,7 +186,6 @@
         </div>
     </div>
 
-    <!-- FEATURES -->
     <div class="section" style="padding-top:0">
         <div class="section-header">
             <h2 class="section-title">Por que comprar com a <span>TechSearch?</span></h2>
@@ -229,7 +222,6 @@
         </div>
     </div>
 
-    <!-- NEWSLETTER -->
     <div class="newsletter">
         <h2>Receba as melhores <span>ofertas</span></h2>
         <p>Assine nossa newsletter e fique por dentro das promoções exclusivas.</p>
@@ -240,12 +232,10 @@
         </form>
     </div>
 
-    <!-- FOOTER -->
     <footer>
         <p style="text-align: center; color: #64748b; padding: 20px;">&copy; 2026 TechSearch. Todos os direitos reservados.</p>
     </footer>
 
-    <!-- TOAST -->
     <div class="toast" id="toast">
         <i class="fas fa-check-circle"></i>
         <span id="toastMsg">Produto adicionado!</span>

@@ -1,80 +1,68 @@
-
 {% load static %}
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrinho | TechSearch</title>
-    <link rel="stylesheet" href="{% static 'static:css/carrinho.css' %}">
+    <link rel="stylesheet" href="{% static 'css/carrinho.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-=======
 
 {% block title %}Meu Carrinho - TechSearch{% endblock %}
-
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/carrinho.css' %}">
-{% endblock %}
->>>>>>> 4d147705e8daa9b792f5953f61eeb84da1cee16b
 
 {% block content %}
 <div class="cart-container">
     <div class="cart-header">
         <h1>Meu <span>Carrinho</span></h1>
-        <p>Você tem {{ cart_items|length }} itens no carrinho</p>
+        <p>Você tem {{ cart_count }} itens no carrinho</p>
     </div>
 
     <div class="cart-content">
-        <!-- LISTA DE PRODUTOS -->
         <div class="cart-items">
             {% for item in cart_items %}
             <div class="cart-item">
-                <div class="item-img">{{ item.product.emoji|default:"📦" }}</div>
+                <div class="item-img">📦</div>
                 <div class="item-details">
-                    <span class="item-category">{{ item.product.category.name }}</span>
-                    <h3>{{ item.product.name }}</h3>
-                    <div class="item-price">R$ {{ item.product.price|floatformat:2 }}</div>
+                    <span class="item-category">{{ item.product.categoria.nome }}</span>
+                    <h3>{{ item.product.nome }}</h3>
+                    <div class="item-price">R$ {{ item.product.preco|floatformat:2 }}</div>
                 </div>
                 <div class="item-quantity">
-                    <button class="qty-btn"><i class="fas fa-minus"></i></button>
-                    <input type="number" value="{{ item.quantity }}" min="1">
-                    <button class="qty-btn"><i class="fas fa-plus"></i></button>
+                    <div class="item-quantity">
+    <a href="{% url 'diminuir_quantidade' item.id %}" class="qty-btn" style="text-decoration: none; cursor: pointer;">
+        <i class="fas fa-minus"></i>
+    </a>
+    
+    <input type="number" value="{{ item.quantity }}" min="1" readonly style="width: 50px; text-align: center;">
+    
+    <a href="{% url 'aumentar_quantidade' item.id %}" class="qty-btn" style="text-decoration: none; cursor: pointer;">
+        <i class="fas fa-plus"></i>
+    </a>
+</div>
                 </div>
                 <div class="item-total">
-                    R$ {{ item.total_price|floatformat:2 }}
+                    R$ {{ item.subtotal|floatformat:2 }}
                 </div>
                 <button class="item-remove" title="Remover item">
                     <i class="fas fa-trash-alt"></i>
                 </button>
             </div>
             {% empty %}
-            <div class="cart-empty">
-                <i class="fas fa-shopping-cart"></i>
+            <div class="cart-empty" style="text-align: center; padding: 40px 20px;">
+                <i class="fas fa-shopping-cart" style="font-size: 48px; color: #a0a5b5; margin-bottom: 15px;"></i>
                 <p>Seu carrinho está vazio.</p>
-                <a href="{% url 'home' %}" class="btn-hero primary">Voltar às compras</a>
+                <a href="{% url 'home' %}" class="btn-hero primary" style="color: #ff4a9e; font-weight: bold;">Voltar às compras</a>
             </div>
             {% endfor %}
         </div>
 
-<<<<<<< HEAD
-
-            <div class="carrinho-vazio">
-
-                <h2>Seu carrinho está vazio 😢</h2>
-
-                <a href="{% url 'home' %}">
-                    Continuar comprando
-                </a>
-
-=======
-        <!-- RESUMO DO PEDIDO -->
+        {% if cart_items %}
         <aside class="cart-summary">
             <h3>Resumo do Pedido</h3>
             <div class="summary-row">
                 <span>Subtotal</span>
-                <span>R$ {{ total_cart_price|floatformat:2 }}</span>
->>>>>>> 4d147705e8daa9b792f5953f61eeb84da1cee16b
+                <span>R$ {{ total_price|floatformat:2 }}</span>
             </div>
             <div class="summary-row">
                 <span>Frete</span>
@@ -87,13 +75,16 @@
             <hr>
             <div class="summary-row total">
                 <span>Total</span>
-                <span>R$ {{ total_cart_price|floatformat:2 }}</span>
+                <span>R$ {{ total_price|floatformat:2 }}</span>
             </div>
             <button class="checkout-btn">
                 Finalizar Compra <i class="fas fa-arrow-right"></i>
             </button>
             <a href="{% url 'home' %}" class="continue-shopping">Continuar Comprando</a>
         </aside>
+        {% endif %}
     </div>
 </div>
+
 {% endblock %}
+</html>

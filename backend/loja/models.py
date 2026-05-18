@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from django.contrib.auth.models import User
 
 # ==============================================================================
 # MODELO PARA AS CATEGORIAS
@@ -68,3 +69,12 @@ class Produto(models.Model):
             novo_produto.imagem = imagem
             novo_produto.save()
         return novo_produto
+    
+class CartItem(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Produto, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def subtotal(self):
+        return self.product.preco * self.quantity

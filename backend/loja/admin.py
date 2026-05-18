@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Categoria, Produto
+from .models import Categoria, Produto, CartItem
 
 @admin.register(Categoria)
 class CategoriaAdmin(admin.ModelAdmin):
@@ -12,3 +12,7 @@ class ProdutoAdmin(admin.ModelAdmin):
     list_filter = ['disponivel', 'criado_em']
     list_editable = ['preco', 'disponivel'] # Permite editar direto na lista
     prepopulated_fields = {'slug': ('nome',)}
+
+@admin.register(CartItem)
+class CartItemAdmin(admin.ModelAdmin):
+    list_display = ['user', 'product', 'quantity', 'date_added']

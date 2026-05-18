@@ -1,18 +1,33 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
 from django.contrib.auth.models import User
-from .models import Produto, Categoria
+from .models import Produto, Categoria, CartItem
 
+# ==============================================================================
+# 1. PÁGINA INICIAL (HOME)
+# ==============================================================================
 # ==============================================================================
 # 1. PÁGINA INICIAL (HOME)
 # ==============================================================================
 def home(request):
     produtos = Produto.objects.filter(disponivel=True)
-    return render(request, 'home.html', {'featured_products': produtos})
-
+    
+    # CONTADOR REAL PARA A NAVBAR:
+    cart_count = 0
+    if request.user.is_authenticated:
+        # Puxa os itens do carrinho do usuário logado
+        cart_items = CartItem.objects.filter(user=request.user)
+        # Soma a quantidade real de todas as caixinhas do banco de dados
+        cart_count = sum(item.quantity for item in cart_items)
+        
+    context = {
+        'featured_products': produtos,
+        'cart_count': cart_count, # Injeta o valor exato que o seu home.html precisa!
+    }
+    return render(request, 'home.html', context)
 # ==============================================================================
 # 2. REGISTO DE UTILIZADOR (SIGN UP)
 # ==============================================================================
@@ -128,4 +143,79 @@ def favoritos(request):
 
 @login_required(login_url='login')
 def carrinho(request):
-    return render(request, 'carrinho.html')
+    # Puxa os itens salvos no banco SQLite para este usuário específico
+    cart_items = CartItem.objects.filter(user=request.user)
+    
+    # Calcula os totais que o HTML do carrinho precisa exibir
+    total_price = sum(item.subtotal() for item in cart_items)
+    cart_count = sum(item.quantity for item in cart_items)
+    
+    context = {
+        'cart_items': cart_items,
+        'total_price': total_price,
+        'cart_count': cart_count,
+    }
+    return render(request, 'carrinho.html', context)
+
+# ==============================================================================
+# 8. SISTEMA DO CARRINHO (AÇÕES NO BANCO)
+# ==============================================================================
+@login_required(login_url='login')
+def adicionar_ao_carrinho(request, product_id):
+    # Procura o produto pelo ID. Se não achar, joga erro 404
+    produto = get_object_or_404(Produto, id=product_id)
+    
+    # Busca o item no carrinho. Se não existir no SQLite, ele cria um novo.
+    cart_item, created = CartItem.objects.get_or_create(
+        user=request.user,
+        product=produto,
+        defaults={'quantity': 1}
+    )
+    
+    # Se ele já existia, incrementa a quantidade +1
+    if not created:
+        cart_item.quantity += 1
+        cart_item.save()
+        
+    messages.success(request, f"{produto.nome} adicionado ao carrinho!")
+    return redirect('carrinho')
+
+# ==============================================================================
+# 9. PÁGINA DE PAGAMENTO (CHECKOUT)
+# ==============================================================================
+@login_required(login_url='login')
+def pagamento_view(request):
+    cart_items = CartItem.objects.filter(user=request.user)
+    total_price = sum(item.subtotal() for item in cart_items)
+    cart_count = sum(item.quantity for item in cart_items)
+    
+    if cart_count == 0:
+        messages.warning(request, "Seu carrinho está vazio.")
+        return redirect('home')
+        
+    context = {
+        'cart_items': cart_items,
+        'total_price': total_price,
+        'cart_count': cart_count,
+    }
+    return render(request, 'pagamento.html', context)
+
+# ==============================================================================
+# 10. AUMENTAR E DIMINUIR QUANTIDADE (NO BANCO DE DADOS)
+# ==============================================================================
+@login_required(login_url='login')
+def aumentar_quantidade(request, item_id):
+    item = get_object_or_404(CartItem, id=item_id, user=request.user)
+    item.quantity += 1
+    item.save()
+    return redirect('carrinho')
+
+@login_required(login_url='login')
+def diminuir_quantidade(request, item_id):
+    item = get_object_or_404(CartItem, id=item_id, user=request.user)
+    if item.quantity > 1:
+        item.quantity -= 1
+        item.save()
+    else:
+        item.delete() # Se era 1 e clicou em menos, remove do carrinho
+    return redirect('carrinho')
