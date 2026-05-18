@@ -216,3 +216,13 @@ def diminuir_quantidade(request, item_id):
     else:
         item.delete() # Se era 1 e clicou em menos, remove do carrinho
     return redirect('carrinho')
+
+def home(request):
+    # Busca todos os produtos cadastrados no banco de dados
+    produtos_cadastrados = Produto.objects.all()
+    
+    # Passa os produtos para o template através do contexto
+    context = {
+        'produtos': produtos_cadastrados
+    }
+    return render(request, 'home.html', context)
