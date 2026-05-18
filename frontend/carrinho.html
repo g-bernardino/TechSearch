@@ -1,4 +1,6 @@
+
 {% load static %}
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -7,62 +9,55 @@
     <title>Carrinho | TechSearch</title>
     <link rel="stylesheet" href="{% static 'static:css/carrinho.css' %}">
 </head>
+=======
 
-<body>
+{% block title %}Meu Carrinho - TechSearch{% endblock %}
 
-<div class="pagina-carrinho">
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/carrinho.css' %}">
+{% endblock %}
+>>>>>>> 4d147705e8daa9b792f5953f61eeb84da1cee16b
 
-    <!-- LISTA DE PRODUTOS -->
-    <div class="lista-produtos">
+{% block content %}
+<div class="cart-container">
+    <div class="cart-header">
+        <h1>Meu <span>Carrinho</span></h1>
+        <p>Você tem {{ cart_items|length }} itens no carrinho</p>
+    </div>
 
-        <h1>🛒 Seu Carrinho</h1>
-
-        {% if itens %}
-
-            {% for item in itens %}
-
-            <div class="item-carrinho">
-
-                <!-- IMAGEM -->
-                <div class="produto-imagem">
-                    <img src="{{ item.produto.imagem.url }}" alt="{{ item.produto.nome }}">
+    <div class="cart-content">
+        <!-- LISTA DE PRODUTOS -->
+        <div class="cart-items">
+            {% for item in cart_items %}
+            <div class="cart-item">
+                <div class="item-img">{{ item.product.emoji|default:"📦" }}</div>
+                <div class="item-details">
+                    <span class="item-category">{{ item.product.category.name }}</span>
+                    <h3>{{ item.product.name }}</h3>
+                    <div class="item-price">R$ {{ item.product.price|floatformat:2 }}</div>
                 </div>
-
-                <!-- INFO -->
-                <div class="produto-info">
-
-                    <h2>{{ item.produto.nome }}</h2>
-
-                    <p class="produto-preco">
-                        R$ {{ item.produto.preco }}
-                    </p>
-
-                    <!-- QUANTIDADE -->
-                    <div class="quantidade-box">
-
-                        <button>-</button>
-
-                        <span>{{ item.quantidade }}</span>
-
-                        <button>+</button>
-
-                    </div>
-
-                    <!-- SUBTOTAL -->
-                    <p class="subtotal">
-                        Subtotal:
-                        <strong>
-                            R$ {{ item.produto.preco }}
-                        </strong>
-                    </p>
-
+                <div class="item-quantity">
+                    <button class="qty-btn"><i class="fas fa-minus"></i></button>
+                    <input type="number" value="{{ item.quantity }}" min="1">
+                    <button class="qty-btn"><i class="fas fa-plus"></i></button>
                 </div>
-
+                <div class="item-total">
+                    R$ {{ item.total_price|floatformat:2 }}
+                </div>
+                <button class="item-remove" title="Remover item">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
             </div>
-
+            {% empty %}
+            <div class="cart-empty">
+                <i class="fas fa-shopping-cart"></i>
+                <p>Seu carrinho está vazio.</p>
+                <a href="{% url 'home' %}" class="btn-hero primary">Voltar às compras</a>
+            </div>
             {% endfor %}
+        </div>
 
-        {% else %}
+<<<<<<< HEAD
 
             <div class="carrinho-vazio">
 
@@ -72,41 +67,33 @@
                     Continuar comprando
                 </a>
 
+=======
+        <!-- RESUMO DO PEDIDO -->
+        <aside class="cart-summary">
+            <h3>Resumo do Pedido</h3>
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <span>R$ {{ total_cart_price|floatformat:2 }}</span>
+>>>>>>> 4d147705e8daa9b792f5953f61eeb84da1cee16b
             </div>
-
-        {% endif %}
-
+            <div class="summary-row">
+                <span>Frete</span>
+                <span class="free-shipping">Grátis</span>
+            </div>
+            <div class="summary-row promo">
+                <input type="text" placeholder="Cupom de desconto">
+                <button>Aplicar</button>
+            </div>
+            <hr>
+            <div class="summary-row total">
+                <span>Total</span>
+                <span>R$ {{ total_cart_price|floatformat:2 }}</span>
+            </div>
+            <button class="checkout-btn">
+                Finalizar Compra <i class="fas fa-arrow-right"></i>
+            </button>
+            <a href="{% url 'home' %}" class="continue-shopping">Continuar Comprando</a>
+        </aside>
     </div>
-
-    <!-- RESUMO -->
-    <div class="resumo-pedido">
-
-        <h2>Resumo do Pedido</h2>
-
-        <div class="linha-resumo">
-            <span>Subtotal</span>
-            <span>R$ {{ total }}</span>
-        </div>
-
-        <div class="linha-resumo">
-            <span>Frete</span>
-            <span>Grátis</span>
-        </div>
-
-        <hr>
-
-        <div class="linha-total">
-            <span>Total</span>
-            <span>R$ {{ total }}</span>
-        </div>
-
-        <button class="btn-checkout">
-            Finalizar Compra
-        </button>
-
-    </div>
-
 </div>
-<script src="{% static 'js/carrinho.js' %}"></script>
-</body>
-</html>
+{% endblock %}
