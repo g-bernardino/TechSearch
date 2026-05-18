@@ -1,246 +1,189 @@
-<!DOCTYPE html>
 {% load static %}
-<html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}TechSearch - Loja{% endblock %}</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
-
-    {% block extra_css %}{% endblock %}
+    <title>TechSearch</title>
+    <link rel="stylesheet" href="{% static 'static:css/home.css' %}">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="logo">TechSearch</div>
-        <div class="nav-search">
-            <form method="GET" action="">
-                <input type="text" name="q" placeholder="Buscar produtos, marcas..." value="{{ request.GET.q|default:'' }}">
-                <button type="submit"><i class="fas fa-search"></i></button>
+
+    <header>
+        <section class="top-header">
+            <div class="logo">
+                <img src="{% static 'imagens/logo.png' %}" alt="TechSearch">
+            </div>
+
+            <div class="localizacao">
+                <span>Enviar para:</span>
+                <a href="#">Digite o CEP</a>
+            </div>
+
+            <form class="busca" method="GET" action="#">
+                <input type="text" placeholder="Investigue na TechSearch!">
+                <button type="submit">🔍</button>
             </form>
-        </div>
-        <div class="nav-actions">
-            {% if user.is_authenticated %}
-                <div class="user-welcome">
-                    Olá, {{ user.first_name|default:user.username }}!
-                    <a href="{% url 'logout' %}">Sair</a>
-                </div>
-                <a href="{% url 'carrinho' %}" class="cart-btn" title="Ver meu carrinho">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-badge">{{ cart_count|default:0 }}</span>
-                </a>
-                <a href="{% url 'favoritos' %}" class="cart-btn" title="Meus Favoritos">
-                    <i class="far fa-heart" id="nav-fav-icon"></i>
-                    <span class="cart-badge" id="fav-count" style="background: #ff4757;">0</span>
-                </a>
-            {% else %}
-                <a href="{% url 'login' %}" class="nav-btn outline">
-                    <i class="fas fa-sign-in-alt"></i> Login
-                </a>
-                <a href="{% url 'cadastro' %}" class="nav-btn primary">
-                    <i class="fas fa-user-plus"></i> Cadastrar
-                </a>
-                <a href="{% url 'carrinho' %}" class="cart-btn" title="Faça login para ver seu carrinho">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-badge">{{ cart_count|default:0 }}</span>
-                </a>
-                <a href="{% url 'login' %}" class="cart-btn" title="Faça login para ver seus favoritos">
-                    <i class="far fa-heart" id="nav-fav-icon"></i>
-                    <span class="cart-badge" id="fav-count" style="background: #ff4757;">0</span>
-                </a>
-            {% endif %}
-        </div>
-    </nav>
 
-    <section class="hero">
-        <div class="hero-text">
-            <div class="hero-badge">
-                <i class="fas fa-bolt"></i> Novidades toda semana
-            </div>
-            <h1>O melhor da <span>tecnologia</span> ao seu alcance</h1>
-            <p>Encontre os mais modernos gadgets, notebooks, periféricos e muito mais com os melhores preços do mercado.</p>
-            <div class="hero-btns">
-                <a href="#products" class="btn-hero primary">
-                    <i class="fas fa-shopping-bag"></i> Ver Produtos
-                </a>
-                <a href="#" class="btn-hero ghost">
-                    <i class="fas fa-tag"></i> Ofertas do Dia
-                </a>
-            </div>
-        </div>
-        <div class="hero-visual">
-            <div class="hero-graphic">
-                <div class="hero-circle">
-                    <i class="fas fa-laptop hero-icon-main"></i>
-                    <div class="floating-icon">💻 <span>Notebooks</span></div>
-                    <div class="floating-icon">🎧 <span>Áudio</span></div>
-                    <div class="floating-icon">📱 <span>Celulares</span></div>
-                    <div class="floating-icon">🖥️ <span>Monitores</span></div>
+            <div class="login">
+                <img src="{% static 'Imagens/logots.jpeg' %}" alt="Usuário" class="avatar">
+                
+                <div class="user-info">
+                    {% if user.is_authenticated %}
+                        <span class="welcome-text">Olá, <strong>{{ user.username }}</strong></span>
+                        
+                        {% if user.is_staff %}
+                            <a href="{% url 'dashboard_admin' %}" class="link-admin">
+                                ⚙️ Painel de Gestão
+                            </a>
+                        {% endif %}
+                        <a href="{% url 'logout' %}" class="logout-btn">Sair</a>
+                    {% else %}
+                        <span class="welcome-text">Olá, <strong>Visitante</strong></span>
+                        <span class="auth-links">
+                            <a href="{% url 'login' %}">Entre</a> 
+                            ou 
+                            <strong><a href="{% url 'cadastro' %}">Cadastre-se</a></strong>
+                        </span>
+                    {% endif %}
                 </div>
             </div>
-        </div>
-    </section>
 
-    <div class="stats">
-        <div class="stats-inner">
-            <div class="stat-item">
-                <div class="stat-number">{{ total_products|default:"12k+" }}</div>
-                <div class="stat-label">Produtos Disponíveis</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">{{ satisfaction_rate|default:"98%" }}</div>
-                <div class="stat-label">Clientes Satisfeitos</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">{{ partner_brands|default:"150+" }}</div>
-                <div class="stat-label">Marcas Parceiras</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">{{ support_time|default:"24h" }}</div>
-                <div class="stat-label">Suporte ao Cliente</div>
-            </div>
-        </div>
-    </div>
+            <nav class="atalhos">
+                <a href="#" title="Atendimento">🎧</a>
+                <a href="#" title="Acessibilidade">♿</a>
+                <a href="{% url 'favoritos' %}" title="Favoritos">❤️</a>
+                <a href="{% url 'carrinho' %}" title="Carrinho">🛒</a>
+            </nav>
+        </section>
 
-    <div class="section" id="products">
-        <div class="section-header">
-            <h2 class="section-title">Produtos em <span>Destaque</span></h2>
-            <a href="#" class="see-all">Ver todos <i class="fas fa-arrow-right"></i></a>
-        </div>
+        <hr> 
         
-        <div class="categories">
-            <a href="?category=all" class="cat-chip {% if request.GET.category == 'all' or not request.GET.category %}active{% endif %}">
-                <i class="fas fa-th"></i> Todos
-            </a>
-            <a href="?category=notebook" class="cat-chip {% if request.GET.category == 'notebook' %}active{% endif %}">
-                <i class="fas fa-laptop"></i> Notebooks
-            </a>
-            <a href="?category=smartphone" class="cat-chip {% if request.GET.category == 'smartphone' %}active{% endif %}">
-                <i class="fas fa-mobile-alt"></i> Smartphones
-            </a>
-            <a href="?category=audio" class="cat-chip {% if request.GET.category == 'audio' %}active{% endif %}">
-                <i class="fas fa-headphones"></i> Áudio
-            </a>
-            <a href="?category=monitor" class="cat-chip {% if request.GET.category == 'monitor' %}active{% endif %}">
-                <i class="fas fa-desktop"></i> Monitores
-            </a>
-            <a href="?category=periferico" class="cat-chip {% if request.GET.category == 'periferico' %}active{% endif %}">
-                <i class="fas fa-keyboard"></i> Periféricos
-            </a>
-            <a href="?category=camera" class="cat-chip {% if request.GET.category == 'camera' %}active{% endif %}">
-                <i class="fas fa-camera"></i> Câmeras
-            </a>
-        </div>
+        <nav class="sub-nav">
+            <button type="button" class="btn-secoes">SEÇÕES ▾</button>
+            <div class="menu-links">
+                <a href="#">CUPONS</a>
+                <a href="#">MAIS VENDIDOS</a>
+                <ul>
+                    <li><a href="#">Hardware</a></li>
+                    <li><a href="#">PC Gamer</a></li>
+                    <li><a href="#">Computadores</a></li>
+                    <li><a href="#">Mais ▾</a></li>
+                </ul>
+            </div>
+            <div class="simule-pc">
+                <img src="{% static 'imagens/simule-pc-icon.png' %}" alt="Simule seu PC">
+                <span> Simule seu PC <strong>completo e acessível aqui!</strong></span>
+                <button type="button">🔍</button>
+            </div>
+        </nav>
+    </header>
 
-        <div class="products-grid" id="productsGrid">
-
-            <div class="product-card" data-cat="{{ produto.categoria.slug }}">
-                <div class="product-wishlist" onclick="toggleWish(this)">
-                    <i class="far fa-heart"></i>
+    <main>
+        <section class="container-banners">
+            <div class="carousel-banners" id="bannerSlider">
+                <div class="banner-card">
+                    <img src="{% static 'imagens/imagem1.png' %}" alt="Super Desconto TechSearch">
+                    <div class="banner-overlay"><a href="#" class="btn-aproveitar">CONFERIR</a></div>
                 </div>
-                {% if produto.imagem %}
-                <div class="product-img"><img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}"></div>
-                {% else %}
-                <div class="product-img">🖥️</div>
-                {% endif %}
-                <div class="product-info">
-                    <div class="product-category">{{ produto.categoria.nome }}</div>
-                    <div class="product-name">{{ produto.nome }}</div>
-                    <div class="product-rating">
-                        <span class="stars">⭐⭐⭐⭐•</span>
-                        <span class="rating-count">(0)</span>
-                    </div>
-                    <div class="product-footer">
-                        <div class="product-price">
-                            R$ {{ produto.preco|floatformat:2 }}
+                <div class="banner-card">
+                    <img src="{% static 'imagens/imagem2.png' %}" alt="Promoção de Teclados">
+                    <div class="banner-overlay"><a href="#" class="btn-aproveitar">VER OFERTAS</a></div>
+                </div>
+                <div class="banner-card">
+                    <img src="{% static 'imagens/imagem3.png' %}" alt="Ofertas Especiais">
+                    <div class="banner-overlay"><a href="#" class="btn-aproveitar">APROVEITAR</a></div>
+                </div>
+            </div>
+            <button class="seta anterior" onclick="scrollBanner(-1)">❮</button>
+            <button class="seta proximo" onclick="scrollBanner(1)">❯</button>
+        </section>
+
+        <section class="categorias-container">
+            <button class="cat-seta esquerda" onclick="scrollCategorias(-1)">❮</button>
+            <div class="categorias" id="categoriasSlider">
+                <div class="categoria"><div class="icon">💻</div><span>Computadores</span></div>
+                <div class="categoria"><div class="icon">🖱️</div><span>Periféricos</span></div>
+                <div class="categoria"><div class="icon">🎮</div><span>Games</span></div>
+                <div class="categoria"><div class="icon">📱</div><span>Celulares</span></div>
+                <div class="categoria"><div class="icon">🧠</div><span>Monte seu PC</span></div>
+                <div class="categoria"><div class="icon">📺</div><span>TV</span></div>
+                <div class="categoria"><div class="icon">📽️</div><span>Projetores</span></div>
+                <div class="categoria"><div class="icon">🪑</div><span>Espaço Gamer</span></div>
+                <div class="categoria"><div class="icon">📋</div><span>Escritório</span></div>
+                <div class="categoria"><div class="icon">🏠</div><span>Casa Inteligente</span></div>
+                <div class="categoria"><div class="icon">🎁</div><span>Gift Card</span></div>
+                <div class="categoria"><div class="icon">🎧</div><span>Headset</span></div>
+            </div>
+            <button class="cat-seta direita" onclick="scrollCategorias(1)">❯</button>
+        </section>
+
+        <section class="ofertas-container">
+            <div class="ofertas-header">
+                <h2>🔥 Ofertas TechSearch!</h2>
+            </div>
+
+            <div class="carousel-produtos-container">
+                <button class="seta-prod anterior" onclick="scrollProdutos(-1)">&#10094;</button>
+                
+                <div class="produtos-grid" id="produtosSlider">
+                    {% for produto in produtos %}
+                    <div class="produto-card">
+                        <div class="badge-top"><span>⭐ 5.0</span><i class="heart-icon">🤍</i></div>
+                        <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
+                        <div class="produto-info">
+                            <span class="frete-gratis">Frete grátis*</span>
+                            <h3 class="produto-titulo">{{ produto.nome }}</h3>
+                            <p class="preco-atual">R$ {{ produto.preco }}</p>
+                            <div class="estoque">Em Stock</div>
                         </div>
-                        
-                        <form method="POST" action="{}" style="display: inline;">
-                            {% csrf_token %}
-                            <button type="submit" class="btn-add-cart">
-                                <i class="fas fa-cart-plus"></i>
-                            </button>
-                        </form>
-                        
+                    </div>
+                    {% endfor %}
+
+                    <div class="produto-card">
+                        <div class="badge-top"><span>⭐ 5.0</span><i class="heart-icon">🤍</i></div>
+                        <img src="{% static 'imagens/ps5.png' %}" alt="PlayStation 5">
+                        <div class="produto-info">
+                            <span class="frete-gratis">Frete grátis*</span>
+                            <h3 class="produto-titulo">Console Sony PlayStation 5, SSD 825GB...</h3>
+                            <p class="preco-antigo">R$ 4.192,47</p>
+                            <p class="preco-atual">R$ 3.588,87</p>
+                            <p class="preco-parcelado">No PIX ou 10x de R$ 385,90</p>
+                            <div class="estoque">Restam 92 Unid.</div>
+                        </div>
+                    </div>
+
+                    <div class="produto-card">
+                        <div class="badge-top"><span>⭐ 4.9</span><i class="heart-icon">🤍</i></div>
+                        <img src="{% static 'imagens/rtx4060.png' %}" alt="RTX">
+                        <div class="produto-info">
+                            <span class="frete-gratis">Frete grátis*</span>
+                            <h3 class="produto-titulo">Placa de Vídeo RTX 4060 Ti MSI NVIDIA</h3>
+                            <p class="preco-antigo">R$ 3.100,00</p>
+                            <p class="preco-atual">R$ 2.540,00</p>
+                            <p class="preco-parcelado">10x de R$ 254,00</p>
+                            <div class="estoque">Restam 4 Unid.</div>
+                        </div>
                     </div>
                 </div>
+                <button class="seta-prod proximo" onclick="scrollProdutos(1)">&#10095;</button>
             </div>
+        </section>
 
-            <p style="grid-column: 1/-1; text-align:center; color:#888;">Nenhum produto cadastrado ainda.</p>
-
-
-        </div>
-    </div>
-
-    <div class="section" style="padding-top:0">
-        <div class="promo-banner">
-            <div class="promo-text">
-                <h2>🔥 Oferta <span>Exclusiva</span> para novos clientes</h2>
-                <p>Use o cupom abaixo e ganhe <strong>10% de desconto</strong> na sua primeira compra!</p>
-            </div>
-            <div class="promo-code">
-                <div class="code-box">{{ promo_code|default:"TECH10" }}</div>
-                <button class="btn-copy" onclick="copyCode()">Copiar</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="section" style="padding-top:0">
-        <div class="section-header">
-            <h2 class="section-title">Por que comprar com a <span>TechSearch?</span></h2>
-        </div>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fas fa-shipping-fast"></i></div>
-                <div class="feature-text">
-                    <h4>Frete Grátis</h4>
-                    <p>Em compras acima de R$ 299 para todo o Brasil.</p>
+        <section class="banner-full">
+            <div class="banner-content">
+                <div class="banner-text">
+                    <h2>Monte seu PC</h2>
+                    <p>Uma ferramenta completa pra <strong>criar a sua máquina</strong> e recebê-la pronta!</p>
+                    <a href="#" class="btn-banner">COMEÇAR AGORA ↗</a>
+                </div>
+                <div class="banner-image">
+                    <img src="{% static 'imagens/monte-seu-pc.png' %}" alt="Monte seu PC">
                 </div>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
-                <div class="feature-text">
-                    <h4>Compra Segura</h4>
-                    <p>Seus dados protegidos com criptografia SSL.</p>
-                </div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fas fa-undo-alt"></i></div>
-                <div class="feature-text">
-                    <h4>30 Dias de Troca</h4>
-                    <p>Política de devolução sem burocracia.</p>
-                </div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fas fa-headset"></i></div>
-                <div class="feature-text">
-                    <h4>Suporte 24/7</h4>
-                    <p>Atendimento por chat, e-mail e WhatsApp.</p>
-                </div>
-            </div>
-        </div>
-    </div>
+        </section>
+    </main>
 
-    <div class="newsletter">
-        <h2>Receba as melhores <span>ofertas</span></h2>
-        <p>Assine nossa newsletter e fique por dentro das promoções exclusivas.</p>
-        <form method="POST" action="" class="newsletter-form">
-            {% csrf_token %}
-            <input type="email" name="email" placeholder="Seu melhor e-mail..." required>
-            <button type="submit"><i class="fas fa-paper-plane"></i> Assinar</button>
-        </form>
-    </div>
-
-    <footer>
-        <p style="text-align: center; color: #64748b; padding: 20px;">&copy; 2026 TechSearch. Todos os direitos reservados.</p>
-    </footer>
-
-    <div class="toast" id="toast">
-        <i class="fas fa-check-circle"></i>
-        <span id="toastMsg">Produto adicionado!</span>
-    </div>
-
-    <script src="{% static 'js/home.js' %}"></script>
-    {% block extra_js %}{% endblock %}
+    <script src="{% static 'script.js' %}"></script>
 </body>
 </html>
