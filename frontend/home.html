@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TechSearch</title>
     <link rel="stylesheet" href="{% static 'static:css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'static:css/teladebusca.css' %}">
 </head>
 <body>
 
@@ -21,7 +22,8 @@
             </div>
 
             <form class="busca" method="GET" action="#">
-                <input type="text" placeholder="Investigue na TechSearch!">
+                <input type="text" placeholder="Investigue na TechSearch!" id="searchInput" >
+                <ul id="resultsList"></ul>
                 <button type="submit">🔍</button>
             </form>
 
@@ -164,5 +166,6 @@
     </main>
 
     <script src="{% static 'script.js' %}"></script>
+    <script src="{% static 'teladebusca.js' %}"></script>
 </body>
 </html>
