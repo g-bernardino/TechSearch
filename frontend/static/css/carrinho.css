@@ -1,0 +1,419 @@
+/* ===== CARRINHO ===== */
+
+.carrinho-container {
+    max-width: 1400px;
+    margin: 40px auto;
+    padding: 0 30px;
+
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 28px;
+}
+
+/* ===== PRODUTOS ===== */
+
+.carrinho-produtos {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.carrinho-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+
+    padding: 22px;
+
+    display: flex;
+    align-items: center;
+    gap: 22px;
+
+    transition: 0.25s;
+    position: relative;
+
+    overflow: hidden;
+}
+
+.carrinho-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--primary);
+    box-shadow: 0 10px 35px rgba(108, 99, 255, 0.18);
+}
+
+/* brilho suave */
+.carrinho-card::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(108,99,255,0.08),
+            transparent 40%
+        );
+
+    pointer-events: none;
+}
+
+/* ===== IMAGEM ===== */
+
+.carrinho-img {
+    width: 140px;
+    height: 140px;
+
+    background: var(--bg-input);
+
+    border-radius: 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    flex-shrink: 0;
+}
+
+.carrinho-img img {
+    width: 85%;
+    height: 85%;
+    object-fit: contain;
+
+    transition: 0.25s;
+}
+
+.carrinho-card:hover .carrinho-img img {
+    transform: scale(1.05);
+}
+
+/* ===== INFO ===== */
+
+.carrinho-info {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.carrinho-categoria {
+    color: var(--primary-light);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.carrinho-titulo {
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.4;
+
+    color: var(--text);
+}
+
+.carrinho-preco {
+    font-size: 1.45rem;
+    font-weight: 800;
+
+    color: white;
+}
+
+.carrinho-preco span {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    text-decoration: line-through;
+    margin-left: 8px;
+}
+
+/* ===== QUANTIDADE ===== */
+
+.quantidade-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    margin-top: 5px;
+}
+
+.qtd-btn {
+    width: 34px;
+    height: 34px;
+
+    border-radius: 10px;
+    border: 1px solid var(--border);
+
+    background: var(--bg-input);
+
+    color: var(--text);
+
+    font-size: 1rem;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.qtd-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary-light);
+}
+
+.qtd-numero {
+    min-width: 20px;
+    text-align: center;
+
+    font-weight: 700;
+}
+
+/* ===== REMOVER ===== */
+
+.btn-remover {
+    margin-top: 10px;
+
+    background: transparent;
+    border: none;
+
+    color: #ff6584;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+    width: fit-content;
+}
+
+.btn-remover:hover {
+    opacity: 0.7;
+}
+
+/* ===== RESUMO ===== */
+
+.resumo-pedido {
+    background: var(--bg-card);
+
+    border: 1px solid var(--border);
+    border-radius: 24px;
+
+    padding: 28px;
+
+    height: fit-content;
+
+    position: sticky;
+    top: 95px;
+}
+
+.resumo-pedido h2 {
+    font-size: 1.4rem;
+    margin-bottom: 25px;
+}
+
+.resumo-linha {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 18px;
+
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.resumo-total {
+    margin-top: 22px;
+    padding-top: 22px;
+
+    border-top: 1px solid var(--border);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.resumo-total span {
+    font-size: 1rem;
+    color: var(--text-muted);
+}
+
+.resumo-total strong {
+    font-size: 1.7rem;
+    color: white;
+}
+
+/* ===== BOTÃO FINALIZAR ===== */
+
+.btn-finalizar {
+    width: 100%;
+
+    margin-top: 28px;
+
+    padding: 16px;
+
+    border: none;
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--primary-dark)
+        );
+
+    color: white;
+
+    font-size: 1rem;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.25s;
+
+    box-shadow:
+        0 10px 25px rgba(108,99,255,0.3);
+}
+
+.btn-finalizar:hover {
+    transform: translateY(-2px);
+    opacity: 0.92;
+}
+
+/* ===== CUPOM ===== */
+
+.cupom-box {
+    margin-top: 24px;
+
+    display: flex;
+    gap: 10px;
+}
+
+.cupom-box input {
+    flex: 1;
+
+    padding: 13px 15px;
+
+    background: var(--bg-input);
+
+    border: 1px solid var(--border);
+    border-radius: 12px;
+
+    color: var(--text);
+
+    outline: none;
+}
+
+.cupom-box input:focus {
+    border-color: var(--primary);
+}
+
+.cupom-box button {
+    padding: 0 18px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: var(--primary);
+
+    color: white;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.cupom-box button:hover {
+    background: var(--primary-dark);
+}
+
+/* ===== CARRINHO VAZIO ===== */
+
+.carrinho-vazio {
+    background: var(--bg-card);
+
+    border: 1px solid var(--border);
+    border-radius: 24px;
+
+    padding: 60px 30px;
+
+    text-align: center;
+}
+
+.carrinho-vazio h2 {
+    font-size: 1.7rem;
+    margin-bottom: 12px;
+}
+
+.carrinho-vazio p {
+    color: var(--text-muted);
+    margin-bottom: 28px;
+}
+
+.btn-voltar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 14px 26px;
+
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--primary-dark)
+        );
+
+    color: white;
+    font-weight: 700;
+
+    transition: 0.25s;
+}
+
+.btn-voltar:hover {
+    transform: translateY(-2px);
+}
+
+/* ===== RESPONSIVO ===== */
+
+@media (max-width: 1000px) {
+
+    .carrinho-container {
+        grid-template-columns: 1fr;
+    }
+
+    .resumo-pedido {
+        position: relative;
+        top: 0;
+    }
+}
+
+@media (max-width: 700px) {
+
+    .carrinho-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .carrinho-img {
+        width: 100%;
+        height: 220px;
+    }
+
+    .carrinho-img img {
+        width: 70%;
+        height: 70%;
+    }
+
+    .resumo-total strong {
+        font-size: 1.4rem;
+    }
+}

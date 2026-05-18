@@ -1,13 +1,114 @@
-<h2>Seu Carrinho</h2>
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-{% for item in itens %}
-    <p>
-        {{ item.produto.nome }}
-        - {{ item.quantidade }}x
-        - R$ {{ item.produto.preco }}
-    </p>
-{% empty %}
-    <p>Carrinho vazio</p>
-{% endfor %}
+    <title>Carrinho | TechSearch</title>
 
-<h3>Total: R$ {{ total }}</h3>
+    <link rel="stylesheet" href="{% static 'css/carrinho.css' %}">
+</head>
+
+<body>
+
+<div class="pagina-carrinho">
+
+    <!-- LISTA DE PRODUTOS -->
+    <div class="lista-produtos">
+
+        <h1>🛒 Seu Carrinho</h1>
+
+        {% if itens %}
+
+            {% for item in itens %}
+
+            <div class="item-carrinho">
+
+                <!-- IMAGEM -->
+                <div class="produto-imagem">
+                    <img src="{{ item.produto.imagem.url }}" alt="{{ item.produto.nome }}">
+                </div>
+
+                <!-- INFO -->
+                <div class="produto-info">
+
+                    <h2>{{ item.produto.nome }}</h2>
+
+                    <p class="produto-preco">
+                        R$ {{ item.produto.preco }}
+                    </p>
+
+                    <!-- QUANTIDADE -->
+                    <div class="quantidade-box">
+
+                        <button>-</button>
+
+                        <span>{{ item.quantidade }}</span>
+
+                        <button>+</button>
+
+                    </div>
+
+                    <!-- SUBTOTAL -->
+                    <p class="subtotal">
+                        Subtotal:
+                        <strong>
+                            R$ {{ item.produto.preco }}
+                        </strong>
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="carrinho-vazio">
+
+                <h2>Seu carrinho está vazio 😢</h2>
+
+                <a href="{% url 'catalogo:index' %}">
+                    Continuar comprando
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+    <!-- RESUMO -->
+    <div class="resumo-pedido">
+
+        <h2>Resumo do Pedido</h2>
+
+        <div class="linha-resumo">
+            <span>Subtotal</span>
+            <span>R$ {{ total }}</span>
+        </div>
+
+        <div class="linha-resumo">
+            <span>Frete</span>
+            <span>Grátis</span>
+        </div>
+
+        <hr>
+
+        <div class="linha-total">
+            <span>Total</span>
+            <span>R$ {{ total }}</span>
+        </div>
+
+        <button class="btn-checkout">
+            Finalizar Compra
+        </button>
+
+    </div>
+
+</div>
+<script src="{% static 'js/carrinho.js' %}"></script>
+</body>
+</html>
