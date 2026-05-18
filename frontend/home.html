@@ -126,19 +126,29 @@
             <div class="carousel-produtos-container">
                 <button class="seta-prod anterior" onclick="scrollProdutos(-1)">&#10094;</button>
                 
-                <div class="produtos-grid" id="produtosSlider">
-                    {% for produto in produtos %}
-                    <div class="produto-card">
-                        <div class="badge-top"><span>⭐ 5.0</span><i class="heart-icon">🤍</i></div>
-                        <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
-                        <div class="produto-info">
-                            <span class="frete-gratis">Frete grátis*</span>
-                            <h3 class="produto-titulo">{{ produto.nome }}</h3>
-                            <p class="preco-atual">R$ {{ produto.preco }}</p>
-                            <div class="estoque">Em Stock</div>
-                        </div>
-                    </div>
-                    {% endfor %}
+<div class="produtos-grid" id="produtosSlider">
+    {% for produto in produtos %}
+    <div class="produto-card">
+        <div class="badge-top"><span>⭐ 5.0</span><i class="heart-icon">🤍</i></div>
+        
+        {% if produto.imagem %}
+            <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
+        {% else %}
+            <img src="/static/imagens/sem-foto.png" alt="Sem imagem">
+        {% endif %}
+        
+        <div class="produto-info">
+            <span class="frete-gratis">Frete grátis*</span>
+            <h3 class="produto-titulo">{{ produto.nome }}</h3>
+            <p class="preco-atual">R$ {{ produto.preco }}</p>
+            <div class="estoque">Em Stock</div>
+        </div>
+    </div>
+    {% empty %}
+    <p style="color: #aaa; padding: 20px;">Nenhum produto cadastrado no momento.</p>
+    {% endfor %}
+    
+    </div>
 
                     <div class="produto-card">
                         <div class="badge-top"><span>⭐ 5.0</span><i class="heart-icon">🤍</i></div>
