@@ -144,42 +144,36 @@
         <!-- Grid de produtos -->
         <div class="products-grid" id="productsGrid">
 
-            <div class="product-card" data-cat="{{ product.category.slug }}">
-                {% if product.is_new %}
-                <span class="product-badge new">NOVO</span>
-                {% endif %}
-                {% if product.on_sale %}
-                <span class="product-badge sale">{% if product.discount %}-{{ product.discount }}%{% endif %}</span>
-                {% endif %}
+            {% for produto in featured_products %}
+            <div class="product-card" data-cat="{{ produto.categoria.slug }}">
                 <div class="product-wishlist" onclick="toggleWish(this)">
                     <i class="far fa-heart"></i>
                 </div>
-                <div class="product-img">{{ product.emoji|default:"🖥️" }}</div>
+                {% if produto.imagem %}
+                <div class="product-img"><img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}"></div>
+                {% else %}
+                <div class="product-img">🖥️</div>
+                {% endif %}
                 <div class="product-info">
-                    <div class="product-category">{{ product.category.name }}</div>
-                    <div class="product-name">{{ product.name }}</div>
+                    <div class="product-category">{{ produto.categoria.nome }}</div>
+                    <div class="product-name">{{ produto.nome }}</div>
                     <div class="product-rating">
                         <span class="stars">⭐⭐⭐⭐⭐</span>
-                        <span class="rating-count">({{ product.reviews_count|default:0 }})</span>
+                        <span class="rating-count">(0)</span>
                     </div>
                     <div class="product-footer">
                         <div class="product-price">
-                            R$ {{ product.price|floatformat:0 }}
-                            {% if product.old_price %}
-                            <span class="old">R$ {{ product.old_price|floatformat:0 }}</span>
-                            {% endif %}
+                            R$ {{ produto.preco|floatformat:2 }}
                         </div>
-                        <form method="POST" action="" class="add-to-cart-form">
-                            {% csrf_token %}
-                            <button type="submit" class="btn-add-cart">
-                                <i class="fas fa-cart-plus"></i>
-                            </button>
-                        </form>
+                        <button class="btn-add-cart" onclick="showToast()">
+                            <i class="fas fa-cart-plus"></i>
+                        </button>
                     </div>
                 </div>
             </div>
-
-            <p>Nenhum produto encontrado.</p>
+            {% empty %}
+            <p style="grid-column: 1/-1; text-align:center; color:#888;">Nenhum produto cadastrado ainda.</p>
+            {% endfor %}
 
         </div>
     </div>

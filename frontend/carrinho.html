@@ -4,10 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Carrinho | TechSearch</title>
-
-    <link rel="stylesheet" href="{% static 'css/carrinho.css' %}">
+    <link rel="stylesheet" href="{% static 'static:css/carrinho.css' %}">
 </head>
 
 <body>
@@ -70,7 +68,7 @@
 
                 <h2>Seu carrinho está vazio 😢</h2>
 
-                <a href="{% url 'catalogo:index' %}">
+                <a href="{% url 'home' %}">
                     Continuar comprando
                 </a>
 

@@ -51,3 +51,20 @@ class Produto(models.Model):
 
     def __str__(self):
         return self.nome
+    
+    @classmethod
+    def criar_produto(cls, nome, categoria_nome, preco, descricao, imagem=None):
+        from .models import Categoria
+        categoria_obj, _ = Categoria.objects.get_or_create(nome=categoria_nome)
+        
+        novo_produto = cls.objects.create(
+            nome=nome,
+            categoria=categoria_obj,
+            preco=preco,
+            descricao=descricao,
+            disponivel=True
+        )
+        if imagem:
+            novo_produto.imagem = imagem
+            novo_produto.save()
+        return novo_produto
