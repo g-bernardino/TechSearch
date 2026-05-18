@@ -56,23 +56,29 @@ header {
     margin-bottom: 15px;
 }
 
-/* Estilização da Logo */
+/* Container da Logo */
 .logo {
-    font-family: 'Audiowide', sans-serif;
-    font-size: 24px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    background: linear-gradient(90deg, #00aaff, #0088cc, #00ffaa);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: glow 3s infinite alternate;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+/* Controlar o tamanho real da Imagem da Logo */
+.logo img {
+    height: 40px; /* Altere este valor para o tamanho que desejar (ex: 35px, 45px) */
+    width: auto;  /* Mantém a proporção da imagem sem distorcer */
+    object-fit: contain;
+    transition: var(--transition);
+}
+
+/* Efeito opcional: a logo brilha suavemente ao passar o rato */
+.logo img:hover {
+    filter: drop-shadow(0 0 8px var(--primary));}
+
+
 @keyframes glow {
-    from { text-shadow: 0 0 10px #00aaff, 0 0 20px #0088cc; }
-    to { text-shadow: 0 0 20px #00ffaa, 0 0 40px #00aaff; }
+    from { text-shadow: 0 0 6px #00aaff, 0 0 12px #0088cc; } /* Valores diminuídos para combinar */
+    to { text-shadow: 0 0 12px #00ffaa, 0 0 25px #00aaff; }  /* Valores diminuídos para combinar */
 }
 
 .localizacao {
@@ -721,7 +727,7 @@ main { padding: 30px 5%; }
 @media (max-width: 768px) {
     .top-header { flex-wrap: wrap; gap: 15px; }
     .busca { order: 3; max-width: 100%; min-width: 100%; }
-    .logo { font-size: 20px; }
+    .logo { font-size: 2px; }
     .sub-nav .menu-links { display: none; }
     .banner-card { flex: 0 0 100%; }
     .banner-card img { height: 160px; }

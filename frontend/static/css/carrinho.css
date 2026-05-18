@@ -31,7 +31,7 @@ body {
 
 /* Efeito rosa/roxo no span igual ao "tecnologia" da sua Home */
 .cart-header h1 span {
-    background: linear-gradient(45deg, #ff4757, #a855f7);
+    background: linear-gradient(45deg, #00aaff, #0a0a0a);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -169,7 +169,7 @@ body {
 }
 
 .btn-remove:hover {
-    color: #ff4757; /* Vermelho/Rosa ao apagar */
+    color: #00aaff; /* Vermelho/Rosa ao apagar */
 }
 
 /* ==========================================================================
@@ -259,7 +259,7 @@ body {
 
 .total-price {
     font-size: 1.6rem;
-    background: linear-gradient(45deg, #ff4757, #a855f7);
+    background: linear-gradient(45deg, #00aaff, #0a0a0a);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -312,7 +312,7 @@ body {
 
 .empty-icon {
     font-size: 4.5rem;
-    background: linear-gradient(45deg, #ff4757, #a855f7);
+    background: linear-gradient(45deg, #00aaff, #0a0a0a);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 24px;

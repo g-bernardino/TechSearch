@@ -25,8 +25,7 @@
                 <button type="submit">🔍</button>
             </form>
 
-            <div class="login">
-                <img src="{% static 'Imagens/logots.jpeg' %}" alt="Usuário" class="avatar">
+
                 
                 <div class="user-info">
                     {% if user.is_authenticated %}
@@ -148,36 +147,6 @@
     <p style="color: #aaa; padding: 20px;">Nenhum produto cadastrado no momento.</p>
     {% endfor %}
     
-    </div>
-
-                    <div class="produto-card">
-                        <div class="badge-top"><span>⭐ 5.0</span><i class="heart-icon">🤍</i></div>
-                        <img src="{% static 'imagens/ps5.png' %}" alt="PlayStation 5">
-                        <div class="produto-info">
-                            <span class="frete-gratis">Frete grátis*</span>
-                            <h3 class="produto-titulo">Console Sony PlayStation 5, SSD 825GB...</h3>
-                            <p class="preco-antigo">R$ 4.192,47</p>
-                            <p class="preco-atual">R$ 3.588,87</p>
-                            <p class="preco-parcelado">No PIX ou 10x de R$ 385,90</p>
-                            <div class="estoque">Restam 92 Unid.</div>
-                        </div>
-                    </div>
-
-                    <div class="produto-card">
-                        <div class="badge-top"><span>⭐ 4.9</span><i class="heart-icon">🤍</i></div>
-                        <img src="{% static 'imagens/rtx4060.png' %}" alt="RTX">
-                        <div class="produto-info">
-                            <span class="frete-gratis">Frete grátis*</span>
-                            <h3 class="produto-titulo">Placa de Vídeo RTX 4060 Ti MSI NVIDIA</h3>
-                            <p class="preco-antigo">R$ 3.100,00</p>
-                            <p class="preco-atual">R$ 2.540,00</p>
-                            <p class="preco-parcelado">10x de R$ 254,00</p>
-                            <div class="estoque">Restam 4 Unid.</div>
-                        </div>
-                    </div>
-                </div>
-                <button class="seta-prod proximo" onclick="scrollProdutos(1)">&#10095;</button>
-            </div>
         </section>
 
         <section class="banner-full">
