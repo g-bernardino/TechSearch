@@ -1,90 +1,91 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tela de Pagamento - TechSearch</title>
-    <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+    <title>Finalizar Pagamento - TechSearch</title>
     <link rel="stylesheet" href="{% static 'css/pagamento.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <canvas id="particles"></canvas>
 
-    <div class="container">
-        <div class="payment-container">
-            <h2><i class="fas fa-shield-alt"></i> Pagamento Seguro</h2>
-            
-            <div class="checkout-summary-box">
-                <span>Total a pagar:</span>
-                <strong>R$ {{ total_price_formatado }}</strong>
-            </div>
-
-            <form method="POST" id="paymentForm" class="form">
-                {% csrf_token %}
-                
-                <div class="payment-methods-selector">
-                    <label class="method-option">
-                        <input type="radio" name="forma_pagamento" value="cartao" checked id="radioCartao">
-                        <span class="method-label"><i class="fas fa-credit-card"></i> Cartão de Crédito</span>
-                    </label>
-
-                    <label class="method-option">
-                        <input type="radio" name="forma_pagamento" value="pix" id="radioPix">
-                        <span class="method-label"><i class="fab fa-pix"></i> Pix (10% OFF)</span>
-                    </label>
-
-                    <label class="method-option">
-                        <input type="radio" name="forma_pagamento" value="boleto" id="radioBoleto">
-                        <span class="method-label"><i class="fas fa-barcode"></i> Boleto Bancário</span>
-                    </label>
+    {% if messages %}
+        <div id="alerta-container">
+            {% for message in messages %}
+                <div class="alerta-card" id="alerta">
+                    <i class="fas fa-check-circle"></i> <span>{{ message }}</span>
                 </div>
-                
-                <div class="input-group">
-                    <input type="text" name="name" placeholder="Nome completo" required>
-                    <i class="fas fa-user"></i>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="payment-container">
+        <h2>Confirmar Pagamento</h2>
+
+        <div class="checkout-box">
+            <h3><i class="fas fa-shopping-bag"></i> Resumo</h3>
+            {% for item in cart_items %}
+                <div class="resumo-item">
+                    <span>{{ item.product.nome }} (x{{ item.quantity }})</span>
+                    <span>R$ {{ item.subtotal }}</span>
                 </div>
-
-                <div class="input-group">
-                    <input type="email" name="email" placeholder="E-mail" required>
-                    <i class="fas fa-envelope"></i>
-                </div>
-
-                <div class="input-group">
-                    <input type="number" name="amount" value="{{ total_price_formatado }}" readonly step="0.01" required>
-                    <i class="fas fa-dollar-sign"></i>
-                </div>
-
-                <div id="cardFields">
-                    <div class="input-group">
-                        <input type="text" name="card_number" placeholder="Número do cartão" maxlength="16">
-                        <i class="fas fa-credit-card"></i>
-                    </div>
-
-                    <div class="row-inputs">
-                        <div class="input-group">
-                            <input type="text" name="expiry_date" placeholder="MM/AA" maxlength="5">
-                            <i class="fas fa-calendar-alt"></i>
-                        </div>
-                        <div class="input-group">
-                            <input type="text" name="cvv" placeholder="CVV" maxlength="3">
-                            <i class="fas fa-lock"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <button type="submit" id="paymentBtn">
-                    <span class="btn-text">Finalizar Pagamento</span>
-                </button>
-            </form>
-
-            <div class="redirect">
-                <a href="{% url 'carrinho' %}">← Cancelar e voltar para o carrinho</a>
+            {% endfor %}
+            <div class="total-row">
+                <span>Total:</span> <span>R$ {{ total_price }}</span>
             </div>
         </div>
+
+        <form method="POST" action="{% url 'processar_pagamento' %}">
+            {% csrf_token %}
+            
+            <div class="checkout-box">
+                <h3><i class="fas fa-credit-card"></i> Forma de Pagamento</h3>
+                <div class="payment-methods-selector">
+                    <label class="method-option">
+                        <input type="radio" name="pagamento" value="cartao" checked onchange="toggleFields()">
+                        <span class="method-label"><i class="fas fa-credit-card"></i> Cartão</span>
+                    </label>
+                    <label class="method-option">
+                        <input type="radio" name="pagamento" value="pix" onchange="toggleFields()">
+                        <span class="method-label"><i class="fas fa-qrcode"></i> Pix</span>
+                    </label>
+                </div>
+
+                <div id="fields-cartao">
+                    <div class="input-group">
+                        <input type="text" placeholder="Número do Cartão" maxlength="16">
+                    </div>
+                    <div class="row-inputs">
+                        <div class="input-group"><input type="text" placeholder="MM/AA" maxlength="5"></div>
+                        <div class="input-group"><input type="text" placeholder="CVC" maxlength="3"></div>
+                    </div>
+                </div>
+
+                <div id="fields-pix" class="hidden">
+                    <div class="input-group">
+                        <input type="text" placeholder="Chave Pix (CPF/E-mail/Telefone)">
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-pagar">Finalizar Compra</button>
+        </form>
     </div>
 
-    <script src="{% static 'js/pagamento.js' %}"></script>
+    <script>
+        // Lógica para trocar campos entre Cartão e Pix
+        function toggleFields() {
+            const metodo = document.querySelector('input[name="pagamento"]:checked').value;
+            document.getElementById('fields-cartao').classList.toggle('hidden', metodo !== 'cartao');
+            document.getElementById('fields-pix').classList.toggle('hidden', metodo !== 'pix');
+        }
+
+        // Lógica para sumir com o Toast após 5 segundos
+        setTimeout(() => {
+            const alerta = document.getElementById('alerta');
+            if(alerta) alerta.style.display = 'none';
+        }, 5000);
+    </script>
 </body>
-</html>
+</html> 

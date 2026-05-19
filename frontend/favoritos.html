@@ -19,13 +19,12 @@
                 </a>
             </div>
 
-<<<<<<< HEAD
             <form class="busca" method="GET" action="#">
                 <input type="text" placeholder="Investigue na TechSearch!" id="searchInput" >
                 <ul id="resultsList"></ul>
                 <button type="submit">🔍</button>
             </form>
-=======
+
 <!-- Estilos Globais e da Home -->
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
 <link rel="stylesheet" href="{% static 'css/favoritos.css' %}">
@@ -51,10 +50,6 @@
             <button type="submit">🔍</button>
         </form>
 
-        <div class="user-info">
-            {% if user.is_authenticated %}
-                <span class="welcome-text">Olá, <strong>{{ user.first_name|default:user.username }}</strong></span>
->>>>>>> 7362c8e7dc2a852ec32bea4e2c7c5a7512c40b62
                 
             <div class="user-info">
                 {% if user.is_authenticated %}

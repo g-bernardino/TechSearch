@@ -1,35 +1,20 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const radioCartao = document.getElementById('radioCartao');
-    const radioPix = document.getElementById('radioPix');
-    const radioBoleto = document.getElementById('radioBoleto');
+document.addEventListener('DOMContentLoaded', function() {
+    const container = document.getElementById('alerta-container');
     
-    const cardFields = document.getElementById('cardFields');
-    
-    if (!cardFields) return; // Segurança caso o elemento não exista na página
-    const cardInputs = cardFields.querySelectorAll('input');
-
-    function atualizarFormulario() {
-        if (radioCartao && radioCartao.checked) {
-            // Se for CARTÃO: mostra os campos e obriga o preenchimento
-            cardFields.classList.remove('hidden');
-            cardInputs.forEach(input => {
-                input.setAttribute('required', 'true');
-            });
-        } else {
-            // Se for PIX ou BOLETO: esconde os campos e livra a obrigatoriedade
-            cardFields.classList.add('hidden');
-            cardInputs.forEach(input => {
-                input.removeAttribute('required');
-                input.value = ''; // Limpa os dados digitados
-            });
-        }
+    if (container) {
+        const alertas = container.querySelectorAll('.alerta-card');
+        
+        alertas.forEach(alerta => {
+            // Tempo ativo no ecrã antes de começar a sumir (6 segundos)
+            const tempoExibicao = 6000; 
+            
+            setTimeout(() => {
+                alerta.classList.add('alerta-sumir');
+                // Espera o fim da animação do CSS (500ms) para remover do DOM
+                setTimeout(() => {
+                    alerta.remove();
+                }, 500);
+            }, tempoExibicao);
+        });
     }
-
-    // Escutar as mudanças de opção
-    if (radioCartao) radioCartao.addEventListener('change', atualizarFormulario);
-    if (radioPix) radioPix.addEventListener('change', atualizarFormulario);
-    if (radioBoleto) radioBoleto.addEventListener('change', atualizarFormulario);
-    
-    // Executa imediatamente ao abrir a página
-    atualizarFormulario();
 });
