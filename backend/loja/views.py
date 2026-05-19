@@ -165,8 +165,7 @@ def adicionar_favorito(request, produto_id):
     request.session['favoritos'] = favoritos_lista
     request.session.modified = True
     
-    # Se o utilizador veio da própria página de favoritos, volta para lá. 
-    # Se veio da Home, vai para a página de favoritos ver o resultado.
+    # Verifica de onde o clique partiu para manter a navegação fluida
     referer = request.META.get('HTTP_REFERER', '')
     if 'favoritos' in referer:
         return redirect('favoritos')
@@ -181,7 +180,7 @@ def remover_favorito(request, produto_id):
         favoritos_lista.remove(produto_id)
         request.session['favoritos'] = favoritos_lista
         request.session.modified = True
-        messages.success(request, "Produto removido com sucesso.")
+        messages.success(request, "Produto removido dos favoritos.")
         
     return redirect('favoritos')
 
@@ -272,10 +271,16 @@ def pagamento(request):
         messages.warning(request, "Seu carrinho está vazio.")
         return redirect('home')
         
+    # SEGURANÇA: Se o usuário tentar acessar a URL direta sem endereço, bloqueia
+    if 'endereco_entrega' not in request.session:
+        messages.error(request, "Por favor, informe o endereço de entrega antes de prosseguir.")
+        return redirect('endereco_view')
+        
     context = {
         'cart_items': cart_items,
         'total_price': total_price,
         'cart_count': cart_count,
+        'endereco': request.session.get('endereco_entrega')
     }
     return render(request, 'pagamento.html', context)
 
@@ -285,16 +290,21 @@ def pagamento_view(request):
     return pagamento(request)
 
 # ==============================================================================
-# 11. TELA DE ENDEREÇO
+# 11. SISTEMA DE ENDEREÇO VIA VIA-CEP
 # ==============================================================================
 @login_required(login_url='login')
 def endereco_view(request):
+    # Evita que configurem endereço com carrinho vazio
+    cart_count = sum(item.quantity for item in CartItem.objects.filter(user=request.user))
+    if cart_count == 0:
+        messages.warning(request, "Seu carrinho está vazio.")
+        return redirect('home')
+        
     return render(request, 'endereco.html')
 
 @login_required(login_url='login')
 def salvar_endereco(request):
     if request.method == 'POST':
-        # Captura os dados enviados pelo formulário
         endereco_dados = {
             'cep': request.POST.get('cep'),
             'rua': request.POST.get('rua'),
@@ -309,7 +319,34 @@ def salvar_endereco(request):
         request.session['endereco_entrega'] = endereco_dados
         request.session.modified = True
         
-        messages.success(request, "Endereço salvo com sucesso!")
-        return redirect('pagamento') # Redireciona para o checkout / pagamento
+        return redirect('pagamento')
         
-    return redirect('endereco_view')   
+    return redirect('endereco_view')
+
+# ==============================================================================
+# 12. PROCESSAMENTO FINAL DO PAGAMENTO (NOTIFICAÇÃO FLUTUANTE EM VEZ DE NOVA TELA)
+# ==============================================================================
+@login_required(login_url='login')
+def processar_pagamento(request):
+    cart_items = CartItem.objects.filter(user=request.user)
+    
+    if not cart_items.exists():
+        messages.warning(request, "Não existem produtos no carrinho para processar.")
+        return redirect('home')
+
+    # 1. Deleta os itens do carrinho no banco de dados
+    cart_items.delete()
+    
+    # 2. Cria a mensagem detalhada de sucesso (capturada no toast do front-end)
+    mensagem_sucesso = (
+        f"🎉 Compra realizada com sucesso! Enviámos os detalhes do pedido "
+        f"e o código de rastreio para o seu e-mail: {request.user.email}."
+    )
+    messages.success(request, mensagem_sucesso)
+    
+    # 3. Limpa os dados residuais de endereço salvos na sessão
+    if 'endereco_entrega' in request.session:
+        del request.session['endereco_entrega']
+        
+    # 4. Redireciona de volta para a Home onde o alerta saltará na tela do usuário
+    return redirect('home')

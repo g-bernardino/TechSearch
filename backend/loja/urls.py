@@ -9,6 +9,7 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('favoritos/', views.favoritos, name='favoritos'),
     path('pagamento/', views.pagamento, name='pagamento'),
+    path('pagamento/processar/', views.processar_pagamento, name='processar_pagamento'),
     
     # Painel Administrativo
     path('painel-admin/', views.dashboard_admin, name='dashboard_admin'),
