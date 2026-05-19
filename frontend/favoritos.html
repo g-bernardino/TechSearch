@@ -17,9 +17,11 @@
 
 <header>
     <section class="top-header">
-        <div class="logo">
+    <div class="logo">
+        <a href="{% url 'home' %}">
             <img src="{% static 'imagens/logo.png' %}" alt="TechSearch">
-        </div>
+        </a>
+    </div>
 
         <form class="busca" method="GET" action="{% url 'home' %}">
             <input type="text" name="q" placeholder="Investigue na TechSearch!" id="searchInput" value="{{ request.GET.q|default:'' }}">

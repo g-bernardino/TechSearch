@@ -13,7 +13,9 @@
     <header>
         <section class="top-header">
             <div class="logo">
-                <img src="{% static 'imagens/logo.png' %}" alt="TechSearch">
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'imagens/logo.png' %}" alt="TechSearch">
+                </a>
             </div>
 
             <form class="busca" method="GET" action="#">
@@ -90,24 +92,7 @@
             <button class="seta proximo" onclick="scrollBanner(1)">❯</button>
         </section>
 
-        <section class="categorias-container">
-            <button class="cat-seta esquerda" onclick="scrollCategorias(-1)">❮</button>
-            <div class="categorias" id="categoriasSlider">
-                <div class="categoria"><div class="icon">💻</div><span>Computadores</span></div>
-                <div class="categoria"><div class="icon">🖱️</div><span>Periféricos</span></div>
-                <div class="categoria"><div class="icon">🎮</div><span>Games</span></div>
-                <div class="categoria"><div class="icon">📱</div><span>Celulares</span></div>
-                <div class="categoria"><div class="icon">🧠</div><span>Monte seu PC</span></div>
-                <div class="categoria"><div class="icon">📺</div><span>TV</span></div>
-                <div class="categoria"><div class="icon">📽️</div><span>Projetores</span></div>
-                <div class="categoria"><div class="icon">🪑</div><span>Espaço Gamer</span></div>
-                <div class="categoria"><div class="icon">📋</div><span>Escritório</span></div>
-                <div class="categoria"><div class="icon">🏠</div><span>Casa Inteligente</span></div>
-                <div class="categoria"><div class="icon">🎁</div><span>Gift Card</span></div>
-                <div class="categoria"><div class="icon">🎧</div><span>Headset</span></div>
-            </div>
-            <button class="cat-seta direita" onclick="scrollCategorias(1)">❯</button>
-        </section>
+
 
         <section class="ofertas-container">
             <div class="ofertas-header">
