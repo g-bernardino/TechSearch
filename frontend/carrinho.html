@@ -75,11 +75,20 @@
 {% block title %}{% endblock %}
 
 
+<<<<<<< HEAD
 {% block content %}
 <div class="cart-container">
     <div class="cart-header">
         <h1>Meu <span>Carrinho</span></h1>
     </div>
+=======
+        {% block content %}
+        <div class="cart-container">
+            <div class="cart-header">
+                <h1>Meu <span>Carrinho</span></h1>
+                <p>Você tem {{ cart_count }} itens no carrinho</p>
+            </div>
+>>>>>>> a398103398a67763cbfa0c335e664da19baa1155
 
     <div class="cart-content">
         <div class="cart-items">
@@ -91,31 +100,32 @@
                     <h3>{{ item.product.nome }}</h3>
                     <div class="item-price">R$ {{ item.product.preco|floatformat:2 }}</div>
                 </div>
+                
                 <div class="item-quantity">
-                    <div class="item-quantity">
-    <a href="{% url 'diminuir_quantidade' item.id %}" class="qty-btn" style="text-decoration: none; cursor: pointer;">
-        <i class="fas fa-minus"></i>
-    </a>
-    
-    <input type="number" value="{{ item.quantity }}" min="1" readonly style="width: 50px; text-align: center;">
-    
-    <a href="{% url 'aumentar_quantidade' item.id %}" class="qty-btn" style="text-decoration: none; cursor: pointer;">
-        <i class="fas fa-plus"></i>
-    </a>
-</div>
+                    <a href="{% url 'diminuir_quantidade' item.product.id %}" class="qty-btn" title="Diminuir">
+                        <i class="fas fa-minus"></i>
+                    </a>
+                    
+                    <input type="number" value="{{ item.quantity }}" min="1" readonly>
+                    
+                    <a href="{% url 'aumentar_quantidade' item.product.id %}" class="qty-btn" title="Aumentar">
+                        <i class="fas fa-plus"></i>
+                    </a>
                 </div>
+
                 <div class="item-total">
                     R$ {{ item.subtotal|floatformat:2 }}
                 </div>
-                <button class="item-remove" title="Remover item">
+
+                <a href="{% url 'remover_carrinho' item.product.id %}" class="item-remove" title="Remover item">
                     <i class="fas fa-trash-alt"></i>
-                </button>
+                </a>
             </div>
             {% empty %}
-            <div class="cart-empty" style="text-align: center; padding: 40px 20px;">
-                <i class="fas fa-shopping-cart" style="font-size: 48px; color: #a0a5b5; margin-bottom: 15px;"></i>
+            <div class="cart-empty">
+                <i class="fas fa-shopping-cart"></i>
                 <p>Seu carrinho está vazio.</p>
-                <a href="{% url 'home' %}" class="btn-hero primary" style="color: #00aaff; font-weight: bold;">Voltar às compras</a>
+                <a href="{% url 'home' %}" class="btn-hero primary">Voltar às compras</a>
             </div>
             {% endfor %}
         </div>
@@ -133,15 +143,15 @@
             </div>
             <div class="summary-row promo">
                 <input type="text" placeholder="Cupom de desconto">
-                <button>Aplicar</button>
+                <button type="button">Aplicar</button>
             </div>
             <hr>
             <div class="summary-row total">
                 <span>Total</span>
                 <span>R$ {{ total_price|floatformat:2 }}</span>
             </div>
-                <a href="{% url 'pagamento' %}" class="checkout-btn" style="display: flex; justify-content: center; align-items: center; text-decoration: none; text-align: center; gap: 10px;">
-            Finalizar Compra <i class="fas fa-arrow-right"></i>
+            <a href="{% url 'pagamento' %}" class="checkout-btn">
+                Finalizar Compra <i class="fas fa-arrow-right"></i>
             </a>
             <a href="{% url 'home' %}" class="continue-shopping">Continuar Comprando</a>
         </aside>

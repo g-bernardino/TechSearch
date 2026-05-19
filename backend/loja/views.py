@@ -10,6 +10,7 @@ from .models import Produto, Categoria, CartItem
 # 1. PÁGINA INICIAL (HOME)
 # ==============================================================================
 def home(request):
+    # Busca os produtos disponíveis para exibição
     produtos = Produto.objects.filter(disponivel=True)
     
     # CONTADOR REAL PARA A NAVBAR:
@@ -22,9 +23,11 @@ def home(request):
         
     context = {
         'featured_products': produtos,
-        'cart_count': cart_count, # Injeta o valor exato que o seu home.html precisa!
+        'produtos': produtos, # Mantido para compatibilidade com o filtro antigo
+        'cart_count': cart_count,
     }
     return render(request, 'home.html', context)
+
 # ==============================================================================
 # 2. REGISTO DE UTILIZADOR (SIGN UP)
 # ==============================================================================
@@ -132,18 +135,33 @@ def cadastrar_produto(request):
     return render(request, 'cadastro_produto.html')
 
 # ==============================================================================
-# 7. FAVORITOS E CARRINHO
+# 7. FAVORITOS
 # ==============================================================================
 @login_required(login_url='login')
 def favoritos(request):
     return render(request, 'favoritos.html')
 
 @login_required(login_url='login')
+def adicionar_favorito(request, produto_id):
+    produto = get_object_or_404(Produto, id=produto_id)
+    favoritos_lista = request.session.get('favoritos', [])
+    
+    if produto_id not in favoritos_lista:
+        favoritos_lista.append(produto_id)
+        
+    request.session['favoritos'] = favoritos_lista
+    request.session.modified = True
+    return redirect('home')
+
+# ==============================================================================
+# 8. SISTEMA DO CARRINHO (EXIBIÇÃO E ADIÇÃO VIA BANCO DE DADOS)
+# ==============================================================================
+@login_required(login_url='login')
 def carrinho(request):
     # Puxa os itens salvos no banco SQLite para este usuário específico
     cart_items = CartItem.objects.filter(user=request.user)
     
-    # Calcula os totais que o HTML do carrinho precisa exibir
+    # Executa a soma dinamicamente iterando pelos objetos existentes no banco de dados
     total_price = sum(item.subtotal() for item in cart_items)
     cart_count = sum(item.quantity for item in cart_items)
     
@@ -154,22 +172,16 @@ def carrinho(request):
     }
     return render(request, 'carrinho.html', context)
 
-# ==============================================================================
-# 8. SISTEMA DO CARRINHO (AÇÕES NO BANCO)
-# ==============================================================================
 @login_required(login_url='login')
 def adicionar_ao_carrinho(request, product_id):
-    # Procura o produto pelo ID. Se não achar, joga erro 404
     produto = get_object_or_404(Produto, id=product_id)
     
-    # Busca o item no carrinho. Se não existir no SQLite, ele cria um novo.
     cart_item, created = CartItem.objects.get_or_create(
         user=request.user,
         product=produto,
         defaults={'quantity': 1}
     )
     
-    # Se ele já existia, incrementa a quantidade +1
     if not created:
         cart_item.quantity += 1
         cart_item.save()
@@ -177,11 +189,49 @@ def adicionar_ao_carrinho(request, product_id):
     messages.success(request, f"{produto.nome} adicionado ao carrinho!")
     return redirect('carrinho')
 
+# Link alternativo caso sua Home chame por 'adicionar_carrinho' ao invés de 'adicionar_ao_carrinho'
+@login_required(login_url='login')
+def adicionar_carrinho(request, produto_id):
+    return adicionar_ao_carrinho(request, produto_id)
+
 # ==============================================================================
-# 9. PÁGINA DE PAGAMENTO (CHECKOUT)
+# 9. ALTERAÇÃO DE QUANTIDADE E REMOÇÃO (CONECTADOS POR PRODUTO_ID)
 # ==============================================================================
 @login_required(login_url='login')
-def pagamento_view(request):
+def aumentar_quantidade(request, produto_id):
+    item = get_object_or_404(CartItem, product_id=produto_id, user=request.user)
+    item.quantity += 1
+    item.save()
+    return redirect('carrinho')
+
+@login_required(login_url='login')
+def diminuir_quantidade(request, produto_id):
+    item = get_object_or_404(CartItem, product_id=produto_id, user=request.user)
+    if item.quantity > 1:
+        item.quantity -= 1
+        item.save()
+    else:
+        item.delete()
+        messages.success(request, "Produto removido do carrinho!")
+    return redirect('carrinho')
+
+# Apelido para tratar erros de digitação (disminuir_quantidade)
+@login_required(login_url='login')
+def disminuir_quantidade(request, produto_id):
+    return diminuir_quantidade(request, produto_id)
+
+@login_required(login_url='login')
+def remover_carrinho(request, produto_id):
+    item = get_object_or_404(CartItem, product_id=produto_id, user=request.user)
+    item.delete()
+    messages.success(request, "Produto removido do carrinho!")
+    return redirect('carrinho')
+
+# ==============================================================================
+# 10. TELA DE PAGAMENTO (CHECKOUT)
+# ==============================================================================
+@login_required(login_url='login')
+def pagamento(request):
     cart_items = CartItem.objects.filter(user=request.user)
     total_price = sum(item.subtotal() for item in cart_items)
     cart_count = sum(item.quantity for item in cart_items)
@@ -197,81 +247,7 @@ def pagamento_view(request):
     }
     return render(request, 'pagamento.html', context)
 
-# ==============================================================================
-# 10. AUMENTAR E DIMINUIR QUANTIDADE (NO BANCO DE DADOS)
-# ==============================================================================
+# Apelido para mapeamentos que chamam pagamento_view nas URLs
 @login_required(login_url='login')
-def aumentar_quantidade(request, item_id):
-    item = get_object_or_404(CartItem, id=item_id, user=request.user)
-    item.quantity += 1
-    item.save()
-    return redirect('carrinho')
-
-@login_required(login_url='login')
-def diminuir_quantidade(request, item_id):
-    item = get_object_or_404(CartItem, id=item_id, user=request.user)
-    if item.quantity > 1:
-        item.quantity -= 1
-        item.save()
-    else:
-        item.delete() # Se era 1 e clicou em menos, remove do carrinho
-    return redirect('carrinho')
-
-def home(request):
-    # Busca todos os produtos cadastrados no banco de dados
-    produtos_cadastrados = Produto.objects.all()
-    
-    # Passa os produtos para o template através do contexto
-    context = {
-        'produtos': produtos_cadastrados
-    }
-    return render(request, 'home.html', context)
-
-
-# Adicione esta função ao final do arquivo views.py
-def pagamento(request):
-    # Por enquanto apenas renderiza a página, futuramente você pode capturar o valor do carrinho aqui
-    return render(request, 'pagamento.html')
-
-# ==========================================
-# 1. LOGICA DE ADICIONAR AO CARRINHO
-# ==========================================
-def adicionar_carrinho(request, produto_id):
-    produto = get_object_or_404(Produto, id=produto_id)
-    
-    # Exemplo básico utilizando a SESSÃO do Django (não exige login)
-    carrinho = request.session.get('carrinho', {})
-    
-    # Converte o ID para string pois chaves de sessão em JSON precisam de ser strings
-    prod_id_str = str(produto_id)
-    
-    if prod_id_str in carrinho:
-        carrinho[prod_id_str] += 1
-    else:
-        carrinho[prod_id_str] = 1
-        
-    request.session['carrinho'] = carrinho
-    request.session.modified = True
-    
-    # Redireciona de volta para a página do carrinho para ver o item adicionado
-    return redirect('carrinho')
-
-
-# ==========================================
-# 2. LOGICA DE ADICIONAR AOS FAVORITOS
-# ==========================================
-@login_required # Opcional: obriga o utilizador a estar logado para favoritar
-def adicionar_favorito(request, produto_id):
-    produto = get_object_or_404(Produto, id=produto_id)
-    
-    # Exemplo utilizando a SESSÃO para Favoritos
-    favoritos = request.session.get('favoritos', [])
-    
-    if produto_id not in favoritos:
-        favoritos.append(produto_id)
-        
-    request.session['favoritos'] = favoritos
-    request.session.modified = True
-    
-    # Redireciona de volta para a página inicial (Home) onde o utilizador estava
-    return redirect('home')
+def pagamento_view(request):
+    return pagamento(request)
