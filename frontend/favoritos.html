@@ -5,7 +5,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <!-- Estilos Globais e da Home -->
-<link rel="stylesheet" href="{% static 'static:css/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/favoritos.css' %}">
 
 <!-- Ficheiro CSS Separado para Favoritos -->
 <link rel="stylesheet" href="{% static 'css/favoritos.css' %}">
@@ -14,31 +15,62 @@
 <script src="{% static 'js/favoritos.js' %}" defer></script>
 
 
-<!-- NAVBAR -->
-<nav class="navbar" style="position: fixed; width: 100%; top: 0; z-index: 1000; background: rgba(11, 15, 25, 0.95); backdrop-filter: blur(10px);">
-    <div class="logo">TechSearch</div>
-    <div class="nav-search">
-        <form method="GET" action="{% url 'home' %}">
-            <input type="text" name="q" placeholder="Buscar produtos, marcas..." value="{{ request.GET.q|default:'' }}">
-            <button type="submit"><i class="fas fa-search"></i></button>
+<header>
+    <section class="top-header">
+        <div class="logo">
+            <img src="{% static 'imagens/logo.png' %}" alt="TechSearch">
+        </div>
+
+        <form class="busca" method="GET" action="{% url 'home' %}">
+            <input type="text" name="q" placeholder="Investigue na TechSearch!" id="searchInput" value="{{ request.GET.q|default:'' }}">
+            <ul id="resultsList"></ul>
+            <button type="submit">🔍</button>
         </form>
-    </div>
-    <div class="nav-actions">
-        {% if user.is_authenticated %}
-            <div class="user-welcome">
-                Olá, {{ user.first_name|default:user.username }}!
-                <a href="{% url 'logout' %}" style="margin-left: 10px; color: #ff4757;">Sair</a>
-            </div>
-        {% endif %}
-        <a href="{% url 'carrinho' %}" class="cart-btn" title="Ver meu carrinho">
-            <i class="fas fa-shopping-cart"></i>
-            <span class="cart-badge">{{ cart_count|default:0 }}</span>
-        </a>
-        <a href="{% url 'home' %}" class="nav-btn primary">
-            <i class="fas fa-store"></i> Voltar à Loja
-        </a>
-    </div>
-</nav>
+
+        <div class="user-info">
+            {% if user.is_authenticated %}
+                <span class="welcome-text">Olá, <strong>{{ user.first_name|default:user.username }}</strong></span>
+                
+                {% if user.is_staff %}
+                    <a href="{% url 'dashboard_admin' %}" class="link-admin">
+                        ⚙️ Painel de Gestão
+                    </a>
+                {% endif %}
+                <a href="{% url 'logout' %}" class="logout-btn" style="color: #ff4757; margin-left: 10px;">Sair</a>
+            {% else %}
+                <span class="welcome-text">Olá, <strong>Visitante</strong></span>
+                <span class="auth-links">
+                    <a href="{% url 'login' %}">Entre</a> 
+                    ou 
+                    <strong><a href="{% url 'cadastro' %}">Cadastre-se</a></strong>
+                </span>
+            {% endif %}
+        </div>
+
+        <nav class="atalhos">
+            <a href="#" title="Atendimento">🎧</a>
+            <a href="#" title="Acessibilidade">♿</a>
+            <a href="{% url 'favoritos' %}" title="Favoritos">❤️</a>
+            <a href="{% url 'carrinho' %}" title="Carrinho">🛒</a>
+        </nav>
+    </section>
+
+    <hr> 
+    
+    <nav class="sub-nav">
+        <button type="button" class="btn-secoes">SEÇÕES ▾</button>
+        <div class="menu-links">
+            <a href="#">CUPONS</a>
+            <a href="#">MAIS VENDIDOS</a>
+            <ul>
+                <li><a href="#">Hardware</a></li>
+                <li><a href="#">PC Gamer</a></li>
+                <li><a href="#">Computadores</a></li>
+                <li><a href="#">Mais ▾</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
 
 <!-- CONTAINER PRINCIPAL -->
 <main class="fav-container">
