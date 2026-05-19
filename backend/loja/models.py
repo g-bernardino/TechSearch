@@ -35,7 +35,7 @@ class Produto(models.Model):
     disponivel = models.BooleanField(default=True)
     criado_em = models.DateTimeField(auto_now_add=True)
     atualizado_em = models.DateTimeField(auto_now=True)
-    imagem = models.ImageField(upload_to='produtos/%Y/%m/%d', blank=True)
+    imagem = models.URLField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
         # Evita colisões de slugs idênticos no banco de dados de forma proativa

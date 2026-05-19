@@ -14,7 +14,9 @@
     <header>
         <section class="top-header">
             <div class="logo">
-                <img src="{% static 'imagens/logo.png' %}" alt="TechSearch">
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'imagens/logo.png' %}" alt="TechSearch">
+                </a>
             </div>
 
             <form class="busca" method="GET" action="#">
@@ -88,24 +90,7 @@
             <button class="seta proximo" onclick="scrollBanner(1)">❯</button>
         </section>
 
-        <section class="categorias-container">
-            <button class="cat-seta esquerda" onclick="scrollCategorias(-1)">❮</button>
-            <div class="categorias" id="categoriasSlider">
-                <div class="categoria"><div class="icon">💻</div><span>Computadores</span></div>
-                <div class="categoria"><div class="icon">🖱️</div><span>Periféricos</span></div>
-                <div class="categoria"><div class="icon">🎮</div><span>Games</span></div>
-                <div class="categoria"><div class="icon">📱</div><span>Celulares</span></div>
-                <div class="categoria"><div class="icon">🧠</div><span>Monte seu PC</span></div>
-                <div class="categoria"><div class="icon">📺</div><span>TV</span></div>
-                <div class="categoria"><div class="icon">📽️</div><span>Projetores</span></div>
-                <div class="categoria"><div class="icon">🪑</div><span>Espaço Gamer</span></div>
-                <div class="categoria"><div class="icon">📋</div><span>Escritório</span></div>
-                <div class="categoria"><div class="icon">🏠</div><span>Casa Inteligente</span></div>
-                <div class="categoria"><div class="icon">🎁</div><span>Gift Card</span></div>
-                <div class="categoria"><div class="icon">🎧</div><span>Headset</span></div>
-            </div>
-            <button class="cat-seta direita" onclick="scrollCategorias(1)">❯</button>
-        </section>
+
 
         <section class="ofertas-container">
             <div class="ofertas-header">
@@ -115,6 +100,7 @@
             <div class="carousel-produtos-container">
                 <button class="seta-prod anterior" onclick="scrollProdutos(-1)">&#10094;</button>
                 
+<<<<<<< HEAD
                 <div class="produtos-grid" id="produtosSlider">
                     {% for produto in featured_products %}
                     <div class="produto-card">
@@ -158,6 +144,40 @@
                 
                 <button class="seta-prod proximo" onclick="scrollProdutos(1)">&#10095;</button>
             </div>
+=======
+<div class="produtos-grid" id="produtosSlider">
+
+    {% for produto in produtos %}
+    <div class="produto-card">
+
+        <!-- IMAGEM -->
+        {% if produto.imagem %}
+            <img src="{{ produto.imagem }}" alt="{{ produto.nome }}">
+        {% else %}
+            <img src="/static/imagens/sem-foto.png" alt="Sem imagem">
+        {% endif %}
+
+        <!-- INFO -->
+        <div class="produto-info">
+            <span class="frete-gratis">Frete grátis</span>
+            <h3 class="produto-titulo">{{ produto.nome }}</h3>
+            <p class="preco-atual">R$ {{ produto.preco }}</p>
+            <div class="estoque">Em Stock</div>
+
+            <a href="{% url 'adicionar_carrinho' produto.id %}" class="btn-add-carrinho">
+                <i class="fas fa-shopping-cart"></i> Comprar
+            </a>
+        </div>
+
+    </div>
+    {% endfor %}
+
+</div>
+  
+    <p style="color: #aaa; padding: 20px;">Nenhum produto cadastrado no momento.</p>
+
+    
+>>>>>>> 7362c8e7dc2a852ec32bea4e2c7c5a7512c40b62
         </section>
     </main>
 
