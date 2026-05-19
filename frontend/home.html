@@ -25,29 +25,32 @@
                 <button type="submit">🔍</button>
             </form>
                 
-            <div class="user-info">
-                {% if user.is_authenticated %}
-                    <span class="welcome-text">Olá, <strong>{{ user.username }}</strong></span>
-                    
-                    {% if user.is_staff %}
-                        <a href="{% url 'dashboard_admin' %}" class="link-admin">
-                            ⚙️ Painel de Gestão
-                        </a>
-                    {% endif %}
-                    <a href="{% url 'logout' %}" class="logout-btn">Sair</a>
-                {% else %}
-                    <span class="welcome-text">Olá, <strong>Visitante</strong></span>
-                    <span class="auth-links">
-                        <a href="{% url 'login' %}">Entre</a> 
-                        ou 
-                        <strong><a href="{% url 'cadastro' %}">Cadastre-se</a></strong>
-                    </span>
-                {% endif %}
-            </div>
+<div class="user-info">
+    {% if user.is_authenticated %}
+        
+        <div class="welcome-text-container">
+            <span class="welcome-text">Olá, <strong>{{ user.username }}</strong></span>
+            
+            {% if user.is_staff %}
+                <a href="{% url 'dashboard_admin' %}" class="link-admin">
+                    - ⚙️ Painel de Gestão
+                </a>
+            {% endif %}
+        </div>
+        
+        <a href="{% url 'logout' %}" class="logout-btn">Sair</a>
+    {% else %}
+        <span class="welcome-text">Olá, <strong>Visitante</strong></span>
+        <span class="auth-links">
+            <a href="{% url 'login' %}">Entre</a> 
+            ou 
+            <strong><a href="{% url 'cadastro' %}">Cadastre-se</a></strong>
+        </span>
+    {% endif %}
+</div>
 
             <nav class="atalhos">
-                <a href="#" title="Atendimento">🎧</a>
-                <a href="#" title="Acessibilidade">♿</a>
+                <a href="" title="Atendimento">🎧</a>
                 <a href="{% url 'favoritos' %}" title="Favoritos">❤️</a>
                 <a href="{% url 'carrinho' %}" title="Carrinho">🛒</a>
             </nav>

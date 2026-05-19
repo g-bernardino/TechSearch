@@ -61,7 +61,7 @@
                     
                     <div class="produto-img-container">
                         {% if produto.imagem %}
-                            <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}" class="produto-img">
+                            <img src="{{ produto.imagem }}" alt="{{ produto.nome }}" class="produto-img">
                         {% else %}
                             <img src="/static/imagens/sem-foto.png" alt="Sem imagem" class="produto-img">
                         {% endif %}
