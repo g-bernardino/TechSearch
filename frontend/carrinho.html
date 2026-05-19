@@ -78,8 +78,9 @@
                 <span>Total</span>
                 <span>R$ {{ total_price|floatformat:2 }}</span>
             </div>
-            <a href="{% url 'pagamento' %}" class="checkout-btn">
-                Finalizar Compra <i class="fas fa-arrow-right"></i>
+            <a href="{% url 'endereco_view' %}" class="btn-finalizar">
+                Finalizar Compra
+            </a>
             </a>
             <a href="{% url 'home' %}" class="continue-shopping">Continuar Comprando</a>
         </aside>

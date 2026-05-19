@@ -29,5 +29,9 @@ urlpatterns = [
     path('carrinho/remover/<int:produto_id>/', views.remover_carrinho, name='remover_carrinho'),
     
     # Sistema de Favoritos
+    path('favoritos/', views.favoritos, name='favoritos'),
     path('favoritos/adicionar/<int:produto_id>/', views.adicionar_favorito, name='adicionar_favorito'),
+    path('favoritos/remover/<int:produto_id>/', views.remover_favorito, name='remover_favorito'), # Nova rota
+    path('endereco/', views.endereco_view, name='endereco_view'),
+    path('endereco/salvar/', views.salvar_endereco, name='salvar_endereco'),
 ]

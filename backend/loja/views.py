@@ -139,19 +139,51 @@ def cadastrar_produto(request):
 # ==============================================================================
 @login_required(login_url='login')
 def favoritos(request):
-    return render(request, 'favoritos.html')
+    # Pega a lista de IDs favoritados da sessão
+    favoritos_lista = request.session.get('favoritos', [])
+    
+    # Busca no banco os produtos que estão nessa lista de IDs
+    produtos_do_banco = Produto.objects.filter(id__in=favoritos_lista)
+    
+    context = {
+        'meus_favoritos': produtos_do_banco
+    }
+    return render(request, 'favoritos.html', context)
 
 @login_required(login_url='login')
 def adicionar_favorito(request, produto_id):
-    produto = get_object_or_404(Produto, id=produto_id)
     favoritos_lista = request.session.get('favoritos', [])
     
-    if produto_id not in favoritos_lista:
+    # LÓGICA TOGGLE: Se já existe, remove. Se não existe, adiciona!
+    if produto_id in favoritos_lista:
+        favoritos_lista.remove(produto_id)
+        messages.success(request, "Produto removido dos favoritos.")
+    else:
         favoritos_lista.append(produto_id)
+        messages.success(request, "Produto adicionado aos favoritos.")
         
     request.session['favoritos'] = favoritos_lista
     request.session.modified = True
-    return redirect('home')
+    
+    # Se o utilizador veio da própria página de favoritos, volta para lá. 
+    # Se veio da Home, vai para a página de favoritos ver o resultado.
+    referer = request.META.get('HTTP_REFERER', '')
+    if 'favoritos' in referer:
+        return redirect('favoritos')
+        
+    return redirect('favoritos')
+
+@login_required(login_url='login')
+def remover_favorito(request, produto_id):
+    favoritos_lista = request.session.get('favoritos', [])
+    
+    if produto_id in favoritos_lista:
+        favoritos_lista.remove(produto_id)
+        request.session['favoritos'] = favoritos_lista
+        request.session.modified = True
+        messages.success(request, "Produto removido com sucesso.")
+        
+    return redirect('favoritos')
 
 # ==============================================================================
 # 8. SISTEMA DO CARRINHO (EXIBIÇÃO E ADIÇÃO VIA BANCO DE DADOS)
@@ -251,3 +283,33 @@ def pagamento(request):
 @login_required(login_url='login')
 def pagamento_view(request):
     return pagamento(request)
+
+# ==============================================================================
+# 11. TELA DE ENDEREÇO
+# ==============================================================================
+@login_required(login_url='login')
+def endereco_view(request):
+    return render(request, 'endereco.html')
+
+@login_required(login_url='login')
+def salvar_endereco(request):
+    if request.method == 'POST':
+        # Captura os dados enviados pelo formulário
+        endereco_dados = {
+            'cep': request.POST.get('cep'),
+            'rua': request.POST.get('rua'),
+            'numero': request.POST.get('numero'),
+            'complemento': request.POST.get('complemento', ''),
+            'bairro': request.POST.get('bairro'),
+            'cidade': request.POST.get('cidade'),
+            'estado': request.POST.get('estado'),
+        }
+        
+        # Salva o dicionário com o endereço dentro da sessão do usuário
+        request.session['endereco_entrega'] = endereco_dados
+        request.session.modified = True
+        
+        messages.success(request, "Endereço salvo com sucesso!")
+        return redirect('pagamento') # Redireciona para o checkout / pagamento
+        
+    return redirect('endereco_view')   

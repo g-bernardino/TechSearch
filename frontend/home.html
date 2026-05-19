@@ -7,6 +7,7 @@
     <title>TechSearch</title>
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
     <link rel="stylesheet" href="{% static 'css/teladebusca.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
@@ -21,28 +22,25 @@
                 <ul id="resultsList"></ul>
                 <button type="submit">🔍</button>
             </form>
-
-
                 
-                <div class="user-info">
-                    {% if user.is_authenticated %}
-                        <span class="welcome-text">Olá, <strong>{{ user.username }}</strong></span>
-                        
-                        {% if user.is_staff %}
-                            <a href="{% url 'dashboard_admin' %}" class="link-admin">
-                                ⚙️ Painel de Gestão
-                            </a>
-                        {% endif %}
-                        <a href="{% url 'logout' %}" class="logout-btn">Sair</a>
-                    {% else %}
-                        <span class="welcome-text">Olá, <strong>Visitante</strong></span>
-                        <span class="auth-links">
-                            <a href="{% url 'login' %}">Entre</a> 
-                            ou 
-                            <strong><a href="{% url 'cadastro' %}">Cadastre-se</a></strong>
-                        </span>
+            <div class="user-info">
+                {% if user.is_authenticated %}
+                    <span class="welcome-text">Olá, <strong>{{ user.username }}</strong></span>
+                    
+                    {% if user.is_staff %}
+                        <a href="{% url 'dashboard_admin' %}" class="link-admin">
+                            ⚙️ Painel de Gestão
+                        </a>
                     {% endif %}
-                </div>
+                    <a href="{% url 'logout' %}" class="logout-btn">Sair</a>
+                {% else %}
+                    <span class="welcome-text">Olá, <strong>Visitante</strong></span>
+                    <span class="auth-links">
+                        <a href="{% url 'login' %}">Entre</a> 
+                        ou 
+                        <strong><a href="{% url 'cadastro' %}">Cadastre-se</a></strong>
+                    </span>
+                {% endif %}
             </div>
 
             <nav class="atalhos">
@@ -117,37 +115,49 @@
             <div class="carousel-produtos-container">
                 <button class="seta-prod anterior" onclick="scrollProdutos(-1)">&#10094;</button>
                 
-<div class="produtos-grid" id="produtosSlider">
-    {% for produto in produtos %}
-<div class="produto-card">
-    <div class="badge-top">
-        <span>⭐ 5.0</span>
-        <a href="{% url 'adicionar_favorito' produto.id %}" class="heart-link" title="Adicionar aos Favoritos">
-            <i class="heart-icon">🤍</i>
-        </a>
-    </div>
-    
-    {% if produto.imagem %}
-        <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
-    {% else %}
-        <img src="/static/imagens/sem-foto.png" alt="Sem imagem">
-    {% endif %}
-    
-    <div class="produto-info">
-        <span class="frete-gratis">Frete grátis*</span>
-        <h3 class="produto-titulo">{{ produto.nome }}</h3>
-        <p class="preco-atual">R$ {{ produto.preco }}</p>
-        <div class="estoque">Em Stock</div>
-        
-        <a href="{% url 'adicionar_carrinho' produto.id %}" class="btn-add-carrinho">
-            <i class="fas fa-shopping-cart"></i> Comprar
-        </a>
-    </div>
-    </div>
-    {% empty %}
-    <p style="color: #aaa; padding: 20px;">Nenhum produto cadastrado no momento.</p>
-    {% endfor %}
-    
+                <div class="produtos-grid" id="produtosSlider">
+                    {% for produto in featured_products %}
+                    <div class="produto-card">
+                        <div class="badge-top">
+                            <span class="desconto-tag">-46%</span>
+                            <a href="{% url 'adicionar_favorito' produto.id %}" class="heart-link" title="Adicionar aos Favoritos">
+                                <i class="far fa-heart heart-icon"></i>
+                            </a>
+                        </div>
+                        
+                        <div class="produto-img-container">
+                            {% if produto.imagem %}
+                                <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}" class="produto-img">
+                            {% else %}
+                                <img src="/static/imagens/sem-foto.png" alt="Sem imagem" class="produto-img">
+                            {% endif %}
+                        </div>
+                        
+                        <div class="produto-info-box">
+                            <span class="frete-gratis">Frete grátis*</span>
+                            <h3 class="produto-titulo" title="{{ produto.nome }}">{{ produto.nome }}</h3>
+                            
+                            <div class="preco-container">
+                                <span class="cifragem">R$</span>
+                                <span class="preco-atual">{{ produto.preco }}</span>
+                            </div>
+                            
+                            <div class="detalhes-venda">
+                                <span>5mil+ Vendido(s)</span>
+                            </div>
+                            
+                            <a href="{% url 'adicionar_carrinho' produto.id %}" class="btn-add-carrinho-novo">
+                                <i class="fas fa-shopping-cart"></i> Adicionar ao carrinho
+                            </a>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p style="color: #aaa; padding: 20px; font-family: 'Audiowide', sans-serif;">Nenhum produto cadastrado no momento.</p>
+                    {% endfor %}
+                </div>
+                
+                <button class="seta-prod proximo" onclick="scrollProdutos(1)">&#10095;</button>
+            </div>
         </section>
     </main>
 
