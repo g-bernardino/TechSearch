@@ -65,7 +65,7 @@ header {
 
 /* Controlar o tamanho real da Imagem da Logo */
 .logo img {
-    height: 40px; /* Altere este valor para o tamanho que desejar (ex: 35px, 45px) */
+    height: 70px; /* Altere este valor para o tamanho que desejar (ex: 35px, 45px) */
     width: auto;  /* Mantém a proporção da imagem sem distorcer */
     object-fit: contain;
     transition: var(--transition);
