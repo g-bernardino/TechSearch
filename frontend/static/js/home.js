@@ -73,3 +73,24 @@ function scrollProdutos(direction) {
         slider.scrollBy({ left: direction * 280, behavior: 'smooth' });
     }
 }
+
+// ===== AUTOPLAY DO BANNER PRINCIPAL =====
+document.addEventListener('DOMContentLoaded', () => {
+    const bannerSlider = document.getElementById('bannerSlider');
+    
+    // Configura para passar o banner a cada 4 segundos (4000 milissegundos)
+    const tempoAutoPlay = 4000; 
+    
+    if (bannerSlider) {
+        setInterval(() => {
+            const larguraBanner = bannerSlider.clientWidth;
+            // Se chegou ao fim do scroll, volta para o início (0)
+            if (bannerSlider.scrollLeft + larguraBanner >= bannerSlider.scrollWidth - 10) {
+                bannerSlider.scrollTo({ left: 0, behavior: 'smooth' });
+            } else {
+                // Caso contrário, avança para o próximo banner
+                bannerSlider.scrollBy({ left: larguraBanner, behavior: 'smooth' });
+            }
+        }, tempoAutoPlay);
+    }
+});
