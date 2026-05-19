@@ -63,11 +63,10 @@ class Produto(models.Model):
             categoria=categoria_obj,
             preco=preco,
             descricao=descricao,
-            disponivel=True
+            disponivel=True,
+            imagem=imagem
         )
-        if imagem:
-            novo_produto.imagem = imagem
-            novo_produto.save()
+        
         return novo_produto
     
 class CartItem(models.Model):

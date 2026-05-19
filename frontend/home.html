@@ -99,8 +99,7 @@
 
             <div class="carousel-produtos-container">
                 <button class="seta-prod anterior" onclick="scrollProdutos(-1)">&#10094;</button>
-                
-<<<<<<< HEAD
+
                 <div class="produtos-grid" id="produtosSlider">
                     {% for produto in featured_products %}
                     <div class="produto-card">
@@ -113,7 +112,7 @@
                         
                         <div class="produto-img-container">
                             {% if produto.imagem %}
-                                <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}" class="produto-img">
+                                <img src="{{ produto.imagem }}" alt="{{ produto.nome }}" class="produto-img">
                             {% else %}
                                 <img src="/static/imagens/sem-foto.png" alt="Sem imagem" class="produto-img">
                             {% endif %}
@@ -144,40 +143,6 @@
                 
                 <button class="seta-prod proximo" onclick="scrollProdutos(1)">&#10095;</button>
             </div>
-=======
-<div class="produtos-grid" id="produtosSlider">
-
-    {% for produto in produtos %}
-    <div class="produto-card">
-
-        <!-- IMAGEM -->
-        {% if produto.imagem %}
-            <img src="{{ produto.imagem }}" alt="{{ produto.nome }}">
-        {% else %}
-            <img src="/static/imagens/sem-foto.png" alt="Sem imagem">
-        {% endif %}
-
-        <!-- INFO -->
-        <div class="produto-info">
-            <span class="frete-gratis">Frete grátis</span>
-            <h3 class="produto-titulo">{{ produto.nome }}</h3>
-            <p class="preco-atual">R$ {{ produto.preco }}</p>
-            <div class="estoque">Em Stock</div>
-
-            <a href="{% url 'adicionar_carrinho' produto.id %}" class="btn-add-carrinho">
-                <i class="fas fa-shopping-cart"></i> Comprar
-            </a>
-        </div>
-
-    </div>
-    {% endfor %}
-
-</div>
-  
-    <p style="color: #aaa; padding: 20px;">Nenhum produto cadastrado no momento.</p>
-
-    
->>>>>>> 7362c8e7dc2a852ec32bea4e2c7c5a7512c40b62
         </section>
     </main>
 
