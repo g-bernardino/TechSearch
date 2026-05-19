@@ -282,7 +282,7 @@ main { padding: 30px 5%; }
 }
 
 .banner-card {
-    flex: 0 0 calc(50% - 10px);
+    flex: 1;
     min-width: 300px;
     position: relative;
     border-radius: 16px;

@@ -77,9 +77,9 @@
                 <span>Total</span>
                 <span>R$ {{ total_price|floatformat:2 }}</span>
             </div>
-            <button class="checkout-btn">
-                Finalizar Compra <i class="fas fa-arrow-right"></i>
-            </button>
+                <a href="{% url 'pagamento' %}" class="checkout-btn" style="display: flex; justify-content: center; align-items: center; text-decoration: none; text-align: center; gap: 10px;">
+            Finalizar Compra <i class="fas fa-arrow-right"></i>
+            </a>
             <a href="{% url 'home' %}" class="continue-shopping">Continuar Comprando</a>
         </aside>
         {% endif %}

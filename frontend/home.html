@@ -16,11 +16,6 @@
                 <img src="{% static 'imagens/logo.png' %}" alt="TechSearch">
             </div>
 
-            <div class="localizacao">
-                <span>Enviar para:</span>
-                <a href="#">Digite o CEP</a>
-            </div>
-
             <form class="busca" method="GET" action="#">
                 <input type="text" placeholder="Investigue na TechSearch!" id="searchInput" >
                 <ul id="resultsList"></ul>
@@ -71,11 +66,6 @@
                     <li><a href="#">Computadores</a></li>
                     <li><a href="#">Mais ▾</a></li>
                 </ul>
-            </div>
-            <div class="simule-pc">
-                <img src="{% static 'imagens/simule-pc-icon.png' %}" alt="Simule seu PC">
-                <span> Simule seu PC <strong>completo e acessível aqui!</strong></span>
-                <button type="button">🔍</button>
             </div>
         </nav>
     </header>
@@ -129,21 +119,30 @@
                 
 <div class="produtos-grid" id="produtosSlider">
     {% for produto in produtos %}
-    <div class="produto-card">
-        <div class="badge-top"><span>⭐ 5.0</span><i class="heart-icon">🤍</i></div>
+<div class="produto-card">
+    <div class="badge-top">
+        <span>⭐ 5.0</span>
+        <a href="{% url 'adicionar_favorito' produto.id %}" class="heart-link" title="Adicionar aos Favoritos">
+            <i class="heart-icon">🤍</i>
+        </a>
+    </div>
+    
+    {% if produto.imagem %}
+        <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
+    {% else %}
+        <img src="/static/imagens/sem-foto.png" alt="Sem imagem">
+    {% endif %}
+    
+    <div class="produto-info">
+        <span class="frete-gratis">Frete grátis*</span>
+        <h3 class="produto-titulo">{{ produto.nome }}</h3>
+        <p class="preco-atual">R$ {{ produto.preco }}</p>
+        <div class="estoque">Em Stock</div>
         
-        {% if produto.imagem %}
-            <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
-        {% else %}
-            <img src="/static/imagens/sem-foto.png" alt="Sem imagem">
-        {% endif %}
-        
-        <div class="produto-info">
-            <span class="frete-gratis">Frete grátis*</span>
-            <h3 class="produto-titulo">{{ produto.nome }}</h3>
-            <p class="preco-atual">R$ {{ produto.preco }}</p>
-            <div class="estoque">Em Stock</div>
-        </div>
+        <a href="{% url 'adicionar_carrinho' produto.id %}" class="btn-add-carrinho">
+            <i class="fas fa-shopping-cart"></i> Comprar
+        </a>
+    </div>
     </div>
     {% empty %}
     <p style="color: #aaa; padding: 20px;">Nenhum produto cadastrado no momento.</p>
@@ -165,7 +164,7 @@
         </section>
     </main>
 
-    <script src="{% static 'script.js' %}"></script>
-    <script src="{% static 'teladebusca.js' %}"></script>
+    <script src="{% static 'js/pagamento.js' %}?v=3"></script>
+    <script src="{% static 'js/teladebusca.js' %}"></script>
 </body>
 </html>

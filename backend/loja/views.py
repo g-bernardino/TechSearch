@@ -226,3 +226,52 @@ def home(request):
         'produtos': produtos_cadastrados
     }
     return render(request, 'home.html', context)
+
+
+# Adicione esta função ao final do arquivo views.py
+def pagamento(request):
+    # Por enquanto apenas renderiza a página, futuramente você pode capturar o valor do carrinho aqui
+    return render(request, 'pagamento.html')
+
+# ==========================================
+# 1. LOGICA DE ADICIONAR AO CARRINHO
+# ==========================================
+def adicionar_carrinho(request, produto_id):
+    produto = get_object_or_404(Produto, id=produto_id)
+    
+    # Exemplo básico utilizando a SESSÃO do Django (não exige login)
+    carrinho = request.session.get('carrinho', {})
+    
+    # Converte o ID para string pois chaves de sessão em JSON precisam de ser strings
+    prod_id_str = str(produto_id)
+    
+    if prod_id_str in carrinho:
+        carrinho[prod_id_str] += 1
+    else:
+        carrinho[prod_id_str] = 1
+        
+    request.session['carrinho'] = carrinho
+    request.session.modified = True
+    
+    # Redireciona de volta para a página do carrinho para ver o item adicionado
+    return redirect('carrinho')
+
+
+# ==========================================
+# 2. LOGICA DE ADICIONAR AOS FAVORITOS
+# ==========================================
+@login_required # Opcional: obriga o utilizador a estar logado para favoritar
+def adicionar_favorito(request, produto_id):
+    produto = get_object_or_404(Produto, id=produto_id)
+    
+    # Exemplo utilizando a SESSÃO para Favoritos
+    favoritos = request.session.get('favoritos', [])
+    
+    if produto_id not in favoritos:
+        favoritos.append(produto_id)
+        
+    request.session['favoritos'] = favoritos
+    request.session.modified = True
+    
+    # Redireciona de volta para a página inicial (Home) onde o utilizador estava
+    return redirect('home')
