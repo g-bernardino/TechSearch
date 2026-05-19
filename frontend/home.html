@@ -103,35 +103,36 @@
                 <button class="seta-prod anterior" onclick="scrollProdutos(-1)">&#10094;</button>
                 
 <div class="produtos-grid" id="produtosSlider">
+
     {% for produto in produtos %}
-<div class="produto-card">
-    <div class="badge-top">
-        <span>⭐ 5.0</span>
-        <a href="{% url 'adicionar_favorito' produto.id %}" class="heart-link" title="Adicionar aos Favoritos">
-            <i class="heart-icon">🤍</i>
-        </a>
+    <div class="produto-card">
+
+        <!-- IMAGEM -->
+        {% if produto.imagem %}
+            <img src="{{ produto.imagem }}" alt="{{ produto.nome }}">
+        {% else %}
+            <img src="/static/imagens/sem-foto.png" alt="Sem imagem">
+        {% endif %}
+
+        <!-- INFO -->
+        <div class="produto-info">
+            <span class="frete-gratis">Frete grátis</span>
+            <h3 class="produto-titulo">{{ produto.nome }}</h3>
+            <p class="preco-atual">R$ {{ produto.preco }}</p>
+            <div class="estoque">Em Stock</div>
+
+            <a href="{% url 'adicionar_carrinho' produto.id %}" class="btn-add-carrinho">
+                <i class="fas fa-shopping-cart"></i> Comprar
+            </a>
+        </div>
+
     </div>
-    
-    {% if produto.imagem %}
-        <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
-    {% else %}
-        <img src="/static/imagens/sem-foto.png" alt="Sem imagem">
-    {% endif %}
-    
-    <div class="produto-info">
-        <span class="frete-gratis">Frete grátis*</span>
-        <h3 class="produto-titulo">{{ produto.nome }}</h3>
-        <p class="preco-atual">R$ {{ produto.preco }}</p>
-        <div class="estoque">Em Stock</div>
-        
-        <a href="{% url 'adicionar_carrinho' produto.id %}" class="btn-add-carrinho">
-            <i class="fas fa-shopping-cart"></i> Comprar
-        </a>
-    </div>
-    </div>
-    {% empty %}
-    <p style="color: #aaa; padding: 20px;">Nenhum produto cadastrado no momento.</p>
     {% endfor %}
+
+</div>
+  
+    <p style="color: #aaa; padding: 20px;">Nenhum produto cadastrado no momento.</p>
+
     
         </section>
     </main>
